@@ -7,7 +7,7 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>8BIT MUSIC MAKER · Studio v3.2</title>
+  <title>8BIT MUSIC MAKER · Studio v3.5</title>
   <link rel="icon" href="favicon.png" type="image/png" />
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('8bit_music_maker_theme')||'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
   <style>
@@ -77,6 +77,7 @@
     /* Responsive / touch foundation */
     button,.btn,.pattern-btn,.seg-btn,.inst-btn,.toggle,.theme-toggle,.preset-btn{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
     .mobile-dock{display:none}
+    .mobile-step-nav{display:none}
     .seq-wrapper{scrollbar-gutter:stable;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
     .step-ruler{margin:0 0 7px}.note-label{position:sticky;left:0;z-index:4;background:linear-gradient(90deg,var(--grid-bg) 78%,color-mix(in srgb,var(--grid-bg) 76%,transparent));border-radius:4px}.step-ruler span:first-child{position:sticky;left:0;z-index:5;background:var(--grid-bg)}
     .seq-cell:nth-child(33n+18){scroll-snap-align:start}
@@ -85,31 +86,41 @@
       .workspace{grid-template-columns:1fr}.instrument-list{display:grid;grid-template-columns:repeat(5,1fr)}.inst-btn{grid-template-columns:10px 1fr}.inst-kind{display:none}
       .studio-grid{grid-template-columns:1fr}.cards-3{grid-template-columns:1fr 1fr}.mixer{grid-template-columns:repeat(5,150px)}.song-chain{margin-left:0}
     }
-    @media(max-width:760px){
-      body{padding:10px max(9px,env(safe-area-inset-right)) calc(92px + env(safe-area-inset-bottom)) max(9px,env(safe-area-inset-left));overflow-x:hidden}
-      .app{gap:9px}.topbar{align-items:center;padding:11px 12px;border-radius:14px}.topbar:after{display:none}.brand-mark{width:39px;height:39px;border-radius:11px;font-size:20px}.brand h1{font-size:17px;line-height:1.15}.brand p{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:58vw}.top-badges{display:none}.header-actions{margin-left:auto}.theme-label{display:none}.theme-toggle{width:40px;height:40px;padding:0;justify-content:center;border-radius:11px}.theme-icon{font-size:16px}
-      .panel{border-radius:14px}.panel-head{align-items:flex-start;flex-direction:column;padding:11px 12px;gap:5px}.panel-title{font-size:11.5px}.panel-sub{font-size:10.5px;line-height:1.5}.panel-body{padding:10px}
-      .transport{position:relative;top:auto;display:flex;flex-direction:column;align-items:stretch;gap:8px;padding:8px;border-radius:13px;backdrop-filter:none}
-      .transport-main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px 44px;gap:6px;width:100%}.transport-main .btn{height:42px}.transport-main .btn.icon{width:44px}
-      .transport-mid{display:grid;grid-template-columns:52px minmax(0,1fr) 48px;gap:5px 8px;width:100%;padding:9px 10px;justify-content:stretch}.transport-mid .mini-label:not(:first-child){margin-left:0}.transport-mid .range{width:100%;min-width:0;height:28px}.transport-mid .value{text-align:right;min-width:0}.transport-right{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%}.transport-right .btn{height:40px}
-      .btn{min-height:40px;padding:10px 11px;border-radius:9px}.select,.text-input,.number-input,.chain-input{height:42px;font-size:16px}.range{min-height:28px}
-      .workspace{grid-template-columns:1fr;gap:9px}.instrument-list{display:flex;gap:7px;overflow-x:auto;overscroll-behavior-inline:contain;padding:1px 1px 5px;scrollbar-width:none;scroll-snap-type:x proximity}.instrument-list::-webkit-scrollbar{display:none}.inst-btn{min-width:126px;grid-template-columns:10px 1fr;padding:10px 11px;scroll-snap-align:start}.inst-kind{display:block;font-size:8.5px}
-      .pattern-stack{gap:8px}.pattern-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:7px 8px;align-items:center;padding:0}.pattern-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}.pattern-btn{width:100%;height:40px}.segmented{display:grid;grid-template-columns:1fr 1fr;width:100%}.seg-btn{min-height:40px;padding:10px 8px}.song-chain{grid-column:1/-1;display:grid;grid-template-columns:56px minmax(0,1fr);width:100%;gap:8px;margin-left:0}.song-chain .chain-note{grid-column:2;font-size:9.5px;margin-top:-3px}.chain-input{width:100%;min-width:0}
-      .grid-shell{border-radius:11px}.grid-toolbar{align-items:stretch;padding:8px;gap:7px}.grid-toolbar-left{width:100%}.hint{font-size:10px;line-height:1.45}.grid-toolbar-right{display:grid;grid-template-columns:1fr 1fr;width:100%;gap:5px}.grid-toolbar-right .btn{min-height:38px;padding:7px 6px;font-size:9.5px;white-space:normal;line-height:1.2}
-      .seq-wrapper{padding:9px 8px 12px;overflow-x:auto;overflow-y:hidden;touch-action:pan-x pan-y;scroll-padding-left:80px}.seq-grid,.step-ruler{grid-template-columns:72px repeat(32,30px);gap:3px;min-width:1125px}.seq-grid{grid-template-rows:repeat(8,34px)}.step-ruler{font-size:9px}.note-label{padding-right:8px;font-size:10.5px;box-shadow:7px 0 10px -10px var(--text)}.seq-cell{border-radius:5px;cursor:pointer;touch-action:manipulation}.seq-cell:hover{background:var(--grid-cell);border-color:color-mix(in srgb,var(--line2) 78%,transparent)}.seq-cell.on:hover{background:var(--inst)}
-      .studio-grid,.cards-2,.cards-3{grid-template-columns:1fr}.meter-wrap{grid-template-columns:1fr}.viz-wrap{height:94px}.play-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px}.meta-row{padding:2px 0}.control-grid{grid-template-columns:1fr}.control-item{grid-template-columns:64px minmax(0,1fr) 42px;gap:7px}.soft-card{padding:11px}.desktop-help{display:none}.mobile-help{display:grid}.help-list{grid-template-columns:1fr 1fr;gap:8px}.help-list li{min-height:28px;display:flex;align-items:center;gap:5px}
-      .mixer{display:flex;gap:8px;overflow-x:auto;scroll-snap-type:x mandatory;padding:1px 1px 6px;scrollbar-width:none}.mixer::-webkit-scrollbar{display:none}.channel{min-width:min(78vw,260px);scroll-snap-align:start;padding:12px}.channel-controls{gap:11px}.mini-control{grid-template-columns:34px 1fr 36px;min-height:34px}.toggle{min-height:40px}
+    @media(max-width:1023px){
+      html,body{width:100%;max-width:100%;overflow-x:hidden}
+      body{padding:10px max(9px,env(safe-area-inset-right)) calc(92px + env(safe-area-inset-bottom)) max(9px,env(safe-area-inset-left))}
+      .app{gap:9px;width:100%;max-width:100%}.topbar{align-items:center;padding:11px 12px;border-radius:14px}.topbar:after{display:none}.brand-mark{width:39px;height:39px;border-radius:11px;font-size:20px}.brand h1{font-size:17px;line-height:1.15}.brand p{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:58vw}.top-badges{display:none}.header-actions{margin-left:auto}.theme-label{display:none}.theme-toggle{width:40px;height:40px;padding:0;justify-content:center;border-radius:11px}.theme-icon{font-size:16px}
+      .panel{border-radius:14px;min-width:0;max-width:100%;overflow:hidden}.panel-head{align-items:flex-start;flex-direction:column;padding:11px 12px;gap:5px}.panel-title{font-size:11.5px}.panel-sub{font-size:10.5px;line-height:1.5}.panel-body{padding:10px;min-width:0;max-width:100%;overflow:hidden}
+      .transport{position:relative;top:auto;display:flex;flex-direction:column;align-items:stretch;gap:8px;padding:8px;border-radius:13px;backdrop-filter:none;min-width:0;max-width:100%}
+      .transport-main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px 44px;gap:6px;width:100%;min-width:0}.transport-main .btn{height:42px}.transport-main .btn.icon{width:44px}
+      .transport-mid{display:grid;grid-template-columns:52px minmax(0,1fr) 48px;gap:5px 8px;width:100%;min-width:0;padding:9px 10px;justify-content:stretch}.transport-mid .mini-label:not(:first-child){margin-left:0}.transport-mid .range{width:100%;min-width:0;height:28px}.transport-mid .value{text-align:right;min-width:0}.transport-right{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;min-width:0}.transport-right .btn{height:40px}
+      .btn{min-height:40px;padding:10px 11px;border-radius:9px}.select,.text-input,.number-input,.chain-input{height:42px;font-size:16px;max-width:100%}.range{min-height:28px}
+      .workspace,.pattern-stack,.grid-shell,.studio-grid,.cards-2,.cards-3,.mixer{min-width:0;max-width:100%}
+      .workspace{grid-template-columns:1fr;gap:9px}.instrument-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;overflow:visible;padding:0}.inst-btn{min-width:0;width:100%;grid-template-columns:10px minmax(0,1fr);padding:10px 11px}.inst-kind{display:block;font-size:8.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.inst-btn:last-child:nth-child(odd){grid-column:1/-1}
+      .pattern-stack{gap:8px}.pattern-row{display:grid;grid-template-columns:56px minmax(0,1fr);gap:7px 8px;align-items:center;padding:0;min-width:0}.pattern-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;min-width:0}.pattern-btn{width:100%;height:40px}.segmented{display:grid;grid-template-columns:1fr 1fr;width:100%;min-width:0}.seg-btn{min-height:40px;padding:10px 8px}.song-chain{grid-column:1/-1;display:grid;grid-template-columns:56px minmax(0,1fr);width:100%;min-width:0;gap:8px;margin-left:0}.song-chain .chain-note{grid-column:2;font-size:9.5px;margin-top:-3px;overflow-wrap:anywhere}.chain-input{width:100%;min-width:0}
+      .grid-shell{border-radius:11px;overflow:hidden;width:100%}.grid-toolbar{align-items:stretch;padding:8px;gap:7px;min-width:0}.grid-toolbar-left{width:100%;min-width:0}.hint{font-size:10px;line-height:1.45;overflow-wrap:anywhere}.grid-toolbar-right{display:grid;grid-template-columns:1fr 1fr;width:100%;min-width:0;gap:5px}.grid-toolbar-right .btn{min-height:38px;min-width:0;padding:7px 6px;font-size:9.5px;white-space:normal;line-height:1.2}
+      .mobile-step-nav{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;padding:8px 8px 0;background:var(--grid-bg)}.mobile-step-btn{min-width:0;height:34px;border:1px solid var(--line2);border-radius:8px;background:var(--surface);color:var(--muted);font:850 9px var(--mono);cursor:pointer}.mobile-step-btn.active{background:var(--cyan);border-color:var(--cyan);color:white}.mobile-step-btn:focus-visible{outline:2px solid var(--focus);outline-offset:1px}
+      .seq-wrapper{padding:9px 8px 12px;overflow:hidden;touch-action:manipulation;width:100%;max-width:100%;scrollbar-gutter:auto;scroll-snap-type:none}.seq-grid,.step-ruler{display:grid;grid-template-columns:48px repeat(8,minmax(0,1fr));gap:3px;width:100%;min-width:0;max-width:100%;margin-left:0;margin-right:0}.seq-grid{grid-template-rows:repeat(8,34px)}.step-ruler{font-size:9px}.step-ruler span:first-child{position:static}.note-label{position:static;padding-right:6px;font-size:10px;background:transparent;box-shadow:none;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.seq-cell{min-width:0;width:auto;border-radius:5px;cursor:pointer;touch-action:manipulation}.seq-cell:hover{background:var(--grid-cell);border-color:color-mix(in srgb,var(--line2) 78%,transparent)}.seq-cell.on:hover{background:var(--inst)}
+      .studio-grid,.cards-2,.cards-3{grid-template-columns:1fr}.meter-wrap{grid-template-columns:1fr}.viz-wrap{height:94px}.play-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px}.meta-row{padding:2px 0}.control-grid{grid-template-columns:1fr}.control-item{grid-template-columns:64px minmax(0,1fr) 42px;gap:7px}.soft-card{padding:11px;min-width:0;max-width:100%}.desktop-help{display:none}.mobile-help{display:grid}.help-list{grid-template-columns:1fr 1fr;gap:8px}.help-list li{min-height:28px;display:flex;align-items:center;gap:5px;min-width:0}
+      .mixer{display:grid;grid-template-columns:1fr;gap:8px;overflow:visible;padding:0;width:100%}.channel{min-width:0;width:100%;max-width:100%;padding:12px}.channel-controls{gap:11px}.mini-control{grid-template-columns:34px minmax(0,1fr) 40px;min-height:34px;min-width:0}.mini-control input{min-width:0;max-width:100%}.toggle{min-height:40px}
       .preset-grid{display:grid;grid-template-columns:1fr 1fr}.preset-btn{min-height:42px;white-space:normal;line-height:1.2}.preset-item{grid-template-columns:minmax(0,1fr) 60px 42px}.preset-item .btn{padding:8px 5px}.project-actions{display:grid;grid-template-columns:1fr 1fr}.project-actions .btn{width:100%}
       .export-block{grid-template-columns:1fr;gap:10px}.export-controls{grid-template-columns:72px minmax(0,1fr) 48px}.export-actions{display:grid;grid-template-columns:1fr 1fr}.export-actions .btn{min-height:46px}.footer-status{padding:5px 0 0;font-size:9px}
       .mobile-dock{position:fixed;display:grid;grid-template-columns:56px 52px minmax(82px,1fr) 52px 52px;align-items:center;gap:5px;left:max(8px,env(safe-area-inset-left));right:max(8px,env(safe-area-inset-right));bottom:max(7px,env(safe-area-inset-bottom));z-index:120;padding:7px;border:1px solid var(--line2);border-radius:15px;background:color-mix(in srgb,var(--panel) 94%,transparent);backdrop-filter:blur(18px);box-shadow:0 14px 38px color-mix(in srgb,var(--text) 18%,transparent)}
       .mobile-dock-btn{height:48px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--text);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;font:800 16px var(--mono)}.mobile-dock-btn small{font:700 8px var(--sans);color:var(--muted)}.mobile-dock-btn.play{background:var(--green);border-color:var(--green);color:white}.mobile-dock-btn.play small{color:rgba(255,255,255,.82)}.mobile-dock-btn:disabled{opacity:.4}.mobile-dock-state{height:48px;border:1px solid var(--line);border-radius:10px;background:var(--surface-soft);display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0}.mobile-dock-state b{font:900 13px var(--mono);color:var(--cyan)}.mobile-dock-state span{font:700 8.5px var(--mono);color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
-      .toast{left:max(10px,env(safe-area-inset-left));right:max(10px,env(safe-area-inset-right));bottom:calc(76px + env(safe-area-inset-bottom));transform:translateY(12px);width:auto;text-align:center}.toast.show{transform:translateY(0)}
+      .toast{left:max(10px,env(safe-area-inset-left));right:max(10px,env(safe-area-inset-right));bottom:calc(76px + env(safe-area-inset-bottom));transform:translateY(12px);width:auto;max-width:calc(100vw - 20px);text-align:center;white-space:normal;overflow-wrap:anywhere;line-height:1.35}.toast.show{transform:translateY(0)}
       .modal{align-items:flex-end;padding:0;background:rgba(18,27,42,.5)}.modal-card{width:100%;max-width:none;border-radius:18px 18px 0 0;border-left:0;border-right:0;border-bottom:0;padding:19px 16px calc(16px + env(safe-area-inset-bottom))}.modal-card p{font-size:13px}.modal-actions{display:grid;grid-template-columns:1fr 1fr}.modal-actions .btn{min-height:46px}
     }
+    @media(min-width:560px) and (max-width:1023px){
+      .instrument-list{grid-template-columns:repeat(5,minmax(0,1fr))}.inst-btn:last-child:nth-child(odd){grid-column:auto}
+      .mixer{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
     @media(max-width:480px){
-      .brand p{max-width:50vw}.panel-head{padding:10px 11px}.panel-body{padding:9px}.transport{padding:7px}.transport-main{grid-template-columns:1fr 1fr 42px 42px}.transport-main .btn.icon{width:42px}.transport-mid{grid-template-columns:48px minmax(0,1fr) 44px;padding:8px}.transport-mid .mini-label{font-size:8.5px}.pattern-row{grid-template-columns:50px minmax(0,1fr)}.song-chain{grid-template-columns:50px minmax(0,1fr)}.seq-grid,.step-ruler{grid-template-columns:68px repeat(32,29px);min-width:1089px}.grid-toolbar-right .btn{font-size:9px}.help-list{grid-template-columns:1fr}.play-meta{grid-template-columns:1fr 1fr}.preset-item{grid-template-columns:minmax(0,1fr) 58px 40px}.mobile-dock{grid-template-columns:52px 48px minmax(70px,1fr) 48px 48px;padding:6px;gap:4px}.mobile-dock-btn,.mobile-dock-state{height:46px}.mobile-dock-btn{font-size:15px}}
+      .brand p{max-width:50vw}.panel-head{padding:10px 11px}.panel-body{padding:9px}.transport{padding:7px}.transport-main{grid-template-columns:1fr 1fr 42px 42px}.transport-main .btn.icon{width:42px}.transport-mid{grid-template-columns:48px minmax(0,1fr) 44px;padding:8px}.transport-mid .mini-label{font-size:8.5px}.pattern-row{grid-template-columns:50px minmax(0,1fr)}.song-chain{grid-template-columns:50px minmax(0,1fr)}.seq-grid,.step-ruler{grid-template-columns:44px repeat(8,minmax(0,1fr));gap:2px}.seq-grid{grid-template-rows:repeat(8,32px)}.note-label{font-size:9px;padding-right:4px}.step-ruler{font-size:8px}.grid-toolbar-right .btn{font-size:9px}.help-list{grid-template-columns:1fr}.play-meta{grid-template-columns:1fr 1fr}.preset-item{grid-template-columns:minmax(0,1fr) 58px 40px}.mobile-dock{grid-template-columns:52px 48px minmax(70px,1fr) 48px 48px;padding:6px;gap:4px}.mobile-dock-btn,.mobile-dock-state{height:46px}.mobile-dock-btn{font-size:15px}}
     @media(max-width:360px){.brand p{display:none}.brand h1{font-size:15px}.brand-mark{width:36px;height:36px}.theme-toggle{width:36px;height:36px}.transport-main{grid-template-columns:1fr 1fr 40px 40px}.mobile-dock{left:5px;right:5px;grid-template-columns:48px 45px minmax(62px,1fr) 45px 45px}.mobile-dock-btn small{font-size:7.5px}}
-    @media(max-height:600px) and (orientation:landscape) and (max-width:1000px){body{padding-bottom:74px}.topbar{padding:8px 10px}.brand p{display:none}.mobile-dock{grid-template-columns:52px 48px minmax(90px,1fr) 48px 48px;padding:5px}.mobile-dock-btn,.mobile-dock-state{height:40px}.toast{bottom:62px}.viz-wrap{height:72px}}
+
+    @media(max-width:340px){
+      body{padding-left:max(7px,env(safe-area-inset-left));padding-right:max(7px,env(safe-area-inset-right))}.app{gap:9px}.topbar{padding:9px 10px}.header-actions{gap:4px}.theme-toggle{width:34px;height:34px}.panel-body{padding:7px}.transport{padding:6px}.transport-main{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 38px 38px;gap:4px}.transport-main .btn.icon{width:38px}.transport-main .btn{padding:7px 5px;font-size:9px}.transport-mid{grid-template-columns:44px minmax(0,1fr) 40px;padding:7px 8px;gap:4px 6px}.transport-right{gap:4px}.pattern-row,.song-chain{grid-template-columns:44px minmax(0,1fr);gap:5px}.pattern-btn,.seg-btn{font-size:9px}.grid-toolbar{padding:7px}.grid-toolbar-right{gap:4px}.mobile-step-nav{padding:7px 7px 0;gap:4px}.seq-wrapper{padding:8px 6px 10px}.seq-grid,.step-ruler{grid-template-columns:40px repeat(8,minmax(0,1fr));gap:2px}.seq-grid{grid-template-rows:repeat(8,30px)}.note-label{font-size:8.5px;padding-right:3px}.mobile-dock{left:4px;right:4px;grid-template-columns:44px 42px minmax(54px,1fr) 42px 42px;padding:5px;gap:3px}.mobile-dock-btn,.mobile-dock-state{height:44px}.mobile-dock-btn{font-size:14px}.mobile-dock-state b{font-size:11px}.mobile-dock-state span{font-size:7.5px}}
+    @media(max-height:600px) and (orientation:landscape) and (max-width:1023px){body{padding-bottom:20px}.topbar{padding:8px 10px}.brand p{display:none}.mobile-dock{display:none}.toast{bottom:12px}.viz-wrap{height:72px}}
     @media(pointer:coarse){.btn:hover,.inst-btn:hover,.preset-btn:hover{transform:none}.seq-cell:active{transform:none}}
     @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
   </style>
@@ -120,7 +131,7 @@
     <div class="brand-mark">♪</div>
     <div class="brand"><h1>8BIT MUSIC MAKER</h1><p>Chiptune step sequencer · 4-pattern song mode · local-first studio</p></div>
     <div class="header-actions">
-      <div class="top-badges"><span class="badge live">LOCAL · NO UPLOAD</span><span class="badge">v3.2 RESPONSIVE</span><span class="badge">32 STEPS · 2 BARS</span></div>
+      <div class="top-badges"><span class="badge live">LOCAL · NO UPLOAD</span><span class="badge">v3.5 EXPANDED GENERATE</span><span class="badge">32 STEPS · 2 BARS</span></div>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="다크 모드로 전환" title="화이트/다크 모드 전환"><span class="theme-icon" id="themeIcon">☾</span><span class="theme-label" id="themeLabel">DARK</span></button>
     </div>
   </header>
@@ -158,6 +169,12 @@
               <div class="grid-toolbar-left"><span class="hint" id="gridHint">드래그로 연속 입력 · 활성 셀에서 시작하면 연속 삭제</span></div>
               <div class="grid-toolbar-right"><button class="btn" id="btnCopyLeft">1–16 → 17–32</button><button class="btn" id="btnCopyRight">17–32 → 1–16</button><button class="btn" id="btnSwapHalves">HALF SWAP</button><button class="btn" id="btnClearInst">악기 지우기</button></div>
             </div>
+            <div class="mobile-step-nav" id="mobileStepNav" aria-label="모바일 스텝 구간 선택">
+              <button class="mobile-step-btn active" type="button" data-step-page="0">1–8</button>
+              <button class="mobile-step-btn" type="button" data-step-page="1">9–16</button>
+              <button class="mobile-step-btn" type="button" data-step-page="2">17–24</button>
+              <button class="mobile-step-btn" type="button" data-step-page="3">25–32</button>
+            </div>
             <div class="seq-wrapper" id="seqWrapper">
               <div class="step-ruler" id="stepRuler"></div>
               <div class="seq-grid" id="seqGrid"></div>
@@ -183,7 +200,7 @@
         <div class="control-item"><span class="mini-label">OCTAVE</span><input class="range" id="octaveSlider" type="range" min="2" max="6" step="1" value="4"><span class="value" id="octaveVal">4</span></div>
         <div class="control-item"><span class="mini-label">PULSE</span><select class="select" id="pulseWidthSelect"><option value="0.125">12.5%</option><option value="0.25" selected>25%</option><option value="0.5">50%</option></select><span></span></div>
       </div></div>
-      <div class="soft-card"><h3>INPUT GUIDE</h3><ul class="help-list desktop-help"><li><kbd>SPACE</kbd> 재생/정지</li><li><kbd>CTRL+Z</kbd> 실행취소</li><li><kbd>CTRL+Y</kbd> 다시실행</li><li><kbd>1–5</kbd> 악기 선택</li><li><kbd>A–D</kbd> 패턴 선택</li><li><kbd>ESC</kbd> 즉시 정지</li></ul><ul class="help-list mobile-help"><li><kbd>TAP</kbd> 노트 입력/삭제</li><li><kbd>SWIPE</kbd> 32 STEP 좌우 이동</li><li><kbd>SWIPE</kbd> 악기·Mixer 이동</li><li><kbd>DOCK</kbd> 재생/정지/Undo/Redo</li></ul></div>
+      <div class="soft-card"><h3>INPUT GUIDE</h3><ul class="help-list desktop-help"><li><kbd>SPACE</kbd> 재생/정지</li><li><kbd>CTRL+Z</kbd> 실행취소</li><li><kbd>CTRL+Y</kbd> 다시실행</li><li><kbd>1–5</kbd> 악기 선택</li><li><kbd>A–D</kbd> 패턴 선택</li><li><kbd>ESC</kbd> 즉시 정지</li></ul><ul class="help-list mobile-help"><li><kbd>TAP</kbd> 노트 입력/삭제</li><li><kbd>PAGE</kbd> 8 STEP 구간 전환</li><li><kbd>FIT</kbd> 악기·Mixer 화면 맞춤</li><li><kbd>DOCK</kbd> 재생/정지/Undo/Redo</li></ul></div>
     </div></div>
   </section>
   </div>
@@ -224,7 +241,7 @@
 <script>
 'use strict';
 
-const APP_VERSION = 3.2;
+const APP_VERSION = 3.5;
 const THEME_KEY = '8bit_music_maker_theme';
 const AUTOSAVE_KEY = '8bit_music_maker_autosave_v3';
 const USER_PRESETS_KEY = '8bit_music_maker_presets_v3';
@@ -348,11 +365,23 @@ function midiFreq(m){return 440*Math.pow(2,(m-69)/12);}
 function rowLabels(){return state.currentInst==='noise'?DRUM_ROWS:scaleMidiRows().map(midiName);}
 
 // ---------- Rendering ----------
+const MOBILE_LAYOUT_MQ=window.matchMedia('(max-width: 1023px)');
+let mobileStepPage=0;
+function isMobileLayout(){return MOBILE_LAYOUT_MQ.matches;}
+function visibleStepBounds(){return isMobileLayout()?{start:mobileStepPage*8,end:mobileStepPage*8+8}:{start:0,end:COLS};}
+function renderStepRuler(){
+  const sr=$('#stepRuler');if(!sr)return;sr.textContent='';const blank=document.createElement('span');sr.appendChild(blank);
+  const {start,end}=visibleStepBounds();for(let c=start;c<end;c++){const s=document.createElement('span');s.textContent=c+1;s.className=(c===0||c===16)?'major':'';sr.appendChild(s);}
+}
+function renderMobileStepNav(){
+  $$('.mobile-step-btn').forEach(b=>{const active=+b.dataset.stepPage===mobileStepPage;b.classList.toggle('active',active);b.setAttribute('aria-pressed',active?'true':'false');});
+}
+function setMobileStepPage(page){mobileStepPage=clamp(Number(page)||0,0,3);renderMobileStepNav();renderStepRuler();renderGrid();}
 function buildStaticUI(){
   const il=$('#instrumentList');il.textContent='';
   INSTRUMENTS.forEach((inst,i)=>{const b=document.createElement('button');b.className='inst-btn';b.dataset.inst=inst.id;b.style.setProperty('--inst',inst.color);b.title=`단축키 ${i+1}`;const d=document.createElement('span');d.className='inst-dot';const n=document.createElement('span');n.className='inst-name';n.textContent=inst.name;const k=document.createElement('span');k.className='inst-kind';k.textContent=inst.kind;b.append(d,n,k);b.onclick=()=>{state.currentInst=inst.id;renderInstrumentSelection();renderGrid();scheduleAutosave();};il.appendChild(b);});
   const pt=$('#patternTabs');PATTERN_IDS.forEach(p=>{const b=document.createElement('button');b.className='pattern-btn';b.textContent=p;b.dataset.pattern=p;b.onclick=()=>switchPattern(p);pt.appendChild(b);});
-  const sr=$('#stepRuler');const blank=document.createElement('span');sr.appendChild(blank);for(let i=1;i<=32;i++){const s=document.createElement('span');s.textContent=i;s.className=(i===1||i===17)?'major':'';sr.appendChild(s);}
+  renderStepRuler();renderMobileStepNav();
   const key=$('#keySelect');NOTE_NAMES.forEach((n,i)=>{const o=document.createElement('option');o.value=i;o.textContent=n;key.appendChild(o);});
   const sc=$('#scaleSelect');Object.entries(SCALES).forEach(([v,s])=>{const o=document.createElement('option');o.value=v;o.textContent=s.label;sc.appendChild(o);});
   buildMixer();buildBuiltinPresets();
@@ -360,7 +389,7 @@ function buildStaticUI(){
 function renderInstrumentSelection(){
   $$('.inst-btn').forEach(b=>b.classList.toggle('active',b.dataset.inst===state.currentInst));
   const inst=INSTRUMENTS.find(i=>i.id===state.currentInst);
-  const mobileHint=state.currentInst==='noise'?'8개 합성 드럼 · 탭으로 입력 · 좌우 스와이프로 이동':'탭으로 입력/삭제 · 좌우 스와이프로 32스텝 이동';
+  const mobileHint=state.currentInst==='noise'?'8개 합성 드럼 · 탭 입력 · 위의 8 STEP 구간 버튼으로 전환':'탭으로 입력/삭제 · 위의 8 STEP 구간 버튼으로 전환';
   const desktopHint=state.currentInst==='noise'?'8개 합성 드럼 레인 · 드래그로 연속 입력/삭제':'드래그로 연속 입력 · 활성 셀에서 시작하면 연속 삭제';
   $('#gridHint').textContent=IS_COARSE_POINTER?mobileHint:desktopHint;
   document.documentElement.style.setProperty('--current-inst',inst.color);
@@ -368,10 +397,10 @@ function renderInstrumentSelection(){
 function renderPatternTabs(){$$('.pattern-btn').forEach(b=>b.classList.toggle('active',b.dataset.pattern===state.currentPattern));$('#metaPattern').textContent=state.currentPattern;}
 function renderPlayMode(){$$('.seg-btn').forEach(b=>b.classList.toggle('active',b.dataset.playmode===state.playbackMode));$('#metaMode').textContent=state.playbackMode.toUpperCase();}
 function renderGrid(){
-  const el=$('#seqGrid');el.textContent='';const g=currentGrid();const inst=INSTRUMENTS.find(i=>i.id===state.currentInst);const labels=rowLabels();
+  const el=$('#seqGrid');el.textContent='';const g=currentGrid();const inst=INSTRUMENTS.find(i=>i.id===state.currentInst);const labels=rowLabels();const {start,end}=visibleStepBounds();
   for(let r=0;r<ROWS;r++){
     const lab=document.createElement('div');lab.className='note-label'+(state.currentInst==='noise'?' drum':'');lab.textContent=labels[r];el.appendChild(lab);
-    for(let c=0;c<COLS;c++){
+    for(let c=start;c<end;c++){
       const cell=document.createElement('div');cell.className='seq-cell';cell.style.setProperty('--inst',inst.color);cell.dataset.row=r;cell.dataset.col=c;cell.setAttribute('role','button');cell.setAttribute('aria-label',`${labels[r]} ${c+1}스텝`);
       if(g[state.currentInst][r][c])cell.classList.add('on');if(c===16)cell.classList.add('bar');else if(c%4===0)cell.classList.add('beat');
       cell.addEventListener('pointerdown',beginPaint);cell.addEventListener('pointerenter',continuePaint);el.appendChild(cell);
@@ -401,7 +430,7 @@ function updateMobileDock(){
 function syncAllUI(){
   $('#bpmSlider').value=state.bpm;$('#bpmVal').textContent=state.bpm;$('#masterSlider').value=Math.round(state.masterVolume*100);$('#masterVal').textContent=Math.round(state.masterVolume*100)+'%';$('#swingSlider').value=state.swing;$('#swingVal').textContent=state.swing+'%';
   $('#keySelect').value=state.key;$('#scaleSelect').value=state.scale;$('#octaveSlider').value=state.octave;$('#octaveVal').textContent=state.octave;$('#pulseWidthSelect').value=state.pulseWidth;$('#songChainInput').value=state.songChain.join(' ');$('#chainNote').textContent=state.songChain.join('→');
-  renderInstrumentSelection();renderPatternTabs();renderPlayMode();renderGrid();renderMixer();renderUserPresets();updateMeta();updateExportInfo();updateUndoButtons();updateAudioMixer();updateMobileDock();
+  renderInstrumentSelection();renderPatternTabs();renderPlayMode();renderStepRuler();renderMobileStepNav();renderGrid();renderMixer();renderUserPresets();updateMeta();updateExportInfo();updateUndoButtons();updateAudioMixer();updateMobileDock();
 }
 function updateMeta(){const stepSec=60/state.bpm/4;$('#metaLoop').textContent=(stepSec*COLS).toFixed(2)+'s';$('#metaMode').textContent=state.playbackMode.toUpperCase();}
 
@@ -410,7 +439,136 @@ function clearAllCurrentPattern(){checkpoint();state.patterns[state.currentPatte
 function clearCurrentInstrument(){checkpoint();state.patterns[state.currentPattern][state.currentInst]=Array.from({length:ROWS},()=>Array(COLS).fill(false));renderGrid();scheduleAutosave();toast('현재 악기를 비웠습니다.');}
 function copyHalf(fromStart,toStart){checkpoint();const g=currentGrid();INSTRUMENTS.forEach(inst=>{for(let r=0;r<ROWS;r++)for(let i=0;i<16;i++)g[inst.id][r][toStart+i]=g[inst.id][r][fromStart+i];});renderGrid();scheduleAutosave();toast('16스텝 구간을 복사했습니다.');}
 function swapHalves(){checkpoint();const g=currentGrid();INSTRUMENTS.forEach(inst=>{for(let r=0;r<ROWS;r++)for(let i=0;i<16;i++){const t=g[inst.id][r][i];g[inst.id][r][i]=g[inst.id][r][16+i];g[inst.id][r][16+i]=t;}});renderGrid();scheduleAutosave();toast('앞/뒤 16스텝을 교체했습니다.');}
-function randomGenerate(){checkpoint();const g=emptyGrid();const melodyIds=['square','triangle','sawtooth','pulse'];melodyIds.forEach((id,ii)=>{for(let c=0;c<COLS;c++){if(Math.random()<(.12-ii*.015)){const r=Math.floor(Math.random()*ROWS);g[id][r][c]=true;}}});for(let c=0;c<COLS;c++){if(c%4===0)g.noise[7][c]=true;if(c%8===4)g.noise[6][c]=true;if(c%2===0&&Math.random()<.75)g.noise[3][c]=true;}state.patterns[state.currentPattern]=g;renderGrid();scheduleAutosave();toast('새 패턴을 생성했습니다.');}
+let lastGeneratedDrumSignature=null;
+let lastGeneratedMelodySignature=null;
+const DRUM_GROOVE_NAMES=['STRAIGHT','BREAKBEAT','FOUR ON FLOOR','HALF-TIME','SYNCOPATED','SPARSE','TOM DRIVE','DOUBLE-TIME'];
+const MELODY_STYLE_NAMES=['CHIP POP','ARPEGGIO','CALL & RESPONSE','STEPWISE','WIDE LEAPS','SYNCOPATED','OSTINATO','AMBIENT','BASS DRIVEN','COUNTERPOINT','SEQUENCE','MINIMAL'];
+function randPick(arr){return arr[Math.floor(Math.random()*arr.length)];}
+function randInt(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
+function chance(p){return Math.random()<p;}
+function drumHit(rows,row,step,prob=1){if(step>=0&&step<COLS&&Math.random()<prob)rows[row][step]=true;}
+function drumSteps(rows,row,steps,offset=0,prob=1){steps.forEach(step=>drumHit(rows,row,offset+step,prob));}
+function drumSignature(rows){const out=new Set();for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(rows[r][c])out.add(`${r}:${c}`);return out;}
+function drumSimilarity(a,b){if(!a||!b)return 0;let inter=0;a.forEach(v=>{if(b.has(v))inter++;});const union=a.size+b.size-inter;return union?inter/union:1;}
+function ensureBarVariation(rows){let same=true;for(let r=0;r<ROWS&&same;r++)for(let c=0;c<16;c++)if(rows[r][c]!==rows[r][c+16]){same=false;break;}if(!same)return;const choices=[[7,22],[7,30],[6,28],[3,26],[4,29],[5,30]];const [row,step]=randPick(choices);rows[row][step]=!rows[row][step];}
+function addDrumFill(rows,style){if(Math.random()>.72)return;const variant=Math.floor(Math.random()*5);if(variant===0){drumSteps(rows,6,[28,30]);drumSteps(rows,4,[29,31]);}
+  else if(variant===1){drumSteps(rows,5,[28,29]);drumSteps(rows,4,[30,31]);}
+  else if(variant===2){drumSteps(rows,6,[27,29,31]);drumHit(rows,1,30,.65);}
+  else if(variant===3){drumSteps(rows,3,[26,28]);drumHit(rows,2,30);drumHit(rows,0,31,.45);}
+  else{drumSteps(rows,4,[27,29]);drumSteps(rows,5,[28,30]);drumHit(rows,6,31);}
+  if(style==='SPARSE'&&Math.random()<.55){for(let r=0;r<ROWS;r++)if(r!==6&&r!==7)rows[r][28]=false;}}
+function buildDrumCandidate(){const rows=Array.from({length:ROWS},()=>Array(COLS).fill(false));const style=randPick(DRUM_GROOVE_NAMES);
+  for(let bar=0;bar<2;bar++){const o=bar*16;const second=bar===1;
+    if(style==='STRAIGHT'){
+      drumSteps(rows,7,[0,8],o);drumHit(rows,7,o+(second?14:6),.58);drumSteps(rows,6,[4,12],o);drumSteps(rows,3,[0,2,4,6,8,10,12,14],o,.82);drumHit(rows,2,o+14,.38);
+    }else if(style==='BREAKBEAT'){
+      drumSteps(rows,7,second?[0,5,10,14]:[0,3,8,11],o);drumSteps(rows,6,[4,12],o);drumHit(rows,6,o+(second?15:10),.42);drumSteps(rows,3,second?[0,2,5,8,10,13]:[0,2,6,8,10,14],o,.88);drumHit(rows,2,o+(second?7:15),.55);
+    }else if(style==='FOUR ON FLOOR'){
+      drumSteps(rows,7,[0,4,8,12],o);drumSteps(rows,6,[4,12],o);drumSteps(rows,3,[2,6,10,14],o,.96);drumSteps(rows,1,[4,12],o,.36);drumHit(rows,2,o+(second?14:6),.58);
+    }else if(style==='HALF-TIME'){
+      drumSteps(rows,7,second?[0,7,12]:[0,6,10],o);drumHit(rows,6,o+8);drumSteps(rows,3,[0,2,4,6,8,10,12,14],o,.68);drumHit(rows,2,o+14,.42);drumHit(rows,1,o+8,.28);
+    }else if(style==='SYNCOPATED'){
+      drumSteps(rows,7,second?[0,3,7,11,15]:[0,5,7,11,14],o);drumSteps(rows,6,[4,12],o);drumSteps(rows,3,[1,3,5,7,9,11,13,15],o,.72);drumHit(rows,2,o+(second?11:7),.48);drumHit(rows,1,o+12,.28);
+    }else if(style==='SPARSE'){
+      drumHit(rows,7,o);drumHit(rows,7,o+(second?11:9),.72);drumHit(rows,6,o+(second?12:8));drumSteps(rows,3,second?[3,7,15]:[2,10,14],o,.48);drumHit(rows,2,o+14,.32);
+    }else if(style==='TOM DRIVE'){
+      drumSteps(rows,7,second?[0,8,13]:[0,8],o);drumSteps(rows,6,[4,12],o);drumSteps(rows,4,second?[2,6,10,14]:[2,10],o,.84);drumSteps(rows,5,second?[4,8,12,15]:[6,14],o,.8);drumSteps(rows,3,[0,4,8,12],o,.44);
+    }else{
+      drumSteps(rows,7,second?[0,3,6,8,11,14]:[0,3,6,8,10,13],o);drumSteps(rows,6,[4,12],o);drumSteps(rows,3,[0,2,4,6,8,10,12,14],o);drumSteps(rows,1,[4,12],o,.4);drumHit(rows,2,o+14,.5);
+    }
+    if(Math.random()<.22)drumHit(rows,1,o+12);
+    if(bar===0&&Math.random()<.22)drumHit(rows,0,o);
+  }
+  addDrumFill(rows,style);ensureBarVariation(rows);
+  for(let c=0;c<COLS;c++)if(rows[2][c])rows[3][c]=false;
+  return{rows,style,signature:drumSignature(rows)};
+}
+function generateDrumPattern(g){let candidate=null;for(let attempt=0;attempt<10;attempt++){const next=buildDrumCandidate();candidate=next;if(!lastGeneratedDrumSignature||drumSimilarity(lastGeneratedDrumSignature,next.signature)<.62)break;}lastGeneratedDrumSignature=candidate.signature;g.noise=candidate.rows;return candidate.style;}
+
+// ---------- Expanded melody generator ----------
+const RHYTHM_TEMPLATES={
+  steady8:[[0,2,4,6,8,10,12,14],[0,2,5,6,8,10,13,14],[0,3,4,7,8,11,12,15]],
+  sync:[[0,3,6,7,10,14],[0,2,5,9,11,14],[1,4,6,9,12,15],[0,5,7,10,13,15]],
+  sparse:[[0,6,10,14],[0,4,11],[0,7,12,15],[2,8,14]],
+  offbeat:[[2,6,10,14],[1,5,9,13],[2,5,10,13],[3,7,11,15]],
+  drive:[[0,2,3,6,8,10,11,14],[0,1,4,6,8,9,12,14],[0,3,5,8,10,13,15]],
+  dotted:[[0,3,6,9,12,15],[0,3,7,10,14],[1,4,7,11,14]],
+  minimal:[[0,8],[0,6,12],[0,10],[2,14]]
+};
+const BASS_PROGRESSIONS=[
+  [7,7,5,6],[7,5,4,5],[7,6,4,5],[7,4,5,3],[7,5,7,4],[7,6,5,4],[7,4,6,5],[7,5,3,4]
+];
+function weightedPick(items){const total=items.reduce((n,x)=>n+x[1],0);let r=Math.random()*total;for(const [v,w] of items){r-=w;if(r<=0)return v;}return items.at(-1)[0];}
+function mutateRhythm(steps,style){let out=[...steps];const drop=style==='AMBIENT'?.22:style==='MINIMAL'?.12:.08;if(out.length>3&&chance(drop))out.splice(randInt(1,out.length-1),1);if(chance(style==='SYNCOPATED'?.48:.24)){const candidates=[1,2,3,5,6,7,9,10,11,13,14,15].filter(x=>!out.includes(x));if(candidates.length)out.push(randPick(candidates));}if(chance(.28)&&out.length){const i=randInt(0,out.length-1);out[i]=clamp(out[i]+randPick([-1,1]),0,15);}return [...new Set(out)].sort((a,b)=>a-b);}
+function rhythmForStyle(style){let group='steady8';if(style==='SYNCOPATED'||style==='CALL & RESPONSE'||style==='COUNTERPOINT')group='sync';else if(style==='AMBIENT')group='sparse';else if(style==='ARPEGGIO'||style==='BASS DRIVEN')group=chance(.5)?'drive':'offbeat';else if(style==='WIDE LEAPS'||style==='SEQUENCE')group=chance(.5)?'dotted':'steady8';else if(style==='MINIMAL')group='minimal';else if(style==='OSTINATO')group=chance(.55)?'steady8':'offbeat';return [...randPick(RHYTHM_TEMPLATES[group])];}
+function walkRow(prev,style,index){
+  if(style==='WIDE LEAPS')return clamp(prev+weightedPick([[-4,1],[-3,2],[-2,1],[2,1],[3,2],[4,1]]),0,7);
+  if(style==='AMBIENT')return clamp(prev+weightedPick([[-3,1],[-2,2],[-1,2],[0,1],[1,2],[2,2],[3,1]]),0,7);
+  if(style==='MINIMAL')return prev;
+  if(style==='BASS DRIVEN')return clamp(prev+weightedPick([[-2,1],[-1,3],[0,3],[1,3],[2,1]]),2,7);
+  return clamp(prev+weightedPick([[-2,1],[-1,4],[0,2],[1,4],[2,1]]),0,7);
+}
+function buildLeadEvents(style){
+  const r1=rhythmForStyle(style),r2=mutateRhythm(r1,style);let start=randInt(style==='BASS DRIVEN'?3:1,6);const first=[];let row=start;
+  const arp=randPick([[7,5,3,1],[6,4,2,0],[7,4,2,5],[6,3,1,4],[7,5,2,4],[5,3,0,2]]);
+  const minimalPair=[randInt(2,6),randInt(1,6)];
+  r1.forEach((step,i)=>{
+    if(style==='ARPEGGIO')row=arp[i%arp.length];
+    else if(style==='OSTINATO')row=clamp([start,start-2,start+1,start-1][i%4],0,7);
+    else if(style==='SEQUENCE')row=clamp(start+[0,-1,-3,-2][i%4]+Math.floor(i/4)%2,0,7);
+    else if(style==='MINIMAL')row=minimalPair[i%minimalPair.length];
+    else row=walkRow(row,style,i);
+    first.push({step,row});
+  });
+  const second=[];const transform=randPick(['transpose','invert','answer','sequence']);
+  r2.forEach((step,i)=>{
+    const src=first[Math.min(i,first.length-1)]||{row:start};let rr=src.row;
+    if(style==='CALL & RESPONSE'||transform==='answer')rr=clamp(7-src.row+randPick([-1,0,0,1]),0,7);
+    else if(transform==='invert')rr=clamp(start-(src.row-start),0,7);
+    else if(transform==='sequence')rr=clamp(src.row+randPick([-2,-1,1,2]),0,7);
+    else rr=clamp(src.row+randPick([-1,0,1]),0,7);
+    if(style==='ARPEGGIO')rr=clamp(arp[(i+randPick([1,2,3]))%arp.length],0,7);
+    if(style==='MINIMAL')rr=minimalPair[(i+1)%minimalPair.length];
+    second.push({step:step+16,row:rr});
+  });
+  if(first.length&&second.length&&first.every((e,i)=>second[i]&&e.step+16===second[i].step&&e.row===second[i].row))second.at(-1).row=clamp(second.at(-1).row+(second.at(-1).row>3?-1:1),0,7);
+  return first.concat(second);
+}
+function putEvents(g,id,events,prob=1){events.forEach(e=>{if(e.step>=0&&e.step<COLS&&chance(prob))g[id][clamp(e.row,0,7)][e.step]=true;});}
+function progressionForBars(){const p=randPick(BASS_PROGRESSIONS);const delta=randPick([-1,0,0,0,1]);return p.concat(p.map((r,i)=>clamp(r+(i===0?0:delta),3,7)));}
+function addBassLine(g,style,progression){
+  const steps=style==='BASS DRIVEN'?[0,3,4,7,8,10,12,15,16,19,20,23,24,26,28,31]:[0,4,8,12,16,20,24,28];
+  steps.forEach((step,i)=>{const beat=Math.floor(step/4);let row=progression[beat]??7;if(style==='BASS DRIVEN'&&i%2)row=clamp(row-randPick([0,1,2]),3,7);g.triangle[row][step]=true;});
+  if(style!=='AMBIENT'&&chance(.42)){[14,30].forEach(step=>{const beat=Math.floor(step/4);g.triangle[clamp((progression[beat]??7)-1,3,7)][step]=true;});}
+}
+function addArpeggio(g,id,style,progression,leadEvents){
+  let steps;if(style==='ARPEGGIO')steps=[0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30];else if(style==='AMBIENT')steps=[3,11,19,27];else steps=randPick(RHYTHM_TEMPLATES.offbeat).concat(randPick(RHYTHM_TEMPLATES.offbeat).map(x=>x+16));
+  const degrees=randPick([[0,2,4,2],[0,3,5,3],[0,2,5,3],[0,4,2,5]]);
+  const leadAt=new Set(leadEvents.map(e=>e.step));steps.forEach((step,i)=>{if(style!=='ARPEGGIO'&&leadAt.has(step)&&chance(.55))return;const beat=Math.floor(step/4);const root=progression[beat]??7;const row=clamp(root-degrees[i%degrees.length],0,7);g[id][row][step]=true;});
+}
+function addCounterLine(g,id,style,leadEvents){
+  const leadMap=new Map(leadEvents.map(e=>[e.step,e.row]));let candidates=[];for(let c=1;c<COLS;c+=2)if(!leadMap.has(c))candidates.push(c);if(style==='COUNTERPOINT')candidates=candidates.filter((_,i)=>i%1===0);else candidates=candidates.filter((_,i)=>i%2===0);
+  candidates.forEach((step,i)=>{if(!chance(style==='COUNTERPOINT'?.78:.52))return;let nearest=leadEvents.reduce((best,e)=>Math.abs(e.step-step)<Math.abs(best.step-step)?e:best,leadEvents[0]||{step:0,row:4});let row=clamp(7-nearest.row+randPick([-1,0,1]),0,7);if(i&&chance(.35))row=clamp(row+randPick([-1,1]),0,7);g[id][row][step]=true;});
+}
+function addEchoNotes(g,id,leadEvents){leadEvents.forEach((e,i)=>{if(i%3===1&&e.step+2<COLS&&chance(.48))g[id][clamp(e.row+randPick([-2,-1,1,2]),0,7)][e.step+2]=true;});}
+function melodySignature(g){const out=new Set();['square','triangle','sawtooth','pulse'].forEach(id=>{for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(g[id][r][c])out.add(`${id}:${r}:${c}`);});return out;}
+function melodySimilarity(a,b){return drumSimilarity(a,b);}
+function melodyNoteCount(g){let n=0;['square','triangle','sawtooth','pulse'].forEach(id=>g[id].forEach(row=>row.forEach(v=>{if(v)n++;})));return n;}
+function buildMelodyCandidate(){
+  const g=emptyGrid(),style=randPick(MELODY_STYLE_NAMES),leadId=randPick(['square','square','pulse','pulse','sawtooth']);const lead=buildLeadEvents(style);const progression=progressionForBars();putEvents(g,leadId,lead);
+  addBassLine(g,style,progression);
+  const melodicOthers=['square','sawtooth','pulse'].filter(id=>id!==leadId);const arpId=randPick(melodicOthers),counterId=melodicOthers.find(id=>id!==arpId)||arpId;
+  const arrangement=randPick(style==='MINIMAL'?['DUO','DUO','ECHO']:style==='AMBIENT'?['DUO','COUNTER','ECHO']:style==='ARPEGGIO'?['ARP','ARP','FULL']:['DUO','ARP','COUNTER','FULL','ECHO']);
+  if(arrangement==='ARP'||arrangement==='FULL')addArpeggio(g,arpId,style,progression,lead);
+  if(arrangement==='COUNTER'||arrangement==='FULL')addCounterLine(g,counterId,style,lead);
+  if(arrangement==='ECHO')addEchoNotes(g,arpId,lead);
+  if(style==='COUNTERPOINT'&&arrangement!=='COUNTER'&&arrangement!=='FULL')addCounterLine(g,counterId,style,lead);
+  if(style==='ARPEGGIO'&&arrangement!=='ARP'&&arrangement!=='FULL')addArpeggio(g,arpId,style,progression,lead);
+  if(melodyNoteCount(g)<16)addEchoNotes(g,arpId,lead);
+  return{grid:g,style,arrangement,leadId,signature:melodySignature(g)};
+}
+function generateMelodyPattern(g){let candidate=null;for(let attempt=0;attempt<14;attempt++){const next=buildMelodyCandidate();candidate=next;if(!lastGeneratedMelodySignature||melodySimilarity(lastGeneratedMelodySignature,next.signature)<.56)break;}lastGeneratedMelodySignature=candidate.signature;['square','triangle','sawtooth','pulse'].forEach(id=>g[id]=candidate.grid[id]);return candidate;}
+function randomGenerate(){checkpoint();const g=emptyGrid();const melody=generateMelodyPattern(g);const groove=generateDrumPattern(g);state.patterns[state.currentPattern]=g;renderGrid();scheduleAutosave();toast(`멜로디 ${melody.style} · 드럼 ${groove}`);}
 
 // ---------- Presets ----------
 function put(g,id,row,steps){steps.forEach(s=>{if(s>=0&&s<COLS)g[id][row][s]=true;});}
@@ -515,7 +673,9 @@ function exportMidi(){
 // ---------- Event wiring ----------
 $('#themeToggle').onclick=toggleTheme;
 $('#btnPlay').onclick=startPlay;$('#btnStop').onclick=stopPlay;$('#btnUndo').onclick=undo;$('#btnRedo').onclick=redo;
+$$('.mobile-step-btn').forEach(b=>b.addEventListener('click',()=>setMobileStepPage(+b.dataset.stepPage)));
 $('#mobilePlay').onclick=startPlay;$('#mobileStop').onclick=stopPlay;$('#mobileUndo').onclick=undo;$('#mobileRedo').onclick=redo;
+const handleMobileLayoutChange=()=>{mobileStepPage=0;renderStepRuler();renderMobileStepNav();renderGrid();};if(MOBILE_LAYOUT_MQ.addEventListener)MOBILE_LAYOUT_MQ.addEventListener('change',handleMobileLayoutChange);else MOBILE_LAYOUT_MQ.addListener?.(handleMobileLayoutChange);
 $('#btnGenerate').onclick=randomGenerate;$('#btnClear').onclick=()=>confirmAction('패턴 전체 삭제',`현재 패턴 ${state.currentPattern}의 모든 악기를 지울까요?`,clearAllCurrentPattern);$('#btnClearInst').onclick=()=>confirmAction('악기 삭제',`${state.currentInst.toUpperCase()} 트랙만 지울까요?`,clearCurrentInstrument);
 $('#btnCopyLeft').onclick=()=>copyHalf(0,16);$('#btnCopyRight').onclick=()=>copyHalf(16,0);$('#btnSwapHalves').onclick=swapHalves;
 $$('.seg-btn').forEach(b=>b.onclick=()=>{state.playbackMode=b.dataset.playmode;renderPlayMode();scheduleAutosave();updateExportInfo();updateMobileDock();});

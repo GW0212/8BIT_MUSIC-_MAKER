@@ -1,42 +1,45 @@
 8BIT MUSIC MAKER · CHANGELOG
 ============================
 
+v3.5 · EXPANDED GENERATE / MOBILE QA
+- GENERATE 멜로디 엔진 전면 확장
+  · 기존 악기별 단순 확률 Random Note 배치 제거
+  · 12종 Melody Style 추가
+    CHIP POP / ARPEGGIO / CALL & RESPONSE / STEPWISE / WIDE LEAPS / SYNCOPATED
+    OSTINATO / AMBIENT / BASS DRIVEN / COUNTERPOINT / SEQUENCE / MINIMAL
+  · 7계열 Rhythm Template + Bar 2 Rhythm Mutation
+  · Transpose / Invert / Answer / Sequence 기반 2마디 Variation
+  · SQUARE / PULSE / SAW Lead 분산
+  · TRIANGLE Bass Progression 8종
+  · DUO / ARP / COUNTER / FULL / ECHO Arrangement 랜덤화
+  · Arpeggio / Counter Melody / Echo Note / Bass Fill 추가
+  · 직전 멜로디와 유사도 비교 후 자동 재생성
+- v3.4 DRUM / NOISE Smart Generate 유지
+- 모바일 / 태블릿 Breakpoint 재설계
+  · Compact Touch Layout 범위를 1023px까지 확대
+  · 768px iPad 및 844px 가로 화면에서 PC 32 STEP Grid가 잘리던 경계 문제 수정
+  · 1024px부터 PC 32 STEP Layout 사용
+- 320px 초소형 화면용 추가 Compact Rule 적용
+- 긴 GENERATE 결과 Toast가 모바일 폭을 넘지 않도록 줄바꿈 보강
+- 낮은 높이의 모바일 Landscape에서는 Fixed Dock을 숨겨 SEQUENCER 가림 방지
+- 기존 White/Dark, Mixer, Pattern/Song, JSON, WAV, MIDI, Autosave 유지
+
+v3.4 · SMART GENERATE
+- DRUM / NOISE 전용 8종 Groove Generator
+- Bar Variation / Fill / Similarity Reroll
+
+v3.3 · MOBILE FIT / NO CLIP
+- 모바일 SEQUENCER 8 STEP Page 방식
+- 모바일 Instrument / Mixer Grid 재설계
+- 전체 가로 Overflow 제거
+
 v3.2 · PC / MOBILE RESPONSIVE
-- PC/모바일 공용 반응형 UI 전면 정리
-- 760 / 480 / 360px 모바일 Breakpoint 세분화
-- 낮은 높이의 가로 화면용 별도 대응
-- iOS/Android Safe Area 대응 강화
-- 모바일 하단 Quick Transport Dock 추가
-  · Play / Stop / Undo / Redo
-  · 현재 Pattern / BPM / 상태 표시
-- 모바일 시퀀서 입력 로직 분리
-  · Touch: Tap = 입력/삭제
-  · Swipe = 시퀀서 좌우 이동
-  · Desktop Mouse/Pen: 기존 Drag Paint 유지
-- STEP Ruler + Sequencer를 동일 Horizontal Scroller로 통합
-- Note/Drum Label Sticky 처리
-- 모바일 Sequence Cell 크기 및 간격 확대
-- Instrument Selector를 모바일 Horizontal Swipe Card로 변경
-- Pattern A~D / Pattern·Song 선택을 모바일 2단 Grid로 재배치
-- Song Chain 입력 모바일 폭 최적화
-- Grid Toolbar 모바일 2열 버튼 배치
-- Mixer를 모바일 Channel Snap Carousel 방식으로 변경
-- Preset / Project / Export 모바일 버튼 배치 개선
-- 모바일 Modal을 Bottom Sheet 형태로 변경
-- Toast가 Bottom Dock과 겹치지 않도록 위치 보정
-- 모바일 Form 16px 적용으로 iOS Focus Auto-Zoom 방지
-- 모바일 Input Guide 별도 제공
-- Responsive Visualizer Resize 추가
-  · 실제 CSS 크기 기준 Canvas 해상도 조정
-  · DPR 최대 1.5 제한으로 모바일 렌더링 부담 완화
-- White/Dark Theme 기능 및 White 기본값 유지
-- v3 Autosave Key 유지로 v3.0/v3.1 데이터 호환
+- Touch Tap / Desktop Drag 분리
+- 모바일 Quick Transport Dock
 
 v3.1 · WHITE / DARK CLEAN UI
 - White Theme 기본값
 - Dark Theme Toggle
-- UI Design Token 전면 정리
-- Studio Layout 정리
 
 v3.0
 - Accurate Web Audio Scheduler

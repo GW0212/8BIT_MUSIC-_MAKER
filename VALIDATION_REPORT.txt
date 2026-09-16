@@ -1,42 +1,63 @@
-8BIT MUSIC MAKER FINAL v3.2 · VALIDATION REPORT
-================================================
+8BIT MUSIC MAKER · v3.5 EXPANDED GENERATE - VALIDATION REPORT
+==============================================================
 
-[PASS] HTML parser load
-[PASS] 중복 DOM ID 없음 (68 IDs)
-[PASS] JavaScript에서 참조하는 #ID 66개 모두 DOM에 존재
-[PASS] Main JavaScript Node --check 문법 검사
-[PASS] CSS 중괄호 Balance 검사
-[PASS] APP_VERSION 3.2 반영
-[PASS] White Theme 최초 기본값 유지
-[PASS] v3 Autosave Key 유지로 v3.0/v3.1 작업 데이터 호환
-[PASS] viewport-fit=cover 적용
-[PASS] Mobile / Apple Web App Meta 적용
-[PASS] 760px Mobile Layout Breakpoint
-[PASS] 480px Small Mobile Layout Breakpoint
-[PASS] 360px Compact Mobile Layout Breakpoint
-[PASS] Low-height Landscape Layout Breakpoint
-[PASS] iPhone Safe Area 좌/우/하단 대응
-[PASS] 모바일 전용 Bottom Dock DOM / Event 연결
-[PASS] Bottom Dock Play / Stop / Undo / Redo 연결
-[PASS] Bottom Dock Pattern / BPM / Playing State 동기화
-[PASS] Touch Tap과 Swipe 입력 분리
-[PASS] Desktop Mouse/Pen Drag Paint 유지
-[PASS] STEP Ruler와 Sequencer가 동일 Horizontal Scroller 사용
-[PASS] Note / Drum Label Sticky 처리
-[PASS] Mobile Instrument Horizontal Swipe 구조
-[PASS] Mobile Mixer Channel Snap Scroll 구조
-[PASS] Mobile Pattern / Song / Chain 재배치
-[PASS] Mobile Grid Toolbar 2열 배치
-[PASS] Mobile Modal Bottom Sheet 구조
-[PASS] Toast / Bottom Dock 충돌 방지 위치 적용
-[PASS] 모바일 Form 16px 적용 - iOS Focus Auto-Zoom 방지
-[PASS] Desktop Keyboard Guide / Mobile Touch Guide 자동 전환
-[PASS] Responsive Visualizer Resize 및 DPR 1.5 Cap
-[PASS] 기존 Desktop Workspace / Studio / Mixer Layout 규칙 유지
-[PASS] 외부 CSS / JavaScript / Web Font 의존 없음
+[JavaScript]
+PASS - inline JavaScript syntax parsed with Node.js
+PASS - Playwright browser execution: no page errors / no console errors
+PASS - GENERATE button repeated execution without DOM/runtime failure
 
-자동 렌더 참고
-- 현재 실행 컨테이너의 Chromium이 시스템 DBus 초기화 단계에서 종료되지 않아
-  Headless Screenshot 검증은 환경상 수행하지 못했습니다.
-- 대신 HTML Parser, DOM 참조, JavaScript Syntax, CSS 구조, Responsive Breakpoint,
-  Touch Event, Desktop Layout 유지 여부를 정적 검증했습니다.
+[MELODY GENERATE]
+PASS - 12 melody style families implemented
+PASS - 1,000 raw melody generations completed
+PASS - all 12 melody families appeared in the 1,000-run test
+PASS - all 5 arrangement families appeared: DUO / ARP / COUNTER / FULL / ECHO
+PASS - lead instrument distribution includes SQUARE / PULSE / SAW
+PASS - generated melody note count range observed: 12~47 notes
+PASS - average melody note count observed: ~26.7 notes
+PASS - average consecutive raw Jaccard similarity: ~0.09
+PASS - maximum consecutive raw similarity observed: ~0.44
+PASS - accepted generator 500-run average similarity: ~0.09
+PASS - accepted generator 500-run maximum similarity observed: ~0.35
+PASS - identical Bar 1 / Bar 2 occurrence: 0 / 1,000
+PASS - current Key / Scale / Octave settings are preserved by GENERATE
+
+[DRUM / NOISE GENERATE]
+PASS - 8 groove families preserved
+PASS - previous-result similarity reroll preserved
+PASS - Bar 1 / Bar 2 Variation preserved
+PASS - Open HH suppresses Closed HH on the same step
+
+[RESPONSIVE / MOBILE LAYOUT]
+Playwright viewport verification:
+PASS - 320x720  : horizontal overflow 0, 64 visible seq cells, 4 step-page buttons
+PASS - 340x760  : horizontal overflow 0
+PASS - 360x800  : horizontal overflow 0
+PASS - 375x812  : horizontal overflow 0
+PASS - 390x844  : horizontal overflow 0
+PASS - 412x915  : horizontal overflow 0
+PASS - 430x932  : horizontal overflow 0
+PASS - 480x900  : horizontal overflow 0
+PASS - 560x900  : horizontal overflow 0
+PASS - 667x375  : horizontal overflow 0, landscape Dock hidden
+PASS - 760x900  : horizontal overflow 0
+PASS - 768x1024 : horizontal overflow 0, Compact Touch Layout active
+PASS - 820x1180 : horizontal overflow 0
+PASS - 844x390  : horizontal overflow 0, landscape Dock hidden
+PASS - 900x900  : horizontal overflow 0
+PASS - 1023x900 : horizontal overflow 0, Compact Touch Layout active
+PASS - 1024x768 : horizontal overflow 0, 256 visible seq cells, PC Layout active
+PASS - 1280x800 : horizontal overflow 0
+PASS - 1366x900 : horizontal overflow 0
+PASS - all visible element bounding boxes remained inside viewport in test matrix
+
+[TOUCH / INTERACTION]
+PASS - mobile step pages map to exact columns 0~7 / 8~15 / 16~23 / 24~31
+PASS - each mobile step page renders exactly 64 cells (8 rows x 8 steps)
+PASS - touch Tap toggles Sequencer cells
+PASS - Mixer Mute control toggles normally
+PASS - Light -> Dark theme toggle works
+PASS - resizing back to PC restores 256-cell 32 STEP view
+
+[Package]
+PASS - ZIP root contains files directly (no parent folder layer)
+PASS - ZIP CRC integrity verified
