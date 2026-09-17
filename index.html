@@ -7,7 +7,7 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>8BIT MUSIC MAKER · Studio v4.0</title>
+  <title>8BIT MUSIC MAKER · Studio v4.1</title>
   <link rel="icon" href="favicon.png" type="image/png" />
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('8bit_music_maker_theme')||'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
   <style>
@@ -51,8 +51,8 @@
     .panel-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 17px;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--panel2) 40%,transparent)}
     .panel-title{display:flex;align-items:center;gap:9px;font:850 12px var(--mono);letter-spacing:.055em}.panel-title .dot{width:7px;height:7px;border-radius:2px;background:var(--cyan);box-shadow:0 0 11px color-mix(in srgb,var(--cyan) 40%,transparent)}
     .panel-sub{margin-top:3px;font-size:11.5px;color:var(--muted);line-height:1.45}.panel-body{padding:16px}
-    .transport{position:sticky;top:9px;z-index:30;display:grid;grid-template-columns:auto minmax(420px,1fr) minmax(480px,auto);gap:12px;align-items:center;padding:10px;background:color-mix(in srgb,var(--panel) 94%,transparent);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px color-mix(in srgb,var(--text) 10%,transparent)}
-    .transport-main,.transport-mid,.transport-right{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.transport-mid{justify-content:center;padding:5px 10px;border:1px solid var(--line);border-radius:11px;background:var(--surface-soft)}.transport-right{justify-content:flex-end}
+    .transport{position:sticky;top:9px;z-index:30;display:grid;grid-template-columns:auto minmax(380px,1fr) minmax(620px,1.2fr);gap:12px;align-items:start;padding:10px;background:color-mix(in srgb,var(--panel) 94%,transparent);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px color-mix(in srgb,var(--text) 10%,transparent)}
+    .transport-main,.transport-mid,.transport-right{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.transport-mid{justify-content:center;padding:5px 10px;border:1px solid var(--line);border-radius:11px;background:var(--surface-soft);align-self:center}.transport-right{display:grid;grid-template-columns:minmax(300px,1fr) repeat(3,max-content);align-items:start;justify-content:end;justify-items:stretch;gap:8px;min-width:0}.transport-right>.btn{height:40px;align-self:start}.transport-right>#btnClear{justify-self:end}
     .generate-picker{display:flex;align-items:center;gap:6px;min-width:0}.generate-picker .select{width:184px;min-width:0;font-size:11px}.generate-picker .mini-label{white-space:nowrap}
     .transport-mid .mini-label:not(:first-child){margin-left:7px}
     .btn{border:1px solid var(--line2);background:var(--surface);border-radius:9px;padding:9px 11px;cursor:pointer;transition:.14s ease;font-weight:800;font-size:11.5px;line-height:1;white-space:nowrap;box-shadow:0 1px 1px color-mix(in srgb,var(--text) 4%,transparent)}.btn:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--cyan) 35%,var(--line2));background:var(--surface-strong)}
@@ -82,6 +82,16 @@
     .seq-wrapper{scrollbar-gutter:stable;scroll-snap-type:x proximity;-webkit-overflow-scrolling:touch}
     .step-ruler{margin:0 0 7px}.note-label{position:sticky;left:0;z-index:4;background:linear-gradient(90deg,var(--grid-bg) 78%,color-mix(in srgb,var(--grid-bg) 76%,transparent));border-radius:4px}.step-ruler span:first-child{position:sticky;left:0;z-index:5;background:var(--grid-bg)}
     .seq-cell:nth-child(33n+18){scroll-snap-align:start}
+    @media(max-width:1320px) and (min-width:1101px){
+      .transport{grid-template-columns:auto minmax(320px,1fr);grid-template-areas:"main mid" "right right";align-items:center}
+      .transport-main{grid-area:main}
+      .transport-mid{grid-area:mid}
+      .transport-right{grid-area:right;grid-template-columns:minmax(320px,1fr) repeat(3,max-content);justify-content:stretch}
+    }
+    @media(max-width:1200px) and (min-width:1101px){
+      .transport-right{grid-template-columns:minmax(240px,1fr) repeat(3,minmax(0,1fr))}
+      .transport-right>.btn{width:100%;padding-inline:8px;font-size:10.5px}
+    }
     @media(max-width:1100px){
       .transport{grid-template-columns:1fr}.transport-main,.transport-mid,.transport-right{justify-content:center}
       .workspace{grid-template-columns:1fr}.instrument-list{display:grid;grid-template-columns:repeat(5,1fr)}.inst-btn{grid-template-columns:10px 1fr}.inst-kind{display:none}
@@ -143,7 +153,7 @@
     <div class="brand-mark">♪</div>
     <div class="brand"><h1>8BIT MUSIC MAKER</h1><p>Chiptune step sequencer · 4-pattern song mode · local-first studio</p></div>
     <div class="header-actions">
-      <div class="top-badges"><span class="badge live">LOCAL · NO UPLOAD</span><span class="badge">v4.0 · STUDIO STABLE</span><span class="badge">32 STEPS · 2 BARS</span></div>
+      <div class="top-badges"><span class="badge live">LOCAL · NO UPLOAD</span><span class="badge">v4.1 · UI FIX</span><span class="badge">32 STEPS · 2 BARS</span></div>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="다크 모드로 전환" title="화이트/다크 모드 전환"><span class="theme-icon" id="themeIcon">☾</span><span class="theme-label" id="themeLabel">DARK</span></button>
     </div>
   </header>
