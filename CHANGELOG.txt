@@ -1,11 +1,44 @@
-v3.8 · SEAMLESS INFINITE LOOP
+8BIT MUSIC MAKER v4.0 CHANGELOG
+=================================
 
-- GENERATE 실행 시 자동으로 PATTERN 재생 모드로 전환
-- 생성된 현재 패턴은 32 STEP 종료 즉시 1 STEP부터 무한 반복
-- 이전 세션에서 SONG A B C D가 남아 있어 빈 B/C/D 때문에 긴 무음이 생기던 문제 수정
-- SONG 모드에서도 노트가 하나도 없는 패턴은 자동으로 건너뜀
-- 재생 시작 지연 60ms -> 20ms
-- Web Audio look-ahead 25ms/120ms -> 20ms/180ms로 보강
-- 재생 중 GENERATE 시 예약된 이전 음을 즉시 중지하고 새 패턴의 1 STEP부터 재시작
-- WAV/MIDI SONG 내보내기에서도 빈 패턴 자동 제외
-- v3.7의 100 OST PROFILE, MIDI IMPORT, 모바일 UI, Mixer, WAV/MIDI Export 유지
+[Playback / Audio]
+- Scheduler 지연 감지 및 Resync 추가
+- 백그라운드 탭에서 선예약 버퍼 확대
+- 재생 중 설정/Import/Undo/Pattern 변경 시 공통 즉시 재시작 처리
+- Master Dynamics Compressor/Limiter 추가
+- Note Gate를 BPM/STEP 길이에 연동
+- WAV Offline Render에도 동일한 Limiter 적용
+
+[MIDI Import]
+- 실제 MIDI pitch 기반 nearest-note 매핑으로 개선
+- MIDI Tempo 및 Time Signature meta event 해석
+- 최대 8마디를 Pattern A/B/C/D에 자동 분할
+- 빈 Pattern은 Song Chain에서 자동 제외
+- MIDI별 실제 pitch row를 보존하여 재생/MIDI Export에 사용
+- Drum Channel 자동 매핑 유지
+
+[Editor / History]
+- Mixer range, Mute/Solo, BPM, Swing, Octave, Key, Scale, Pulse Width 등 History 범위 확대
+- Sequencer 셀을 실제 button + aria-pressed 구조로 개선
+- Song Chain은 'A B C D'와 'ABCD' 모두 인식
+
+[Mobile / Tablet]
+- Playhead FOLLOW ON/OFF 추가
+- 재생 중 8STEP 페이지 자동 추적
+- 수동 페이지 이동 시 FOLLOW 자동 OFF
+- 기존 1023px 이하 Compact Touch UI 유지
+
+[OST Browser]
+- 100개 OST 구성 프로필 검색 추가
+- 카테고리 필터
+- 최근 사용 목록
+- 즐겨찾기 토글 및 필터
+
+[Storage]
+- Autosave / User Preset Grid bitset 압축
+- QuotaExceeded 저장 오류 안내
+- v3.x Autosave/Project 마이그레이션 유지
+
+[Status / Export]
+- 재생 상태와 자동저장 상태 표시 분리
+- Export 정보에 Time Signature와 예상 WAV 메모리/크기 표시

@@ -7,7 +7,7 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>8BIT MUSIC MAKER · Studio v3.8</title>
+  <title>8BIT MUSIC MAKER · Studio v4.0</title>
   <link rel="icon" href="favicon.png" type="image/png" />
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('8bit_music_maker_theme')||'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
   <style>
@@ -87,8 +87,17 @@
       .workspace{grid-template-columns:1fr}.instrument-list{display:grid;grid-template-columns:repeat(5,1fr)}.inst-btn{grid-template-columns:10px 1fr}.inst-kind{display:none}
       .studio-grid{grid-template-columns:1fr}.cards-3{grid-template-columns:1fr 1fr}.mixer{grid-template-columns:repeat(5,150px)}.song-chain{margin-left:0}
     }
+
+    .ost-picker-stack{display:grid;gap:6px;min-width:260px}.ost-filter-row{display:grid;grid-template-columns:minmax(130px,1fr) 125px 36px;gap:5px;min-width:0}.ost-search{min-width:0;width:100%;height:34px}.ost-category{min-width:0;width:100%}.ost-favorite{width:36px;min-width:36px}.ost-favorite.active{color:var(--yellow);border-color:color-mix(in srgb,var(--yellow) 45%,var(--line2));background:color-mix(in srgb,var(--yellow) 8%,var(--surface))}.generate-picker>.mini-label{align-self:flex-start;margin-top:11px}
+    .mobile-step-controls{display:none}.follow-toggle{font:800 9px var(--mono);min-height:34px;padding:7px 9px}.follow-toggle.active{color:var(--cyan);border-color:color-mix(in srgb,var(--cyan) 42%,var(--line2));background:color-mix(in srgb,var(--cyan) 7%,var(--surface))}
+    .seq-cell{padding:0;appearance:none;-webkit-appearance:none;font:inherit;color:inherit}.seq-cell:focus-visible{outline:2px solid var(--focus);outline-offset:1px;z-index:2}
+    .footer-status{gap:7px;flex-wrap:wrap}.save-status{margin-left:auto;color:var(--muted);font:700 9px var(--mono)}
     @media(max-width:1023px){
       html,body{width:100%;max-width:100%;overflow-x:hidden}
+      .generate-picker{display:grid;grid-template-columns:1fr;width:100%;gap:5px}.generate-picker>.mini-label{display:none}.ost-picker-stack{min-width:0;width:100%;gap:5px}.ost-filter-row{grid-template-columns:minmax(0,1fr) minmax(100px,.72fr) 42px}.ost-search,.ost-category,.ost-picker-stack>.select{height:42px;font-size:16px}.ost-favorite{width:42px;height:42px}
+      .mobile-step-controls{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:6px;align-items:center;padding:7px 7px 0}.mobile-step-controls .mobile-step-nav{padding:0}.follow-toggle{min-height:36px}
+      .save-status{width:100%;margin-left:19px}
+
       body{padding:10px max(9px,env(safe-area-inset-right)) calc(92px + env(safe-area-inset-bottom)) max(9px,env(safe-area-inset-left))}
       .app{gap:9px;width:100%;max-width:100%}.topbar{align-items:center;padding:11px 12px;border-radius:14px}.topbar:after{display:none}.brand-mark{width:39px;height:39px;border-radius:11px;font-size:20px}.brand h1{font-size:17px;line-height:1.15}.brand p{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:58vw}.top-badges{display:none}.header-actions{margin-left:auto}.theme-label{display:none}.theme-toggle{width:40px;height:40px;padding:0;justify-content:center;border-radius:11px}.theme-icon{font-size:16px}
       .panel{border-radius:14px;min-width:0;max-width:100%;overflow:hidden}.panel-head{align-items:flex-start;flex-direction:column;padding:11px 12px;gap:5px}.panel-title{font-size:11.5px}.panel-sub{font-size:10.5px;line-height:1.5}.panel-body{padding:10px;min-width:0;max-width:100%;overflow:hidden}
@@ -134,7 +143,7 @@
     <div class="brand-mark">♪</div>
     <div class="brand"><h1>8BIT MUSIC MAKER</h1><p>Chiptune step sequencer · 4-pattern song mode · local-first studio</p></div>
     <div class="header-actions">
-      <div class="top-badges"><span class="badge live">LOCAL · NO UPLOAD</span><span class="badge">v3.8 · SEAMLESS INFINITE LOOP</span><span class="badge">32 STEPS · 2 BARS</span></div>
+      <div class="top-badges"><span class="badge live">LOCAL · NO UPLOAD</span><span class="badge">v4.0 · STUDIO STABLE</span><span class="badge">32 STEPS · 2 BARS</span></div>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="다크 모드로 전환" title="화이트/다크 모드 전환"><span class="theme-icon" id="themeIcon">☾</span><span class="theme-label" id="themeLabel">DARK</span></button>
     </div>
   </header>
@@ -152,13 +161,23 @@
       <span class="mini-label">SWING</span><input class="range pink" id="swingSlider" type="range" min="50" max="75" value="50"><span class="value" id="swingVal">50%</span>
     </div>
     <div class="transport-right">
-      <label class="generate-picker"><span class="mini-label">OST TYPE</span><select class="select" id="generateTemplateSelect" aria-label="OST 작곡 템플릿"></select></label>
+      <div class="generate-picker" aria-label="OST 작곡 템플릿 선택">
+        <span class="mini-label">OST TYPE</span>
+        <div class="ost-picker-stack">
+          <div class="ost-filter-row">
+            <input class="text-input ost-search" id="ostSearch" type="search" placeholder="100개 OST 프로필 검색" aria-label="OST 프로필 검색">
+            <select class="select ost-category" id="ostCategory" aria-label="OST 카테고리"><option value="all">전체 카테고리</option><option value="favorites">★ 즐겨찾기</option><option value="recent">최근 사용</option></select>
+            <button class="btn icon ost-favorite" id="ostFavorite" type="button" aria-label="현재 OST 즐겨찾기">☆</button>
+          </div>
+          <select class="select" id="generateTemplateSelect" aria-label="OST 작곡 템플릿"></select>
+        </div>
+      </div>
       <button class="btn cyan" id="btnGenerate">✦ GENERATE</button><button class="btn" id="btnImportMidiTop">MIDI IMPORT</button><button class="btn danger" id="btnClear">CLEAR</button><input class="file-input" id="midiFileInput" type="file" accept=".mid,.midi,audio/midi,audio/x-midi">
     </div>
   </section>
 
   <section class="panel">
-    <div class="panel-head"><div><div class="panel-title"><span class="dot"></span>SEQUENCER</div><div class="panel-sub">1 STEP = 16분음표 · 16 STEP = 1마디 · 32 STEP = 2마디</div></div></div>
+    <div class="panel-head"><div><div class="panel-title"><span class="dot"></span>SEQUENCER</div><div class="panel-sub" id="sequencerTimingText">1 STEP = 16분음표 · 16 STEP = 1마디 · 32 STEP = 2마디</div></div></div>
     <div class="panel-body">
       <div class="workspace">
         <aside>
@@ -175,11 +194,14 @@
               <div class="grid-toolbar-left"><span class="hint" id="gridHint">드래그로 연속 입력 · 활성 셀에서 시작하면 연속 삭제</span></div>
               <div class="grid-toolbar-right"><button class="btn" id="btnCopyLeft">1–16 → 17–32</button><button class="btn" id="btnCopyRight">17–32 → 1–16</button><button class="btn" id="btnSwapHalves">HALF SWAP</button><button class="btn" id="btnClearInst">악기 지우기</button></div>
             </div>
-            <div class="mobile-step-nav" id="mobileStepNav" aria-label="모바일 스텝 구간 선택">
-              <button class="mobile-step-btn active" type="button" data-step-page="0">1–8</button>
-              <button class="mobile-step-btn" type="button" data-step-page="1">9–16</button>
-              <button class="mobile-step-btn" type="button" data-step-page="2">17–24</button>
-              <button class="mobile-step-btn" type="button" data-step-page="3">25–32</button>
+            <div class="mobile-step-controls">
+              <div class="mobile-step-nav" id="mobileStepNav" aria-label="모바일 스텝 구간 선택">
+                <button class="mobile-step-btn active" type="button" data-step-page="0">1–8</button>
+                <button class="mobile-step-btn" type="button" data-step-page="1">9–16</button>
+                <button class="mobile-step-btn" type="button" data-step-page="2">17–24</button>
+                <button class="mobile-step-btn" type="button" data-step-page="3">25–32</button>
+              </div>
+              <button class="btn follow-toggle active" id="followToggle" type="button" aria-pressed="true">FOLLOW ON</button>
             </div>
             <div class="seq-wrapper" id="seqWrapper">
               <div class="step-ruler" id="stepRuler"></div>
@@ -194,7 +216,7 @@
   <div class="studio-grid">
   <section class="panel">
     <div class="panel-head"><div><div class="panel-title"><span class="dot"></span>MONITOR</div><div class="panel-sub">재생 중에만 실시간 분석기를 구동합니다.</div></div></div>
-    <div class="panel-body"><div class="meter-wrap"><div class="viz-wrap"><canvas id="viz" width="1100" height="164"></canvas></div><div class="play-meta"><div class="meta-row"><span>MODE</span><b id="metaMode">PATTERN</b></div><div class="meta-row"><span>PATTERN</span><b id="metaPattern">A</b></div><div class="meta-row"><span>STEP</span><b id="metaStep">01 / 32</b></div><div class="meta-row"><span>LOOP</span><b id="metaLoop">4.00s</b></div></div></div></div>
+    <div class="panel-body"><div class="meter-wrap"><div class="viz-wrap"><canvas id="viz" width="1100" height="164"></canvas></div><div class="play-meta"><div class="meta-row"><span>MODE</span><b id="metaMode">PATTERN</b></div><div class="meta-row"><span>PATTERN</span><b id="metaPattern">A</b></div><div class="meta-row"><span>STEP</span><b id="metaStep">01 / 32</b></div><div class="meta-row"><span>METER</span><b id="metaMeter">4/4</b></div><div class="meta-row"><span>LOOP</span><b id="metaLoop">4.00s</b></div></div></div></div>
   </section>
 
   <section class="panel">
@@ -221,7 +243,7 @@
     <div class="panel-body"><div class="cards-3">
       <div class="soft-card"><h3>BUILT-IN PRESETS</h3><div class="preset-grid" id="builtinPresets"></div></div>
       <div class="soft-card"><h3>MY PRESETS</h3><div style="display:flex;gap:7px;margin-bottom:10px"><input id="presetName" class="text-input" placeholder="프리셋 이름" maxlength="24" style="flex:1"><button class="btn yellow" id="btnSavePreset">SAVE</button></div><div class="user-presets" id="userPresets"></div></div>
-      <div class="soft-card"><h3>PROJECT FILE</h3><div class="project-actions"><button class="btn cyan" id="btnExportProject">JSON 저장</button><button class="btn" id="btnImportProject">JSON 불러오기</button><button class="btn yellow" id="btnImportMidiProject">MIDI 불러오기</button><input class="file-input" id="projectFileInput" type="file" accept="application/json,.json"></div><p class="panel-sub" style="margin:12px 0 0;line-height:1.6">자동 복구가 활성화되어 있습니다. JSON으로 프로젝트를 백업할 수 있으며, 보유한 MIDI 파일을 불러오면 첫 2마디를 32 STEP 시퀀서에 자동 배치합니다.</p></div>
+      <div class="soft-card"><h3>PROJECT FILE</h3><div class="project-actions"><button class="btn cyan" id="btnExportProject">JSON 저장</button><button class="btn" id="btnImportProject">JSON 불러오기</button><button class="btn yellow" id="btnImportMidiProject">MIDI 불러오기</button><input class="file-input" id="projectFileInput" type="file" accept="application/json,.json"></div><p class="panel-sub" style="margin:12px 0 0;line-height:1.6">자동 복구가 활성화되어 있습니다. JSON으로 프로젝트를 백업할 수 있으며, MIDI 파일은 실제 음정 관계와 박자표를 분석해 최대 8마디를 Pattern A–D로 자동 분할하고 Song Chain으로 연결합니다.</p></div>
     </div></div>
   </section>
 
@@ -233,7 +255,7 @@
     </div></div>
   </section>
 
-  <div class="footer-status"><span class="status-led"></span><span id="footerStatus">READY · 자동복구 ON</span></div>
+  <div class="footer-status"><span class="status-led"></span><span id="footerStatus">READY</span><span class="save-status" id="saveStatus">자동복구 ON</span></div>
 </div>
 <nav class="mobile-dock" id="mobileDock" aria-label="모바일 빠른 재생 컨트롤">
   <button class="mobile-dock-btn play" id="mobilePlay" type="button"><span>▶</span><small>재생</small></button>
@@ -247,11 +269,14 @@
 <script>
 'use strict';
 
-const APP_VERSION = 3.8;
+const APP_VERSION = 4.0;
 const THEME_KEY = '8bit_music_maker_theme';
-const AUTOSAVE_KEY = '8bit_music_maker_autosave_v3';
-const USER_PRESETS_KEY = '8bit_music_maker_presets_v3';
-const LEGACY_PRESETS_KEY = '8bit_user_presets_v2';
+const AUTOSAVE_KEY = '8bit_music_maker_autosave_v4';
+const LEGACY_AUTOSAVE_KEYS = ['8bit_music_maker_autosave_v3'];
+const USER_PRESETS_KEY = '8bit_music_maker_presets_v4';
+const LEGACY_PRESETS_KEYS = ['8bit_music_maker_presets_v3','8bit_user_presets_v2'];
+const OST_FAV_KEY = '8bit_music_maker_ost_favorites_v4';
+const OST_RECENT_KEY = '8bit_music_maker_ost_recent_v4';
 const ROWS = 8, COLS = 32;
 const PATTERN_IDS = ['A','B','C','D'];
 const NOTE_NAMES = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B'];
@@ -286,7 +311,7 @@ function defaultMixer(){
   return Object.fromEntries(INSTRUMENTS.map(i=>[i.id,{volume:i.id==='noise'?0.72:0.66,pan:0,mute:false,solo:false}]));
 }
 function defaultProject(){
-  return {format:'8bit-music-maker',version:APP_VERSION,bpm:120,masterVolume:0.70,swing:50,key:0,scale:'major',octave:4,pulseWidth:0.25,playbackMode:'pattern',songChain:['A','B','C','D'],currentPattern:'A',currentInst:'square',patterns:Object.fromEntries(PATTERN_IDS.map(p=>[p,emptyGrid()])),mixer:defaultMixer()};
+  return {format:'8bit-music-maker',version:APP_VERSION,bpm:120,masterVolume:0.70,swing:50,key:0,scale:'major',octave:4,pulseWidth:0.25,playbackMode:'pattern',songChain:['A','B','C','D'],currentPattern:'A',currentInst:'square',patterns:Object.fromEntries(PATTERN_IDS.map(p=>[p,emptyGrid()])),mixer:defaultMixer(),timeSignature:{numerator:4,denominator:4},midiRows:null,followPlayhead:true};
 }
 let state = defaultProject();
 let undoStack=[], redoStack=[];
@@ -304,41 +329,51 @@ function normalizeGrid(raw){
   });
   return out;
 }
+function bytesToBase64(bytes){let s='';for(let i=0;i<bytes.length;i+=0x8000)s+=String.fromCharCode(...bytes.subarray(i,i+0x8000));return btoa(s);}
+function base64ToBytes(s){const bin=atob(s||'');const out=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)out[i]=bin.charCodeAt(i);return out;}
+function packGrid(grid){const bits=INSTRUMENTS.length*ROWS*COLS,bytes=new Uint8Array(Math.ceil(bits/8));let k=0;INSTRUMENTS.forEach(inst=>{for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++,k++)if(grid?.[inst.id]?.[r]?.[c])bytes[k>>3]|=1<<(k&7);});return bytesToBase64(bytes);}
+function unpackGrid(data){const out=emptyGrid();let bytes;try{bytes=base64ToBytes(data);}catch{return out;}let k=0;INSTRUMENTS.forEach(inst=>{for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++,k++)out[inst.id][r][c]=!!(bytes[k>>3]&(1<<(k&7)));});return out;}
+function compactProject(project){const s=project||state;return{format:'8bit-music-maker-compact',compact:true,version:APP_VERSION,bpm:s.bpm,masterVolume:s.masterVolume,swing:s.swing,key:s.key,scale:s.scale,octave:s.octave,pulseWidth:s.pulseWidth,playbackMode:s.playbackMode,songChain:s.songChain,currentPattern:s.currentPattern,currentInst:s.currentInst,timeSignature:s.timeSignature,followPlayhead:s.followPlayhead,midiRows:s.midiRows,mixer:s.mixer,packedPatterns:Object.fromEntries(PATTERN_IDS.map(id=>[id,packGrid(s.patterns[id])]))};}
+function expandCompactProject(raw){const base={...raw,compact:false,format:'8bit-music-maker',patterns:{}};PATTERN_IDS.forEach(id=>base.patterns[id]=unpackGrid(raw.packedPatterns?.[id]));delete base.packedPatterns;return base;}
+function safeLocalSet(key,value){try{localStorage.setItem(key,value);return true;}catch(e){console.warn(e);if(e?.name==='QuotaExceededError'||e?.code===22)toast('브라우저 저장 공간이 부족합니다. JSON으로 백업해 주세요.','error');else toast('로컬 저장에 실패했습니다.','error');return false;}}
 function migrateProject(raw){
   const base=defaultProject();
   if(!raw||typeof raw!=='object') return base;
+  const source=raw.compact===true?expandCompactProject(raw):raw;
   const out={...base};
-  out.bpm=clamp(Number(raw.bpm)||120,60,220);
-  out.masterVolume=clamp(Number(raw.masterVolume ?? raw.volume ?? .7),0,1);
-  out.swing=clamp(Number(raw.swing)||50,50,75);
-  out.key=clamp(Number(raw.key)||0,0,11);
-  out.scale=SCALES[raw.scale]?raw.scale:'major';
-  out.octave=clamp(Number(raw.octave)||4,2,6);
-  out.pulseWidth=[.125,.25,.5].includes(Number(raw.pulseWidth))?Number(raw.pulseWidth):.25;
-  out.playbackMode=raw.playbackMode==='song'?'song':'pattern';
-  out.songChain=Array.isArray(raw.songChain)?raw.songChain.filter(x=>PATTERN_IDS.includes(x)).slice(0,8):['A','B','C','D'];
+  out.bpm=clamp(Number(source.bpm)||120,60,220);
+  out.masterVolume=clamp(Number(source.masterVolume ?? source.volume ?? .7),0,1);
+  out.swing=clamp(Number(source.swing)||50,50,75);
+  out.key=clamp(Number(source.key)||0,0,11);
+  out.scale=SCALES[source.scale]?source.scale:'major';
+  out.octave=clamp(Number(source.octave)||4,2,6);
+  out.pulseWidth=[.125,.25,.5].includes(Number(source.pulseWidth))?Number(source.pulseWidth):.25;
+  out.playbackMode=source.playbackMode==='song'?'song':'pattern';
+  out.songChain=Array.isArray(source.songChain)?source.songChain.filter(x=>PATTERN_IDS.includes(x)).slice(0,8):['A','B','C','D'];
   if(!out.songChain.length) out.songChain=['A'];
-  out.currentPattern=PATTERN_IDS.includes(raw.currentPattern)?raw.currentPattern:'A';
-  out.currentInst=INSTRUMENTS.some(i=>i.id===raw.currentInst)?raw.currentInst:'square';
-  if(raw.patterns){PATTERN_IDS.forEach(p=>out.patterns[p]=normalizeGrid(raw.patterns[p]));}
-  else if(raw.grid){out.patterns.A=normalizeGrid(raw.grid);}
-  if(raw.mixer&&typeof raw.mixer==='object'){
-    INSTRUMENTS.forEach(inst=>{
-      const m=raw.mixer[inst.id]||{};
-      out.mixer[inst.id]={volume:clamp(Number(m.volume ?? out.mixer[inst.id].volume),0,1),pan:clamp(Number(m.pan)||0,-1,1),mute:!!m.mute,solo:!!m.solo};
-    });
+  out.currentPattern=PATTERN_IDS.includes(source.currentPattern)?source.currentPattern:'A';
+  out.currentInst=INSTRUMENTS.some(i=>i.id===source.currentInst)?source.currentInst:'square';
+  const ts=source.timeSignature||{};out.timeSignature={numerator:clamp(Number(ts.numerator)||4,1,16),denominator:[1,2,4,8,16,32].includes(Number(ts.denominator))?Number(ts.denominator):4};
+  out.followPlayhead=source.followPlayhead!==false;
+  if(source.patterns){PATTERN_IDS.forEach(p=>out.patterns[p]=normalizeGrid(source.patterns[p]));}
+  else if(source.grid){out.patterns.A=normalizeGrid(source.grid);}
+  if(source.mixer&&typeof source.mixer==='object'){
+    INSTRUMENTS.forEach(inst=>{const m=source.mixer[inst.id]||{};out.mixer[inst.id]={volume:clamp(Number(m.volume ?? out.mixer[inst.id].volume),0,1),pan:clamp(Number(m.pan)||0,-1,1),mute:!!m.mute,solo:!!m.solo};});
+  }
+  if(source.midiRows&&typeof source.midiRows==='object'){
+    const mapped={};INSTRUMENTS.filter(i=>i.id!=='noise').forEach(inst=>{const arr=source.midiRows[inst.id];if(Array.isArray(arr)&&arr.length===ROWS)mapped[inst.id]=arr.map(n=>clamp(Math.round(Number(n)||60),0,127));});out.midiRows=Object.keys(mapped).length?mapped:null;
   }
   return out;
 }
 function currentGrid(){return state.patterns[state.currentPattern];}
 function snapshot(){return deepClone(state);}
-function restore(s){state=migrateProject(s);syncAllUI();scheduleAutosave();}
-function checkpoint(){undoStack.push(snapshot());if(undoStack.length>50)undoStack.shift();redoStack=[];updateUndoButtons();}
-function undo(){if(!undoStack.length)return toast('되돌릴 작업이 없습니다.');redoStack.push(snapshot());state=migrateProject(undoStack.pop());syncAllUI();scheduleAutosave();toast('실행취소 완료');}
-function redo(){if(!redoStack.length)return toast('다시 실행할 작업이 없습니다.');undoStack.push(snapshot());state=migrateProject(redoStack.pop());syncAllUI();scheduleAutosave();toast('다시실행 완료');}
+function restore(s){state=migrateProject(s);syncAllUI();scheduleAutosave();if(isPlaying)restartPlaybackNow();}
+function checkpoint(){undoStack.push(snapshot());if(undoStack.length>80)undoStack.shift();redoStack=[];updateUndoButtons();}
+function undo(){if(!undoStack.length)return toast('되돌릴 작업이 없습니다.');redoStack.push(snapshot());state=migrateProject(undoStack.pop());syncAllUI();scheduleAutosave();if(isPlaying)restartPlaybackNow();toast('실행취소 완료');}
+function redo(){if(!redoStack.length)return toast('다시 실행할 작업이 없습니다.');undoStack.push(snapshot());state=migrateProject(redoStack.pop());syncAllUI();scheduleAutosave();if(isPlaying)restartPlaybackNow();toast('다시실행 완료');}
 function updateUndoButtons(){$('#btnUndo').disabled=!undoStack.length;$('#btnRedo').disabled=!redoStack.length;const mu=$('#mobileUndo'),mr=$('#mobileRedo');if(mu)mu.disabled=!undoStack.length;if(mr)mr.disabled=!redoStack.length;}
-function scheduleAutosave(){clearTimeout(autosaveTimer);autosaveTimer=setTimeout(()=>{try{localStorage.setItem(AUTOSAVE_KEY,JSON.stringify(state));$('#footerStatus').textContent='READY · 자동저장 완료';}catch(e){$('#footerStatus').textContent='자동저장 실패';}},250);}
-function loadAutosave(){try{const raw=JSON.parse(localStorage.getItem(AUTOSAVE_KEY));if(raw)state=migrateProject(raw);}catch(e){console.warn(e);}}
+function scheduleAutosave(){clearTimeout(autosaveTimer);const save=$('#saveStatus');if(save)save.textContent='저장 중…';autosaveTimer=setTimeout(()=>{const ok=safeLocalSet(AUTOSAVE_KEY,JSON.stringify(compactProject(state)));if(save)save.textContent=ok?'자동저장 완료':'자동저장 실패';},220);}
+function loadAutosave(){try{let raw=localStorage.getItem(AUTOSAVE_KEY);if(!raw){for(const key of LEGACY_AUTOSAVE_KEYS){raw=localStorage.getItem(key);if(raw)break;}}if(raw)state=migrateProject(JSON.parse(raw));}catch(e){console.warn(e);}}
 function toast(msg,type='ok'){const el=$('#toast');el.textContent=msg;el.className='toast show '+type;clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.className='toast',1800);}
 function confirmAction(title,text,cb){modalCallback=cb;$('#modalTitle').textContent=title;$('#modalText').textContent=text;$('#modal').classList.add('open');}
 $('#modalCancel').onclick=()=>{$('#modal').classList.remove('open');modalCallback=null;};
@@ -368,7 +403,8 @@ function scaleMidiRows(){
 }
 function midiName(m){const pc=((m%12)+12)%12;const oct=Math.floor(m/12)-1;return NOTE_NAMES[pc]+oct;}
 function midiFreq(m){return 440*Math.pow(2,(m-69)/12);}
-function rowLabels(){return state.currentInst==='noise'?DRUM_ROWS:scaleMidiRows().map(midiName);}
+function noteRowsForInst(id){const custom=state.midiRows?.[id];return Array.isArray(custom)&&custom.length===ROWS?custom:scaleMidiRows();}
+function rowLabels(){return state.currentInst==='noise'?DRUM_ROWS:noteRowsForInst(state.currentInst).map(midiName);}
 
 // ---------- Rendering ----------
 const MOBILE_LAYOUT_MQ=window.matchMedia('(max-width: 1023px)');
@@ -381,8 +417,9 @@ function renderStepRuler(){
 }
 function renderMobileStepNav(){
   $$('.mobile-step-btn').forEach(b=>{const active=+b.dataset.stepPage===mobileStepPage;b.classList.toggle('active',active);b.setAttribute('aria-pressed',active?'true':'false');});
+  const follow=$('#followToggle');if(follow){follow.classList.toggle('active',!!state.followPlayhead);follow.setAttribute('aria-pressed',state.followPlayhead?'true':'false');follow.textContent=state.followPlayhead?'FOLLOW ON':'FOLLOW OFF';}
 }
-function setMobileStepPage(page){mobileStepPage=clamp(Number(page)||0,0,3);renderMobileStepNav();renderStepRuler();renderGrid();}
+function setMobileStepPage(page,manual=false){mobileStepPage=clamp(Number(page)||0,0,3);if(manual&&isPlaying&&state.followPlayhead)state.followPlayhead=false;renderMobileStepNav();renderStepRuler();renderGrid();if(manual)scheduleAutosave();}
 function buildStaticUI(){
   const il=$('#instrumentList');il.textContent='';
   INSTRUMENTS.forEach((inst,i)=>{const b=document.createElement('button');b.className='inst-btn';b.dataset.inst=inst.id;b.style.setProperty('--inst',inst.color);b.title=`단축키 ${i+1}`;const d=document.createElement('span');d.className='inst-dot';const n=document.createElement('span');n.className='inst-name';n.textContent=inst.name;const k=document.createElement('span');k.className='inst-kind';k.textContent=inst.kind;b.append(d,n,k);b.onclick=()=>{state.currentInst=inst.id;renderInstrumentSelection();renderGrid();scheduleAutosave();};il.appendChild(b);});
@@ -407,9 +444,9 @@ function renderGrid(){
   for(let r=0;r<ROWS;r++){
     const lab=document.createElement('div');lab.className='note-label'+(state.currentInst==='noise'?' drum':'');lab.textContent=labels[r];el.appendChild(lab);
     for(let c=start;c<end;c++){
-      const cell=document.createElement('div');cell.className='seq-cell';cell.style.setProperty('--inst',inst.color);cell.dataset.row=r;cell.dataset.col=c;cell.setAttribute('role','button');cell.setAttribute('aria-label',`${labels[r]} ${c+1}스텝`);
+      const cell=document.createElement('button');cell.type='button';cell.className='seq-cell';cell.style.setProperty('--inst',inst.color);cell.dataset.row=r;cell.dataset.col=c;cell.setAttribute('aria-label',`${labels[r]} ${c+1}스텝`);cell.setAttribute('aria-pressed',g[state.currentInst][r][c]?'true':'false');
       if(g[state.currentInst][r][c])cell.classList.add('on');if(c===16)cell.classList.add('bar');else if(c%4===0)cell.classList.add('beat');
-      cell.addEventListener('pointerdown',beginPaint);cell.addEventListener('pointerenter',continuePaint);el.appendChild(cell);
+      cell.addEventListener('pointerdown',beginPaint);cell.addEventListener('pointerenter',continuePaint);cell.addEventListener('click',e=>{if(e.detail!==0)return;checkpoint();const rr=+cell.dataset.row,cc=+cell.dataset.col;const next=!currentGrid()[state.currentInst][rr][cc];currentGrid()[state.currentInst][rr][cc]=next;cell.classList.toggle('on',next);cell.setAttribute('aria-pressed',next?'true':'false');scheduleAutosave();});el.appendChild(cell);
     }
   }
 }
@@ -419,11 +456,11 @@ function beginPaint(e){
   e.preventDefault();checkpoint();pointerPaint={touch:false,pointerId:e.pointerId,value:!cell.classList.contains('on'),visited:new Set()};paintCell(cell);
 }
 function continuePaint(e){if(!pointerPaint||pointerPaint.touch||!(e.buttons&1))return;paintCell(e.currentTarget);}
-function paintCell(cell){if(!pointerPaint)return;const key=cell.dataset.row+':'+cell.dataset.col;if(pointerPaint.visited&&pointerPaint.visited.has(key))return;if(pointerPaint.visited)pointerPaint.visited.add(key);const r=+cell.dataset.row,c=+cell.dataset.col;currentGrid()[state.currentInst][r][c]=pointerPaint.value;cell.classList.toggle('on',pointerPaint.value);scheduleAutosave();}
+function paintCell(cell){if(!pointerPaint)return;const key=cell.dataset.row+':'+cell.dataset.col;if(pointerPaint.visited&&pointerPaint.visited.has(key))return;if(pointerPaint.visited)pointerPaint.visited.add(key);const r=+cell.dataset.row,c=+cell.dataset.col;currentGrid()[state.currentInst][r][c]=pointerPaint.value;cell.classList.toggle('on',pointerPaint.value);cell.setAttribute('aria-pressed',pointerPaint.value?'true':'false');scheduleAutosave();}
 window.addEventListener('pointermove',e=>{if(!pointerPaint||!pointerPaint.touch||e.pointerId!==pointerPaint.pointerId)return;if(Math.hypot(e.clientX-pointerPaint.startX,e.clientY-pointerPaint.startY)>8)pointerPaint.moved=true;},{passive:true});
 window.addEventListener('pointerup',e=>{if(!pointerPaint)return;if(pointerPaint.touch&&e.pointerId===pointerPaint.pointerId&&!pointerPaint.moved){checkpoint();pointerPaint.value=!pointerPaint.cell.classList.contains('on');pointerPaint.visited=new Set();paintCell(pointerPaint.cell);}pointerPaint=null;});
 window.addEventListener('pointercancel',()=>pointerPaint=null);
-function switchPattern(p){if(!PATTERN_IDS.includes(p))return;state.currentPattern=p;renderPatternTabs();renderGrid();scheduleAutosave();updateExportInfo();updateMobileDock();}
+function switchPattern(p){if(!PATTERN_IDS.includes(p))return;state.currentPattern=p;renderPatternTabs();renderGrid();scheduleAutosave();updateExportInfo();updateMobileDock();if(isPlaying&&state.playbackMode==='pattern')restartPlaybackNow();}
 function updateMobileDock(){
   const pat=$('#mobilePattern'),info=$('#mobileState'),play=$('#mobilePlay');
   if(!pat||!info||!play)return;
@@ -438,13 +475,13 @@ function syncAllUI(){
   $('#keySelect').value=state.key;$('#scaleSelect').value=state.scale;$('#octaveSlider').value=state.octave;$('#octaveVal').textContent=state.octave;$('#pulseWidthSelect').value=state.pulseWidth;$('#songChainInput').value=state.songChain.join(' ');$('#chainNote').textContent=state.songChain.join('→');
   renderInstrumentSelection();renderPatternTabs();renderPlayMode();renderStepRuler();renderMobileStepNav();renderGrid();renderMixer();renderUserPresets();updateMeta();updateExportInfo();updateUndoButtons();updateAudioMixer();updateMobileDock();
 }
-function updateMeta(){const stepSec=60/state.bpm/4;$('#metaLoop').textContent=(stepSec*COLS).toFixed(2)+'s';$('#metaMode').textContent=state.playbackMode.toUpperCase();}
+function updateMeta(){const ts=state.timeSignature||{numerator:4,denominator:4};$('#metaLoop').textContent=patternDuration().toFixed(2)+'s';$('#metaMode').textContent=state.playbackMode.toUpperCase();const mm=$('#metaMeter');if(mm)mm.textContent=`${ts.numerator}/${ts.denominator}`;const info=$('#sequencerTimingText');if(info)info.textContent=ts.numerator===4&&ts.denominator===4?'1 STEP = 16분음표 · 16 STEP = 1마디 · 32 STEP = 2마디':`32 STEP = ${ts.numerator}/${ts.denominator} 기준 2마디 균등 분할`;}
 
 // ---------- Editor actions ----------
-function clearAllCurrentPattern(){checkpoint();state.patterns[state.currentPattern]=emptyGrid();renderGrid();scheduleAutosave();toast(`패턴 ${state.currentPattern}을 비웠습니다.`);}
-function clearCurrentInstrument(){checkpoint();state.patterns[state.currentPattern][state.currentInst]=Array.from({length:ROWS},()=>Array(COLS).fill(false));renderGrid();scheduleAutosave();toast('현재 악기를 비웠습니다.');}
-function copyHalf(fromStart,toStart){checkpoint();const g=currentGrid();INSTRUMENTS.forEach(inst=>{for(let r=0;r<ROWS;r++)for(let i=0;i<16;i++)g[inst.id][r][toStart+i]=g[inst.id][r][fromStart+i];});renderGrid();scheduleAutosave();toast('16스텝 구간을 복사했습니다.');}
-function swapHalves(){checkpoint();const g=currentGrid();INSTRUMENTS.forEach(inst=>{for(let r=0;r<ROWS;r++)for(let i=0;i<16;i++){const t=g[inst.id][r][i];g[inst.id][r][i]=g[inst.id][r][16+i];g[inst.id][r][16+i]=t;}});renderGrid();scheduleAutosave();toast('앞/뒤 16스텝을 교체했습니다.');}
+function clearAllCurrentPattern(){checkpoint();state.patterns[state.currentPattern]=emptyGrid();renderGrid();scheduleAutosave();if(isPlaying)restartPlaybackNow();toast(`패턴 ${state.currentPattern}을 비웠습니다.`);}
+function clearCurrentInstrument(){checkpoint();state.patterns[state.currentPattern][state.currentInst]=Array.from({length:ROWS},()=>Array(COLS).fill(false));renderGrid();scheduleAutosave();if(isPlaying)restartPlaybackNow();toast('현재 악기를 비웠습니다.');}
+function copyHalf(fromStart,toStart){checkpoint();const g=currentGrid();INSTRUMENTS.forEach(inst=>{for(let r=0;r<ROWS;r++)for(let i=0;i<16;i++)g[inst.id][r][toStart+i]=g[inst.id][r][fromStart+i];});renderGrid();scheduleAutosave();if(isPlaying)restartPlaybackNow();toast('16스텝 구간을 복사했습니다.');}
+function swapHalves(){checkpoint();const g=currentGrid();INSTRUMENTS.forEach(inst=>{for(let r=0;r<ROWS;r++)for(let i=0;i<16;i++){const t=g[inst.id][r][i];g[inst.id][r][i]=g[inst.id][r][16+i];g[inst.id][r][16+i]=t;}});renderGrid();scheduleAutosave();if(isPlaying)restartPlaybackNow();toast('앞/뒤 16스텝을 교체했습니다.');}
 // ---------- OST COMPOSER (deterministic, no random selection) ----------
 const OST_PROFILE_GROUPS = [
   {name:'클래식 플랫폼',baseBpm:156,scale:'major',lead:'square',support:'pulse',drum:'arcade',bass:'drive',items:['오버월드 질주','지하 동굴','성채 돌파','수중 스테이지','애슬레틱 코스','비행선 전투','사막 월드','빙설 월드','유령 저택','최종 스테이지']},
@@ -472,7 +509,20 @@ function makeProfile(group,groupIndex,item,itemIndex){
 }
 const OST_COMPOSER_TEMPLATES = OST_PROFILE_GROUPS.flatMap((g,gi)=>g.items.map((item,ii)=>makeProfile(g,gi,item,ii)));
 const composeVariationCounter=Object.create(null);
-function buildGenerateTemplateOptions(){const sel=$('#generateTemplateSelect');if(!sel)return;sel.textContent='';OST_PROFILE_GROUPS.forEach((g,gi)=>{const og=document.createElement('optgroup');og.label=g.name;OST_COMPOSER_TEMPLATES.filter(t=>t.id.startsWith(`profile_${gi+1}_`)).forEach(t=>{const o=document.createElement('option');o.value=t.id;o.textContent=t.label.split(' · ')[1]||t.label;og.appendChild(o);});sel.appendChild(og);});}
+function buildGenerateTemplateOptions(){
+  const category=$('#ostCategory');if(category&&category.options.length<=3){OST_PROFILE_GROUPS.forEach((g,gi)=>{const o=document.createElement('option');o.value=String(gi);o.textContent=g.name;category.appendChild(o);});}
+  refreshOstOptions();
+}
+
+function readStringList(key){try{const a=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(a)?a.filter(x=>typeof x==='string'):[];}catch{return[];}}
+function writeStringList(key,a){safeLocalSet(key,JSON.stringify([...new Set(a)]));}
+function ostFavorites(){return readStringList(OST_FAV_KEY);}
+function ostRecents(){return readStringList(OST_RECENT_KEY);}
+function rememberOstRecent(id){const a=[id,...ostRecents().filter(x=>x!==id)].slice(0,12);writeStringList(OST_RECENT_KEY,a);refreshOstFavoriteButton();}
+function selectedOstId(){return $('#generateTemplateSelect')?.value||OST_COMPOSER_TEMPLATES[0]?.id;}
+function refreshOstFavoriteButton(){const b=$('#ostFavorite');if(!b)return;const fav=ostFavorites().includes(selectedOstId());b.classList.toggle('active',fav);b.textContent=fav?'★':'☆';b.setAttribute('aria-label',fav?'현재 OST 즐겨찾기 해제':'현재 OST 즐겨찾기');}
+function toggleOstFavorite(){const id=selectedOstId();let a=ostFavorites();a=a.includes(id)?a.filter(x=>x!==id):[id,...a];writeStringList(OST_FAV_KEY,a);refreshOstOptions(id);}
+function refreshOstOptions(preferred){const sel=$('#generateTemplateSelect');if(!sel)return;const before=preferred||sel.value;const q=($('#ostSearch')?.value||'').trim().toLowerCase(),cat=$('#ostCategory')?.value||'all',fav=new Set(ostFavorites()),recent=ostRecents();let list=OST_COMPOSER_TEMPLATES.filter(t=>{const match=!q||`${t.label} ${t.desc}`.toLowerCase().includes(q);if(!match)return false;if(cat==='favorites')return fav.has(t.id);if(cat==='recent')return recent.includes(t.id);if(cat!=='all')return t.id.startsWith(`profile_${Number(cat)+1}_`);return true;});if(cat==='recent')list.sort((a,b)=>recent.indexOf(a.id)-recent.indexOf(b.id));sel.textContent='';if(!list.length){const o=document.createElement('option');o.textContent='검색 결과 없음';o.value='';o.disabled=true;sel.appendChild(o);sel.disabled=true;refreshOstFavoriteButton();return;}sel.disabled=false;const groups=new Map();list.forEach(t=>{const gi=Number(t.id.split('_')[1])-1;const name=OST_PROFILE_GROUPS[gi]?.name||'기타';if(!groups.has(name))groups.set(name,[]);groups.get(name).push(t);});groups.forEach((items,name)=>{const og=document.createElement('optgroup');og.label=name;items.forEach(t=>{const o=document.createElement('option');o.value=t.id;o.textContent=t.label.split(' · ')[1]||t.label;og.appendChild(o);});sel.appendChild(og);});if(list.some(t=>t.id===before))sel.value=before;else sel.value=list[0].id;refreshOstFavoriteButton();}
 function composerTemplate(id){return OST_COMPOSER_TEMPLATES.find(t=>t.id===id)||OST_COMPOSER_TEMPLATES[0];}
 function applyHits(g,id,row,steps){steps.forEach(step=>{if(step>=0&&step<COLS)g[id][clamp(row,0,7)][step]=true;});}
 function transformedPhrase(base,variation){
@@ -523,13 +573,8 @@ function applyTemplateMixer(t){INSTRUMENTS.forEach(i=>{state.mixer[i.id].mute=fa
 function composeFromSelectedTemplate(){
   const t=composerTemplate($('#generateTemplateSelect')?.value);const v=composeVariationCounter[t.id]||0;composeVariationCounter[t.id]=(v+1)%4;checkpoint();const g=emptyGrid();
   const leadEvents=applyLeadPhrase(g,t,v),roots=applyBassBlueprint(g,t,v);applyHarmonyBlueprint(g,t,v,roots,leadEvents);applyDrumBlueprint(g,t.drum,v);
-  state.patterns[state.currentPattern]=g;state.bpm=t.bpm;state.swing=t.swing;state.scale=t.scale;state.octave=t.octave;applyTemplateMixer(t);state.currentInst=t.lead;
-  // GENERATE는 현재 패턴을 즉시 무한 반복하는 것이 기본 동작이다.
-  // 이전 세션에서 SONG 모드가 남아 있어 빈 B/C/D 때문에 긴 무음이 생기는 현상을 방지한다.
-  state.playbackMode='pattern';
-  syncAllUI();scheduleAutosave();
-  if(isPlaying) restartPlaybackNow();
-  toast(`${t.label} · VAR ${v+1} · LOOP ON`);
+  state.patterns[state.currentPattern]=g;state.bpm=t.bpm;state.swing=t.swing;state.scale=t.scale;state.octave=t.octave;state.timeSignature={numerator:4,denominator:4};state.midiRows=null;applyTemplateMixer(t);state.currentInst=t.lead;state.playbackMode='pattern';rememberOstRecent(t.id);
+  syncAllUI();scheduleAutosave();if(isPlaying)restartPlaybackNow();toast(`${t.label} · VAR ${v+1} · LOOP ON`);
 }
 
 
@@ -537,24 +582,32 @@ function composeFromSelectedTemplate(){
 function readVlq(view,pos){let value=0,b;do{b=view.getUint8(pos.i++);value=(value<<7)|(b&0x7f);}while(b&0x80);return value;}
 function parseMidiFile(buffer){
   const v=new DataView(buffer);let p=0;const str=n=>{let s='';while(n--)s+=String.fromCharCode(v.getUint8(p++));return s;};const u32=()=>{const n=v.getUint32(p);p+=4;return n;},u16=()=>{const n=v.getUint16(p);p+=2;return n;};
-  if(str(4)!=='MThd')throw new Error('MIDI 헤더를 찾을 수 없습니다.');const hlen=u32();const format=u16(),tracks=u16(),division=u16();if(division&0x8000)throw new Error('SMPTE MIDI는 아직 지원하지 않습니다.');p=8+hlen;const notes=[];let bpm=null;
+  if(str(4)!=='MThd')throw new Error('MIDI 헤더를 찾을 수 없습니다.');const hlen=u32();const format=u16(),tracks=u16(),division=u16();if(division&0x8000)throw new Error('SMPTE MIDI는 아직 지원하지 않습니다.');p=8+hlen;const notes=[],tempos=[],meters=[];
   for(let ti=0;ti<tracks;ti++){
     if(str(4)!=='MTrk')throw new Error('MIDI 트랙이 손상되었습니다.');const len=u32(),end=p+len;let tick=0,running=0;
-    while(p<end){const pos={i:p};tick+=readVlq(v,pos);p=pos.i;let status=v.getUint8(p++);if(status<0x80){p--;status=running;}else running=status;
-      if(status===0xff){const type=v.getUint8(p++),lp={i:p},mlen=readVlq(v,lp);p=lp.i;if(type===0x51&&mlen===3&&!bpm){const mpqn=(v.getUint8(p)<<16)|(v.getUint8(p+1)<<8)|v.getUint8(p+2);bpm=Math.round(60000000/mpqn);}p+=mlen;continue;}
+    while(p<end){const pos={i:p};tick+=readVlq(v,pos);p=pos.i;let status=v.getUint8(p++);if(status<0x80){if(!running)throw new Error('잘못된 Running Status입니다.');p--;status=running;}else if(status<0xf0)running=status;
+      if(status===0xff){const type=v.getUint8(p++),lp={i:p},mlen=readVlq(v,lp);p=lp.i;if(type===0x51&&mlen===3){const mpqn=(v.getUint8(p)<<16)|(v.getUint8(p+1)<<8)|v.getUint8(p+2);tempos.push({tick,bpm:Math.round(60000000/mpqn)});}else if(type===0x58&&mlen>=2){meters.push({tick,numerator:v.getUint8(p),denominator:2**v.getUint8(p+1)});}p+=mlen;continue;}
       if(status===0xf0||status===0xf7){const lp={i:p},n=readVlq(v,lp);p=lp.i+n;continue;}
       const type=status&0xf0,ch=status&0x0f;if(type===0xc0||type===0xd0){p+=1;continue;}const a=v.getUint8(p++),b=v.getUint8(p++);if(type===0x90&&b>0)notes.push({tick,ch,note:a,vel:b});
-    }
-    p=end;
+    }p=end;
   }
-  return{format,division,notes,bpm};
+  tempos.sort((a,b)=>a.tick-b.tick);meters.sort((a,b)=>a.tick-b.tick);return{format,division,notes,bpm:tempos[0]?.bpm||null,timeSignature:meters[0]||{numerator:4,denominator:4}};
 }
 function midiDrumRow(note){if([35,36].includes(note))return 7;if([38,40].includes(note))return 6;if([41,43,45].includes(note))return 5;if([47,48,50].includes(note))return 4;if([42,44].includes(note))return 3;if([46].includes(note))return 2;if([39].includes(note))return 1;if([49,51,52,55,57].includes(note))return 0;return note<42?7:3;}
-function mapPitchRows(channelNotes){const unique=[...new Set(channelNotes.map(n=>n.note))].sort((a,b)=>a-b);const index=new Map();if(unique.length<=8)unique.forEach((n,i)=>index.set(n,7-Math.round(i*(7/Math.max(1,unique.length-1)))));return n=>{if(index.has(n))return index.get(n);const min=unique[0]??60,max=unique[unique.length-1]??67;return 7-clamp(Math.round((n-min)/Math.max(1,max-min)*7),0,7);};}
+function buildMidiPitchMap(channelNotes){const counts=new Map();channelNotes.forEach(n=>counts.set(n.note,(counts.get(n.note)||0)+1));const unique=[...counts].sort((a,b)=>a[0]-b[0]);let selected;if(unique.length<=8)selected=unique.map(x=>x[0]);else{const weighted=[];unique.forEach(([n,c])=>{for(let i=0;i<Math.min(c,12);i++)weighted.push(n);});selected=[];for(let i=0;i<8;i++){const n=weighted[Math.round(i*(weighted.length-1)/7)];if(!selected.includes(n))selected.push(n);}const byFreq=[...unique].sort((a,b)=>b[1]-a[1]);for(const [n] of byFreq){if(selected.length>=8)break;if(!selected.includes(n))selected.push(n);}selected.sort((a,b)=>a-b);selected=selected.slice(0,8);}if(!selected.length)selected=[60];while(selected.length<8){const low=selected[0],high=selected[selected.length-1];const cand=high+1<=127?high+1:low-1;selected.push(clamp(cand,0,127));selected=[...new Set(selected)].sort((a,b)=>a-b);if(selected.length===1&&selected[0]===127)selected.unshift(126);}selected=selected.slice(0,8).sort((a,b)=>a-b);const rows=[...selected].reverse();const map=(note)=>{let bestRow=0,best=Infinity;for(let r=0;r<rows.length;r++){for(const shift of [-36,-24,-12,0,12,24,36]){const d=Math.abs((note+shift)-rows[r]);if(d<best){best=d;bestRow=r;}}}return bestRow;};return{rows,map};}
+function mapPitchRows(channelNotes){const {rows,map}=buildMidiPitchMap(channelNotes);const fn=n=>map(n);fn.rows=rows;return fn;}
 async function importMidiFile(file){
-  try{const parsed=parseMidiFile(await file.arrayBuffer());if(!parsed.notes.length)throw new Error('노트 데이터가 없습니다.');checkpoint();const g=emptyGrid(),firstTick=Math.min(...parsed.notes.map(n=>n.tick)),ticksPerStep=parsed.division/4,maxTick=firstTick+ticksPerStep*32;const melodic=parsed.notes.filter(n=>n.ch!==9&&n.tick<maxTick),drums=parsed.notes.filter(n=>n.ch===9&&n.tick<maxTick);
-    const byCh={};melodic.forEach(n=>(byCh[n.ch]??=[]).push(n));const channels=Object.entries(byCh).map(([ch,arr])=>({ch:+ch,arr,median:[...arr].sort((a,b)=>a.note-b.note)[Math.floor(arr.length/2)]?.note||60})).sort((a,b)=>b.median-a.median);const instOrder=['square','pulse','sawtooth','triangle'];channels.slice(0,4).forEach((group,i)=>{const mapper=mapPitchRows(group.arr);group.arr.forEach(n=>{const step=clamp(Math.round((n.tick-firstTick)/ticksPerStep),0,31);g[instOrder[i]][mapper(n.note)][step]=true;});});drums.forEach(n=>{const step=clamp(Math.round((n.tick-firstTick)/ticksPerStep),0,31);g.noise[midiDrumRow(n.note)][step]=true;});
-    state.patterns[state.currentPattern]=g;if(parsed.bpm)state.bpm=clamp(parsed.bpm,60,220);state.scale='chromatic';state.currentInst=channels.length?instOrder[0]:'noise';syncAllUI();scheduleAutosave();toast(`${file.name} · MIDI 32 STEP 불러오기 완료`);
+  try{
+    const parsed=parseMidiFile(await file.arrayBuffer());if(!parsed.notes.length)throw new Error('노트 데이터가 없습니다.');checkpoint();
+    const ts=parsed.timeSignature||{numerator:4,denominator:4},ticksPerBar=parsed.division*(4/ts.denominator)*ts.numerator,ticksPerPattern=ticksPerBar*2;if(!Number.isFinite(ticksPerPattern)||ticksPerPattern<=0)throw new Error('박자표를 해석할 수 없습니다.');
+    const minTick=Math.min(...parsed.notes.map(n=>n.tick)),firstTick=Math.floor(minTick/ticksPerBar)*ticksPerBar,importEnd=firstTick+ticksPerPattern*4,melodic=parsed.notes.filter(n=>n.ch!==9&&n.tick<importEnd),drums=parsed.notes.filter(n=>n.ch===9&&n.tick<importEnd);
+    const byCh={};melodic.forEach(n=>(byCh[n.ch]??=[]).push(n));const groups=Object.entries(byCh).map(([ch,arr])=>({ch:+ch,arr,median:[...arr].sort((a,b)=>a.note-b.note)[Math.floor(arr.length/2)]?.note||60})).sort((a,b)=>b.arr.length-a.arr.length||b.median-a.median);const instOrder=['square','pulse','sawtooth','triangle'],midiRows={};
+    const maps={};groups.slice(0,4).forEach((group,i)=>{const inst=instOrder[i],mapper=mapPitchRows(group.arr);maps[group.ch]={inst,mapper};midiRows[inst]=mapper.rows;});
+    PATTERN_IDS.forEach(id=>state.patterns[id]=emptyGrid());
+    const place=(n,isDrum)=>{const rel=n.tick-firstTick;if(rel<0||rel>=ticksPerPattern*4)return;const pi=clamp(Math.floor(rel/ticksPerPattern),0,3),pat=PATTERN_IDS[pi],within=rel-pi*ticksPerPattern,step=clamp(Math.round(within/ticksPerPattern*32),0,31);if(isDrum)state.patterns[pat].noise[midiDrumRow(n.note)][step]=true;else{const entry=maps[n.ch];if(entry)state.patterns[pat][entry.inst][entry.mapper(n.note)][step]=true;}};
+    melodic.forEach(n=>place(n,false));drums.forEach(n=>place(n,true));
+    const chain=PATTERN_IDS.filter(patternHasNotes);state.songChain=chain.length?chain:['A'];state.currentPattern=state.songChain[0];state.playbackMode=state.songChain.length>1?'song':'pattern';state.bpm=parsed.bpm?clamp(parsed.bpm,60,220):state.bpm;state.timeSignature={numerator:clamp(ts.numerator,1,16),denominator:[1,2,4,8,16,32].includes(ts.denominator)?ts.denominator:4};state.scale='chromatic';state.midiRows=Object.keys(midiRows).length?midiRows:null;state.currentInst=groups.length?instOrder[0]:'noise';
+    syncAllUI();scheduleAutosave();if(isPlaying)restartPlaybackNow();const bars=state.songChain.length*2;toast(`${file.name} · MIDI ${bars}마디 · ${state.timeSignature.numerator}/${state.timeSignature.denominator} 불러오기 완료`);
   }catch(e){console.error(e);toast('MIDI 불러오기 실패: '+e.message,'error');}
 }
 function openMidiImport(){const input=$('#midiFileInput');input.value='';input.click();}
@@ -570,19 +623,19 @@ const BUILTINS={
   'BASS LOOP':()=>{const g=emptyGrid();put(g,'triangle',7,[0,3,6,8,11,14,16,19,22,24,27,30]);put(g,'pulse',6,[2,10,18,26]);put(g,'noise',7,[0,8,16,24]);put(g,'noise',6,[4,12,20,28]);return{g,bpm:126};},
   'DRUM LOOP':()=>{const g=emptyGrid();put(g,'noise',7,[0,6,8,14,16,22,24,30]);put(g,'noise',6,[4,12,20,28]);put(g,'noise',3,[0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30]);put(g,'noise',2,[14,30]);put(g,'noise',1,[12,28]);put(g,'noise',0,[31]);return{g,bpm:128};}
 };
-function buildBuiltinPresets(){const el=$('#builtinPresets');Object.keys(BUILTINS).forEach(name=>{const b=document.createElement('button');b.className='preset-btn';b.textContent=name;b.onclick=()=>{checkpoint();const p=BUILTINS[name]();state.patterns[state.currentPattern]=p.g;state.bpm=p.bpm;syncAllUI();scheduleAutosave();toast(`${name} 프리셋 적용`);};el.appendChild(b);});}
-function getUserPresets(){try{let arr=JSON.parse(localStorage.getItem(USER_PRESETS_KEY)||'[]');if(Array.isArray(arr)&&arr.length)return arr;const legacy=JSON.parse(localStorage.getItem(LEGACY_PRESETS_KEY)||'[]');if(Array.isArray(legacy)&&legacy.length){arr=legacy.map(p=>({name:p.name||'LEGACY',project:migrateProject(p)}));localStorage.setItem(USER_PRESETS_KEY,JSON.stringify(arr));return arr;}return [];}catch{return[];}}
-function saveUserPresets(arr){localStorage.setItem(USER_PRESETS_KEY,JSON.stringify(arr));}
-function renderUserPresets(){const el=$('#userPresets');el.textContent='';const arr=getUserPresets();if(!arr.length){const e=document.createElement('div');e.className='empty';e.textContent='저장된 프리셋이 없습니다.';el.appendChild(e);return;}arr.forEach((p,idx)=>{const row=document.createElement('div');row.className='preset-item';const inp=document.createElement('input');inp.className='text-input';inp.value=String(p.name||'PRESET').slice(0,24);inp.onchange=()=>{const a=getUserPresets();a[idx].name=inp.value.trim()||`PRESET ${idx+1}`;saveUserPresets(a);renderUserPresets();};const load=document.createElement('button');load.className='btn';load.textContent='LOAD';load.onclick=()=>{checkpoint();state=migrateProject(p.project||p);syncAllUI();scheduleAutosave();toast('프리셋을 불러왔습니다.');};const del=document.createElement('button');del.className='btn danger';del.textContent='×';del.onclick=()=>confirmAction('프리셋 삭제',`“${p.name}” 프리셋을 삭제할까요?`,()=>{const a=getUserPresets();a.splice(idx,1);saveUserPresets(a);renderUserPresets();});row.append(inp,load,del);el.appendChild(row);});}
+function buildBuiltinPresets(){const el=$('#builtinPresets');Object.keys(BUILTINS).forEach(name=>{const b=document.createElement('button');b.className='preset-btn';b.textContent=name;b.onclick=()=>{checkpoint();const p=BUILTINS[name]();state.patterns[state.currentPattern]=p.g;state.bpm=p.bpm;state.timeSignature={numerator:4,denominator:4};state.midiRows=null;syncAllUI();scheduleAutosave();if(isPlaying)restartPlaybackNow();toast(`${name} 프리셋 적용`);};el.appendChild(b);});}
+function getUserPresets(){try{let arr=JSON.parse(localStorage.getItem(USER_PRESETS_KEY)||'[]');if(Array.isArray(arr)&&arr.length)return arr.map(p=>({name:p.name||'PRESET',project:p.project?.compact?expandCompactProject(p.project):(p.project||p)}));for(const key of LEGACY_PRESETS_KEYS){const legacy=JSON.parse(localStorage.getItem(key)||'[]');if(Array.isArray(legacy)&&legacy.length){arr=legacy.map(p=>({name:p.name||'LEGACY',project:migrateProject(p.project||p)}));saveUserPresets(arr);return arr;}}return [];}catch{return[];}}
+function saveUserPresets(arr){const compact=arr.map(p=>({name:String(p.name||'PRESET').slice(0,24),project:compactProject(migrateProject(p.project||p))}));return safeLocalSet(USER_PRESETS_KEY,JSON.stringify(compact));}
+function renderUserPresets(){const el=$('#userPresets');el.textContent='';const arr=getUserPresets();if(!arr.length){const e=document.createElement('div');e.className='empty';e.textContent='저장된 프리셋이 없습니다.';el.appendChild(e);return;}arr.forEach((p,idx)=>{const row=document.createElement('div');row.className='preset-item';const inp=document.createElement('input');inp.className='text-input';inp.value=String(p.name||'PRESET').slice(0,24);inp.onchange=()=>{const a=getUserPresets();a[idx].name=inp.value.trim()||`PRESET ${idx+1}`;saveUserPresets(a);renderUserPresets();};const load=document.createElement('button');load.className='btn';load.textContent='LOAD';load.onclick=()=>{checkpoint();state=migrateProject(p.project||p);syncAllUI();scheduleAutosave();if(isPlaying)restartPlaybackNow();toast('프리셋을 불러왔습니다.');};const del=document.createElement('button');del.className='btn danger';del.textContent='×';del.onclick=()=>confirmAction('프리셋 삭제',`“${p.name}” 프리셋을 삭제할까요?`,()=>{const a=getUserPresets();a.splice(idx,1);saveUserPresets(a);renderUserPresets();});row.append(inp,load,del);el.appendChild(row);});}
 function savePreset(){const name=$('#presetName').value.trim();if(!name)return toast('프리셋 이름을 입력해 주세요.','error');const arr=getUserPresets();const found=arr.findIndex(p=>p.name===name);const item={name,project:snapshot()};if(found>=0){confirmAction('프리셋 덮어쓰기',`“${name}” 프리셋을 덮어쓸까요?`,()=>{const a=getUserPresets();a[found]=item;saveUserPresets(a);renderUserPresets();$('#presetName').value='';toast('프리셋을 덮어썼습니다.');});}else{arr.push(item);saveUserPresets(arr);renderUserPresets();$('#presetName').value='';toast('프리셋을 저장했습니다.');}}
 
 // ---------- Mixer / audio graph ----------
 const AudioCtx=window.AudioContext||window.webkitAudioContext;
 const OfflineCtx=window.OfflineAudioContext||window.webkitOfflineAudioContext;
-let audioCtx=null,masterGain=null,analyser=null,channels={},liveSources=new Set();
+let audioCtx=null,masterGain=null,masterLimiter=null,analyser=null,channels={},liveSources=new Set();
 const noiseCache=new WeakMap(),pulseCache=new WeakMap();
 function initAudio(){
-  if(audioCtx)return true;if(!AudioCtx){toast('이 브라우저는 Web Audio API를 지원하지 않습니다.','error');return false;} audioCtx=new AudioCtx();masterGain=audioCtx.createGain();analyser=audioCtx.createAnalyser();analyser.fftSize=256;analyser.smoothingTimeConstant=.68;masterGain.connect(analyser);analyser.connect(audioCtx.destination);buildAudioChannels(audioCtx,masterGain,channels);updateAudioMixer();return true;
+  if(audioCtx)return true;if(!AudioCtx){toast('이 브라우저는 Web Audio API를 지원하지 않습니다.','error');return false;}audioCtx=new AudioCtx();masterGain=audioCtx.createGain();masterLimiter=audioCtx.createDynamicsCompressor();masterLimiter.threshold.value=-5;masterLimiter.knee.value=8;masterLimiter.ratio.value=16;masterLimiter.attack.value=.003;masterLimiter.release.value=.12;analyser=audioCtx.createAnalyser();analyser.fftSize=256;analyser.smoothingTimeConstant=.68;masterGain.connect(masterLimiter);masterLimiter.connect(analyser);analyser.connect(audioCtx.destination);buildAudioChannels(audioCtx,masterGain,channels);updateAudioMixer();return true;
 }
 function buildAudioChannels(ctx,destination,target){INSTRUMENTS.forEach(inst=>{const gain=ctx.createGain();let out=gain,panner=null;if(ctx.createStereoPanner){panner=ctx.createStereoPanner();gain.connect(panner);out=panner;}out.connect(destination);target[inst.id]={gain,panner};});}
 function effectiveChannelGain(id){const anySolo=INSTRUMENTS.some(i=>state.mixer[i.id].solo);const m=state.mixer[id];if(m.mute||(anySolo&&!m.solo))return 0;return m.volume;}
@@ -591,7 +644,7 @@ function getNoiseBuffer(ctx){if(noiseCache.has(ctx))return noiseCache.get(ctx);c
 function getPulseWave(ctx,duty){let map=pulseCache.get(ctx);if(!map){map=new Map();pulseCache.set(ctx,map);}const key=String(duty);if(map.has(key))return map.get(key);const n=64,real=new Float32Array(n),imag=new Float32Array(n);for(let k=1;k<n;k++)imag[k]=2*Math.sin(Math.PI*k*duty)/(Math.PI*k);const w=ctx.createPeriodicWave(real,imag,{disableNormalization:false});map.set(key,w);return w;}
 function trackLiveSource(ctx,src){if(ctx===audioCtx){liveSources.add(src);src.addEventListener('ended',()=>liveSources.delete(src),{once:true});}return src;}
 function connectEnvelope(ctx,dest,amp,t,dur=.18){const g=ctx.createGain();g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(Math.max(.001,amp),t+.004);g.gain.exponentialRampToValueAtTime(.0001,t+dur);g.connect(dest);return g;}
-function synthTone(ctx,dest,type,freq,t,duty){const osc=trackLiveSource(ctx,ctx.createOscillator());if(type==='pulse')osc.setPeriodicWave(getPulseWave(ctx,duty));else osc.type=type;osc.frequency.setValueAtTime(freq,t);const dur=type==='triangle'?.24:.19;const g=connectEnvelope(ctx,dest,.34,t,dur);osc.connect(g);osc.start(t);osc.stop(t+dur+.03);}
+function synthTone(ctx,dest,type,freq,t,duty,stepDur=.125){const osc=trackLiveSource(ctx,ctx.createOscillator());if(type==='pulse')osc.setPeriodicWave(getPulseWave(ctx,duty));else osc.type=type;osc.frequency.setValueAtTime(freq,t);const gate=type==='triangle'?.88:.74,dur=clamp(stepDur*gate,.035,.85);const g=connectEnvelope(ctx,dest,.34,t,dur);osc.connect(g);osc.start(t);osc.stop(t+dur+.025);}
 function noiseSource(ctx,dest,t,dur,filterType='highpass',freq=2000,amp=.32){const src=trackLiveSource(ctx,ctx.createBufferSource());src.buffer=getNoiseBuffer(ctx);const f=ctx.createBiquadFilter();f.type=filterType;f.frequency.setValueAtTime(freq,t);const g=connectEnvelope(ctx,dest,amp,t,dur);src.connect(f);f.connect(g);src.start(t);src.stop(t+dur+.03);return src;}
 function synthDrum(ctx,dest,row,t){
   if(row===7){const o=trackLiveSource(ctx,ctx.createOscillator()),g=ctx.createGain();o.type='sine';o.frequency.setValueAtTime(145,t);o.frequency.exponentialRampToValueAtTime(48,t+.16);g.gain.setValueAtTime(.75,t);g.gain.exponentialRampToValueAtTime(.0001,t+.2);o.connect(g);g.connect(dest);o.start(t);o.stop(t+.22);}
@@ -604,19 +657,20 @@ function synthDrum(ctx,dest,row,t){
 }
 function buildMixer(){const el=$('#mixer');el.textContent='';INSTRUMENTS.forEach(inst=>{const ch=document.createElement('div');ch.className='channel';ch.style.setProperty('--inst',inst.color);ch.innerHTML=`<div class="channel-head"><span class="channel-color"></span><span class="channel-name"></span></div><div class="channel-controls"><label class="mini-control"><span>VOL</span><input data-kind="vol" type="range" min="0" max="100"><span data-read="vol"></span></label><label class="mini-control"><span>PAN</span><input data-kind="pan" type="range" min="-100" max="100"><span data-read="pan"></span></label><div class="ms-row"><button class="toggle mute">MUTE</button><button class="toggle solo">SOLO</button></div></div>`;ch.querySelector('.channel-name').textContent=inst.name;ch.dataset.inst=inst.id;el.appendChild(ch);});renderMixer();}
 function renderMixer(){$$('.channel').forEach(ch=>{const id=ch.dataset.inst,m=state.mixer[id];const v=ch.querySelector('[data-kind="vol"]'),p=ch.querySelector('[data-kind="pan"]');v.value=Math.round(m.volume*100);p.value=Math.round(m.pan*100);ch.querySelector('[data-read="vol"]').textContent=Math.round(m.volume*100);ch.querySelector('[data-read="pan"]').textContent=m.pan===0?'C':(m.pan<0?'L':'R')+Math.abs(Math.round(m.pan*100));ch.querySelector('.mute').classList.toggle('active',m.mute);ch.querySelector('.solo').classList.toggle('active',m.solo);});}
+$('#mixer').addEventListener('pointerdown',e=>{if(e.target.matches('input[type=range]'))checkpoint();});
 $('#mixer').addEventListener('input',e=>{const ch=e.target.closest('.channel');if(!ch)return;const id=ch.dataset.inst,m=state.mixer[id];if(e.target.dataset.kind==='vol')m.volume=+e.target.value/100;if(e.target.dataset.kind==='pan')m.pan=+e.target.value/100;renderMixer();updateAudioMixer();scheduleAutosave();});
-$('#mixer').addEventListener('click',e=>{const ch=e.target.closest('.channel');if(!ch)return;const id=ch.dataset.inst;if(e.target.classList.contains('mute'))state.mixer[id].mute=!state.mixer[id].mute;if(e.target.classList.contains('solo'))state.mixer[id].solo=!state.mixer[id].solo;renderMixer();updateAudioMixer();scheduleAutosave();});
+$('#mixer').addEventListener('click',e=>{const ch=e.target.closest('.channel');if(!ch)return;const id=ch.dataset.inst;if(e.target.classList.contains('mute')||e.target.classList.contains('solo'))checkpoint();if(e.target.classList.contains('mute'))state.mixer[id].mute=!state.mixer[id].mute;if(e.target.classList.contains('solo'))state.mixer[id].solo=!state.mixer[id].solo;renderMixer();updateAudioMixer();scheduleAutosave();});
 
 // ---------- Accurate scheduler ----------
 let isPlaying=false,schedulerTimer=null,nextNoteTime=0,schedulerStep=0,songIndex=0,visualQueue=[],vizRaf=0,lastVisualStep=-1,lastVisualPattern='A';
-const LOOKAHEAD_MS=20,SCHEDULE_AHEAD=.18,START_LATENCY=.02;
-function stepDuration(step){const base=60/state.bpm/4,amount=(state.swing-50)/100;return base*(step%2===0?1+amount:1-amount);}
+const LOOKAHEAD_MS=20,SCHEDULE_AHEAD=.22,BACKGROUND_AHEAD=1.5,START_LATENCY=.025,MAX_SCHEDULER_LAG=.14;
+function stepDuration(step){const ts=state.timeSignature||{numerator:4,denominator:4};const quarterPerPattern=ts.numerator*(4/ts.denominator)*2,base=(60/state.bpm)*(quarterPerPattern/COLS),amount=(state.swing-50)/100;return base*(step%2===0?1+amount:1-amount);}
 function patternHasNotes(patternId){const g=state.patterns[patternId];return !!g&&INSTRUMENTS.some(inst=>g[inst.id]?.some(row=>row.some(Boolean)));}
 function effectiveSongChain(){const seq=state.songChain.filter(patternHasNotes);return seq.length?seq:[state.currentPattern];}
 function currentScheduledPattern(){const seq=state.playbackMode==='song'?effectiveSongChain():[state.currentPattern];return seq[songIndex%seq.length];}
-function scheduleStep(patternId,step,time,ctx=audioCtx,targetChannels=channels){const g=state.patterns[patternId];INSTRUMENTS.forEach(inst=>{const dest=targetChannels[inst.id].gain;for(let r=0;r<ROWS;r++){if(!g[inst.id][r][step])continue;if(inst.type==='noise')synthDrum(ctx,dest,r,time);else{const midi=scaleMidiRows()[r];synthTone(ctx,dest,inst.type,midiFreq(midi),time,state.pulseWidth);}}});if(ctx===audioCtx)visualQueue.push({time,step,pattern:patternId});}
+function scheduleStep(patternId,step,time,ctx=audioCtx,targetChannels=channels){const g=state.patterns[patternId],dur=stepDuration(step);INSTRUMENTS.forEach(inst=>{const dest=targetChannels[inst.id].gain;for(let r=0;r<ROWS;r++){if(!g[inst.id][r][step])continue;if(inst.type==='noise')synthDrum(ctx,dest,r,time);else{const midi=noteRowsForInst(inst.id)[r];synthTone(ctx,dest,inst.type,midiFreq(midi),time,state.pulseWidth,dur);}}});if(ctx===audioCtx)visualQueue.push({time,step,pattern:patternId});}
 function advanceScheduler(){nextNoteTime+=stepDuration(schedulerStep);schedulerStep++;if(schedulerStep>=COLS){schedulerStep=0;if(state.playbackMode==='song'){const seq=effectiveSongChain();songIndex=(songIndex+1)%seq.length;}else songIndex=0;}}
-function scheduler(){if(!isPlaying||!audioCtx)return;while(nextNoteTime<audioCtx.currentTime+SCHEDULE_AHEAD){scheduleStep(currentScheduledPattern(),schedulerStep,nextNoteTime);advanceScheduler();}}
+function scheduler(){if(!isPlaying||!audioCtx)return;const now=audioCtx.currentTime;if(nextNoteTime<now-MAX_SCHEDULER_LAG){stopLiveSourcesNow();visualQueue=[];let guard=0;while(nextNoteTime<now+START_LATENCY&&guard++<512)advanceScheduler();nextNoteTime=now+START_LATENCY;$('#footerStatus').textContent='PLAYING · RESYNC';}const ahead=document.hidden?BACKGROUND_AHEAD:SCHEDULE_AHEAD;while(nextNoteTime<audioCtx.currentTime+ahead){scheduleStep(currentScheduledPattern(),schedulerStep,nextNoteTime);advanceScheduler();}}
 function stopLiveSourcesNow(){liveSources.forEach(src=>{try{src.stop(0);}catch{}});liveSources.clear();}
 function restartPlaybackNow(){
   if(!isPlaying||!audioCtx)return;
@@ -628,8 +682,8 @@ function restartPlaybackNow(){
   updateMobileDock();
 }
 async function startPlay(){if(!initAudio())return;if(audioCtx.state==='suspended')await audioCtx.resume();if(isPlaying)return;isPlaying=true;schedulerStep=0;songIndex=0;visualQueue=[];nextNoteTime=audioCtx.currentTime+START_LATENCY;scheduler();schedulerTimer=setInterval(scheduler,LOOKAHEAD_MS);$('#btnPlay').textContent='▶ PLAYING';$('#footerStatus').textContent='PLAYING · SEAMLESS LOOP';updateMobileDock();startViz();}
-function stopPlay(){if(schedulerTimer)clearInterval(schedulerTimer);schedulerTimer=null;isPlaying=false;visualQueue=[];stopLiveSourcesNow();schedulerStep=0;songIndex=0;$('#btnPlay').textContent='▶ PLAY';clearPlayhead();stopViz();drawIdleViz();$('#footerStatus').textContent='READY · 자동복구 ON';updateMobileDock();}
-function updatePlayhead(){if(!audioCtx)return;while(visualQueue.length&&visualQueue[0].time<=audioCtx.currentTime+.005){const e=visualQueue.shift();lastVisualStep=e.step;lastVisualPattern=e.pattern;$$('.seq-cell.playing').forEach(x=>x.classList.remove('playing'));if(e.pattern===state.currentPattern){$$(`.seq-cell[data-col="${e.step}"]`).forEach(x=>x.classList.add('playing'));}$('#metaStep').textContent=String(e.step+1).padStart(2,'0')+' / 32';$('#metaPattern').textContent=e.pattern;const mp=$('#mobilePattern');if(mp)mp.textContent=e.pattern;}}
+function stopPlay(){if(schedulerTimer)clearInterval(schedulerTimer);schedulerTimer=null;isPlaying=false;visualQueue=[];stopLiveSourcesNow();schedulerStep=0;songIndex=0;$('#btnPlay').textContent='▶ PLAY';clearPlayhead();stopViz();drawIdleViz();$('#footerStatus').textContent='READY';updateMobileDock();}
+function updatePlayhead(){if(!audioCtx)return;while(visualQueue.length&&visualQueue[0].time<=audioCtx.currentTime+.005){const e=visualQueue.shift();lastVisualStep=e.step;lastVisualPattern=e.pattern;if(isMobileLayout()&&state.followPlayhead&&e.pattern===state.currentPattern){const page=Math.floor(e.step/8);if(page!==mobileStepPage)setMobileStepPage(page,false);}$$('.seq-cell.playing').forEach(x=>x.classList.remove('playing'));if(e.pattern===state.currentPattern)$$(`.seq-cell[data-col="${e.step}"]`).forEach(x=>x.classList.add('playing'));$('#metaStep').textContent=String(e.step+1).padStart(2,'0')+' / 32';$('#metaPattern').textContent=e.pattern;const mp=$('#mobilePattern');if(mp)mp.textContent=e.pattern;}}
 function clearPlayhead(){$$('.seq-cell.playing').forEach(x=>x.classList.remove('playing'));$('#metaStep').textContent='01 / 32';$('#metaPattern').textContent=state.currentPattern;}
 
 // ---------- Visualizer ----------
@@ -646,55 +700,64 @@ if(window.ResizeObserver){new ResizeObserver(()=>{clearTimeout(vizResizeTimer);v
 // ---------- Project JSON ----------
 function downloadBlob(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),2500);}
 function exportProject(){const payload={...snapshot(),exportedAt:new Date().toISOString()};downloadBlob(new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}),`8bit_music_project_bpm${state.bpm}.json`);toast('프로젝트 JSON을 저장했습니다.');}
-async function importProject(file){try{const text=await file.text(),raw=JSON.parse(text);if(raw.format&&raw.format!=='8bit-music-maker')throw new Error('지원하지 않는 프로젝트 형식입니다.');checkpoint();state=migrateProject(raw);syncAllUI();scheduleAutosave();toast('프로젝트를 불러왔습니다.');}catch(e){toast('불러오기 실패: '+e.message,'error');}}
+async function importProject(file){try{const raw=JSON.parse(await file.text());if(raw.format&&!['8bit-music-maker','8bit-music-maker-compact'].includes(raw.format))throw new Error('지원하지 않는 프로젝트 형식입니다.');checkpoint();state=migrateProject(raw);syncAllUI();scheduleAutosave();if(isPlaying)restartPlaybackNow();toast('프로젝트를 불러왔습니다.');}catch(e){toast('불러오기 실패: '+e.message,'error');}}
 
 // ---------- Export helpers ----------
 function playbackSequence(){return state.playbackMode==='song'?effectiveSongChain():[state.currentPattern];}
-function patternDuration(){return (60/state.bpm/4)*COLS;}
+function patternDuration(){return Array.from({length:COLS},(_,i)=>stepDuration(i)).reduce((a,b)=>a+b,0);}
 function cycleDuration(){return patternDuration()*playbackSequence().length;}
-function updateExportInfo(){const sec=+$('#exportDurSlider').value;$('#exportDurVal').textContent=formatTime(sec);const seq=playbackSequence();$('#exportInfo').textContent=`${state.playbackMode==='song'?'SONG '+seq.join('→'):'PATTERN '+state.currentPattern} · 1사이클 ${cycleDuration().toFixed(2)}초 · ${state.bpm} BPM · ${state.swing}% Swing`;updateMeta();}
+function updateExportInfo(){const sec=+$('#exportDurSlider').value;$('#exportDurVal').textContent=formatTime(sec);const seq=playbackSequence(),mb=(sec*44100*2*2+44)/1048576;$('#exportInfo').textContent=`${state.playbackMode==='song'?'SONG '+seq.join('→'):'PATTERN '+state.currentPattern} · 1사이클 ${cycleDuration().toFixed(2)}초 · ${state.bpm} BPM · ${state.timeSignature.numerator}/${state.timeSignature.denominator} · WAV 약 ${mb.toFixed(1)}MB`;updateMeta();}
 function formatTime(sec){return Math.floor(sec/60)+':'+String(Math.floor(sec%60)).padStart(2,'0');}
 function setExportProgress(p,text){const wrap=$('#exportProgress'),bar=$('#exportProgressBar');wrap.style.display='block';bar.style.width=clamp(p,0,100)+'%';$('#exportStatus').textContent=text||'';}
 function buildOfflineChannels(ctx,master){const obj={};buildAudioChannels(ctx,master,obj);INSTRUMENTS.forEach(i=>{const c=obj[i.id],m=state.mixer[i.id];c.gain.gain.value=effectiveChannelGain(i.id);if(c.panner)c.panner.pan.value=m.pan;});return obj;}
 function scheduleSequenceOnContext(ctx,targetChannels,seq,startTime){let t=startTime;for(const pat of seq){for(let step=0;step<COLS;step++){scheduleStep(pat,step,t,ctx,targetChannels);t+=stepDuration(step);}}return t;}
 async function exportWav(){
-  const btn=$('#btnExportWav');btn.disabled=true;try{setExportProgress(4,'한 사이클 렌더 준비…');const sr=44100,seq=playbackSequence(),cycle=cycleDuration(),renderLen=cycle*2+.65;if(!OfflineCtx)throw new Error('OfflineAudioContext를 지원하지 않는 브라우저입니다.');const off=new OfflineCtx(2,Math.ceil(renderLen*sr),sr);const master=off.createGain();master.gain.value=state.masterVolume;master.connect(off.destination);const ch=buildOfflineChannels(off,master);scheduleSequenceOnContext(off,ch,seq,0);scheduleSequenceOnContext(off,ch,seq,cycle);setExportProgress(28,'오디오 사이클 렌더링…');const rendered=await off.startRendering();setExportProgress(48,'루프 PCM 추출…');const start=Math.round(cycle*sr),loopLen=Math.max(1,Math.round(cycle*sr));const left=new Float32Array(loopLen),right=new Float32Array(loopLen);left.set(rendered.getChannelData(0).subarray(start,start+loopLen));right.set(rendered.getChannelData(1).subarray(start,start+loopLen));const totalSec=+$('#exportDurSlider').value;const blob=await encodeLoopWav([left,right],sr,totalSec,(p)=>setExportProgress(48+p*.5,`WAV 인코딩 ${Math.round(p)}%`));downloadBlob(blob,`8bit_${state.playbackMode}_bpm${state.bpm}_${formatTime(totalSec).replace(':','m')}s.wav`);setExportProgress(100,'WAV 다운로드 완료');toast('WAV 파일을 만들었습니다.');setTimeout(()=>{$('#exportProgress').style.display='none';$('#exportStatus').textContent='';},2200);}catch(e){console.error(e);$('#exportStatus').textContent='오류: '+e.message;toast('WAV 내보내기 실패','error');}finally{btn.disabled=false;}}
-async function encodeLoopWav(channels,sr,totalSec,onProgress){const total=Math.ceil(totalSec*sr),nc=2,dataSize=total*nc*2,ab=new ArrayBuffer(44+dataSize),v=new DataView(ab);const ws=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i));};ws(0,'RIFF');v.setUint32(4,36+dataSize,true);ws(8,'WAVE');ws(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,nc,true);v.setUint32(24,sr,true);v.setUint32(28,sr*nc*2,true);v.setUint16(32,nc*2,true);v.setUint16(34,16,true);ws(36,'data');v.setUint32(40,dataSize,true);let off=44;const loop=channels[0].length,chunk=131072;for(let i=0;i<total;i++){const j=i%loop;for(let c=0;c<2;c++){let s=clamp(channels[c][j],-1,1);v.setInt16(off,s<0?s*32768:s*32767,true);off+=2;}if(i%chunk===0){onProgress(i/total*100);await new Promise(r=>setTimeout(r,0));}}onProgress(100);return new Blob([ab],{type:'audio/wav'});}
+  const btn=$('#btnExportWav');btn.disabled=true;try{const totalSec=+$('#exportDurSlider').value;setExportProgress(4,'한 사이클 렌더 준비…');const sr=44100,seq=playbackSequence(),cycle=cycleDuration(),renderLen=cycle*2+.75;if(!OfflineCtx)throw new Error('OfflineAudioContext를 지원하지 않는 브라우저입니다.');const off=new OfflineCtx(2,Math.ceil(renderLen*sr),sr),master=off.createGain(),limiter=off.createDynamicsCompressor();master.gain.value=state.masterVolume;limiter.threshold.value=-5;limiter.knee.value=8;limiter.ratio.value=16;limiter.attack.value=.003;limiter.release.value=.12;master.connect(limiter);limiter.connect(off.destination);const ch=buildOfflineChannels(off,master);scheduleSequenceOnContext(off,ch,seq,0);scheduleSequenceOnContext(off,ch,seq,cycle);setExportProgress(28,'Limiter 포함 오디오 사이클 렌더링…');const rendered=await off.startRendering();setExportProgress(48,'루프 PCM 추출…');const start=Math.round(cycle*sr),loopLen=Math.max(1,Math.round(cycle*sr)),left=new Float32Array(loopLen),right=new Float32Array(loopLen);left.set(rendered.getChannelData(0).subarray(start,start+loopLen));right.set(rendered.getChannelData(1).subarray(start,start+loopLen));const blob=await encodeLoopWav([left,right],sr,totalSec,p=>setExportProgress(48+p*.5,`WAV 인코딩 ${Math.round(p)}%`));downloadBlob(blob,`8bit_${state.playbackMode}_bpm${state.bpm}_${formatTime(totalSec).replace(':','m')}s.wav`);setExportProgress(100,'WAV 다운로드 완료');toast('WAV 파일을 만들었습니다.');setTimeout(()=>{$('#exportProgress').style.display='none';$('#exportStatus').textContent='';},2200);}catch(e){console.error(e);$('#exportStatus').textContent='오류: '+e.message;toast('WAV 내보내기 실패','error');}finally{btn.disabled=false;}
+}
+async function encodeLoopWav(channels,sr,totalSec,onProgress){const total=Math.ceil(totalSec*sr),nc=2,dataSize=total*nc*2,header=new ArrayBuffer(44),v=new DataView(header);const ws=(o,s)=>{for(let i=0;i<s.length;i++)v.setUint8(o+i,s.charCodeAt(i));};ws(0,'RIFF');v.setUint32(4,36+dataSize,true);ws(8,'WAVE');ws(12,'fmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,nc,true);v.setUint32(24,sr,true);v.setUint32(28,sr*nc*2,true);v.setUint16(32,nc*2,true);v.setUint16(34,16,true);ws(36,'data');v.setUint32(40,dataSize,true);const parts=[header],loop=channels[0].length,framesPerChunk=131072;for(let start=0;start<total;start+=framesPerChunk){const end=Math.min(total,start+framesPerChunk),chunk=new ArrayBuffer((end-start)*nc*2),dv=new DataView(chunk);let off=0;for(let i=start;i<end;i++){const j=i%loop;for(let c=0;c<2;c++){const s=clamp(channels[c][j],-1,1);dv.setInt16(off,s<0?s*32768:s*32767,true);off+=2;}}parts.push(chunk);onProgress(end/total*100);await new Promise(r=>setTimeout(r,0));}onProgress(100);return new Blob(parts,{type:'audio/wav'});}
 
 // ---------- MIDI export ----------
 function vlq(n){let bytes=[n&0x7f];while((n>>=7))bytes.unshift((n&0x7f)|0x80);return bytes;}
 function u32(n){return[(n>>>24)&255,(n>>>16)&255,(n>>>8)&255,n&255];}function u16(n){return[(n>>>8)&255,n&255];}
 function ascii(s){return[...s].map(c=>c.charCodeAt(0));}
 function exportMidi(){
-  const PPQ=480,base=PPQ/4,events=[];const add=(tick,order,bytes)=>events.push({tick:Math.max(0,Math.round(tick)),order,bytes});const mpqn=Math.round(60000000/state.bpm);add(0,0,[0xff,0x51,0x03,(mpqn>>16)&255,(mpqn>>8)&255,mpqn&255]);add(0,0,[0xff,0x58,0x04,4,2,24,8]);
+  const PPQ=480,events=[],ts=state.timeSignature||{numerator:4,denominator:4},patternTicks=PPQ*(4/ts.denominator)*ts.numerator*2,base=patternTicks/COLS;const add=(tick,order,bytes)=>events.push({tick:Math.max(0,Math.round(tick)),order,bytes});const mpqn=Math.round(60000000/state.bpm);add(0,0,[0xff,0x51,0x03,(mpqn>>16)&255,(mpqn>>8)&255,mpqn&255]);add(0,0,[0xff,0x58,0x04,ts.numerator,Math.round(Math.log2(ts.denominator)),24,8]);
   INSTRUMENTS.filter(i=>i.id!=='noise').forEach(i=>{add(0,1,[0xc0|i.midiChannel,i.program]);const m=state.mixer[i.id];add(0,1,[0xb0|i.midiChannel,7,Math.round(effectiveChannelGain(i.id)*127)]);add(0,1,[0xb0|i.midiChannel,10,Math.round((m.pan+1)*63.5)]);});
-  const seq=playbackSequence();let patternBase=0;for(const pat of seq){const g=state.patterns[pat];let tick=patternBase;for(let step=0;step<COLS;step++){const amount=(state.swing-50)/100,dur=base*(step%2===0?1+amount:1-amount);INSTRUMENTS.forEach(inst=>{if(effectiveChannelGain(inst.id)<=0)return;for(let r=0;r<ROWS;r++){if(!g[inst.id][r][step])continue;const note=inst.id==='noise'?DRUM_MIDI[r]:scaleMidiRows()[r];const vel=clamp(Math.round((.55+state.mixer[inst.id].volume*.45)*127),1,127),ch=inst.midiChannel;add(tick,3,[0x90|ch,note,vel]);add(tick+Math.max(30,dur*.72),2,[0x80|ch,note,0]);}});tick+=dur;}patternBase+=PPQ*8;}
-  events.sort((a,b)=>a.tick-b.tick||a.order-b.order);let track=[],last=0;for(const e of events){track.push(...vlq(e.tick-last),...e.bytes);last=e.tick;}track.push(0,0xff,0x2f,0);const bytes=[...ascii('MThd'),...u32(6),...u16(0),...u16(1),...u16(PPQ),...ascii('MTrk'),...u32(track.length),...track];downloadBlob(new Blob([new Uint8Array(bytes)],{type:'audio/midi'}),`8bit_${state.playbackMode}_bpm${state.bpm}.mid`);toast('MIDI 파일을 저장했습니다.');}
+  const seq=playbackSequence();let patternBase=0;for(const pat of seq){const g=state.patterns[pat];let tick=patternBase;for(let step=0;step<COLS;step++){const amount=(state.swing-50)/100,dur=base*(step%2===0?1+amount:1-amount);INSTRUMENTS.forEach(inst=>{if(effectiveChannelGain(inst.id)<=0)return;for(let r=0;r<ROWS;r++){if(!g[inst.id][r][step])continue;const note=inst.id==='noise'?DRUM_MIDI[r]:noteRowsForInst(inst.id)[r],vel=clamp(Math.round((.55+state.mixer[inst.id].volume*.45)*127),1,127),ch=inst.midiChannel;add(tick,3,[0x90|ch,note,vel]);add(tick+Math.max(30,dur*.72),2,[0x80|ch,note,0]);}});tick+=dur;}patternBase+=patternTicks;}
+  events.sort((a,b)=>a.tick-b.tick||a.order-b.order);let track=[],last=0;for(const e of events){track.push(...vlq(e.tick-last),...e.bytes);last=e.tick;}track.push(0,0xff,0x2f,0);const bytes=[...ascii('MThd'),...u32(6),...u16(0),...u16(1),...u16(PPQ),...ascii('MTrk'),...u32(track.length),...track];downloadBlob(new Blob([new Uint8Array(bytes)],{type:'audio/midi'}),`8bit_${state.playbackMode}_bpm${state.bpm}.mid`);toast('MIDI 파일을 저장했습니다.');
+}
 
+
+function parseSongChain(value){const chars=String(value||'').toUpperCase().match(/[A-D]/g)||[];return chars.slice(0,8);}
+function clearImportedPitchMap(){if(state.midiRows)state.midiRows=null;}
+function checkpointRangeStart(e){if(e.pointerType!=='mouse'||e.button===0)checkpoint();}
 // ---------- Event wiring ----------
 $('#themeToggle').onclick=toggleTheme;
 $('#btnPlay').onclick=startPlay;$('#btnStop').onclick=stopPlay;$('#btnUndo').onclick=undo;$('#btnRedo').onclick=redo;
-$$('.mobile-step-btn').forEach(b=>b.addEventListener('click',()=>setMobileStepPage(+b.dataset.stepPage)));
+$$('.mobile-step-btn').forEach(b=>b.addEventListener('click',()=>setMobileStepPage(+b.dataset.stepPage,true)));
+$('#followToggle').onclick=()=>{state.followPlayhead=!state.followPlayhead;renderMobileStepNav();scheduleAutosave();};
 $('#mobilePlay').onclick=startPlay;$('#mobileStop').onclick=stopPlay;$('#mobileUndo').onclick=undo;$('#mobileRedo').onclick=redo;
 const handleMobileLayoutChange=()=>{mobileStepPage=0;renderStepRuler();renderMobileStepNav();renderGrid();};if(MOBILE_LAYOUT_MQ.addEventListener)MOBILE_LAYOUT_MQ.addEventListener('change',handleMobileLayoutChange);else MOBILE_LAYOUT_MQ.addListener?.(handleMobileLayoutChange);
+$('#ostSearch').addEventListener('input',()=>refreshOstOptions());$('#ostCategory').addEventListener('change',()=>refreshOstOptions());$('#ostFavorite').onclick=toggleOstFavorite;$('#generateTemplateSelect').addEventListener('change',refreshOstFavoriteButton);
 $('#btnGenerate').onclick=composeFromSelectedTemplate;$('#btnImportMidiTop').onclick=openMidiImport;$('#btnImportMidiProject').onclick=openMidiImport;$('#midiFileInput').onchange=e=>{const f=e.target.files[0];if(f)importMidiFile(f);e.target.value='';};$('#btnClear').onclick=()=>confirmAction('패턴 전체 삭제',`현재 패턴 ${state.currentPattern}의 모든 악기를 지울까요?`,clearAllCurrentPattern);$('#btnClearInst').onclick=()=>confirmAction('악기 삭제',`${state.currentInst.toUpperCase()} 트랙만 지울까요?`,clearCurrentInstrument);
 $('#btnCopyLeft').onclick=()=>copyHalf(0,16);$('#btnCopyRight').onclick=()=>copyHalf(16,0);$('#btnSwapHalves').onclick=swapHalves;
-$$('.seg-btn').forEach(b=>b.onclick=()=>{state.playbackMode=b.dataset.playmode;renderPlayMode();scheduleAutosave();updateExportInfo();updateMobileDock();});
-$('#songChainInput').addEventListener('change',e=>{const arr=e.target.value.toUpperCase().split(/[^A-D]+/).filter(Boolean).filter(x=>PATTERN_IDS.includes(x)).slice(0,8);state.songChain=arr.length?arr:['A'];e.target.value=state.songChain.join(' ');$('#chainNote').textContent=state.songChain.join('→');scheduleAutosave();updateExportInfo();});
-$('#bpmSlider').oninput=e=>{state.bpm=+e.target.value;$('#bpmVal').textContent=state.bpm;updateExportInfo();updateMobileDock();scheduleAutosave();};
+$$('.seg-btn').forEach(b=>b.onclick=()=>{checkpoint();state.playbackMode=b.dataset.playmode;renderPlayMode();scheduleAutosave();updateExportInfo();updateMobileDock();if(isPlaying)restartPlaybackNow();});
+$('#songChainInput').addEventListener('change',e=>{checkpoint();const arr=parseSongChain(e.target.value);state.songChain=arr.length?arr:['A'];e.target.value=state.songChain.join(' ');$('#chainNote').textContent=state.songChain.join('→');scheduleAutosave();updateExportInfo();if(isPlaying&&state.playbackMode==='song')restartPlaybackNow();});
+['bpmSlider','masterSlider','swingSlider','octaveSlider'].forEach(id=>$('#'+id).addEventListener('pointerdown',checkpointRangeStart));
+$('#bpmSlider').oninput=e=>{state.bpm=+e.target.value;$('#bpmVal').textContent=state.bpm;updateExportInfo();updateMobileDock();scheduleAutosave();if(isPlaying)restartPlaybackNow();};
 $('#masterSlider').oninput=e=>{state.masterVolume=+e.target.value/100;$('#masterVal').textContent=e.target.value+'%';updateAudioMixer();scheduleAutosave();};
-$('#swingSlider').oninput=e=>{state.swing=+e.target.value;$('#swingVal').textContent=state.swing+'%';updateExportInfo();scheduleAutosave();};
-$('#keySelect').onchange=e=>{state.key=+e.target.value;renderGrid();scheduleAutosave();};$('#scaleSelect').onchange=e=>{state.scale=e.target.value;renderGrid();scheduleAutosave();};
-$('#octaveSlider').oninput=e=>{state.octave=+e.target.value;$('#octaveVal').textContent=state.octave;renderGrid();scheduleAutosave();};$('#pulseWidthSelect').onchange=e=>{state.pulseWidth=+e.target.value;scheduleAutosave();};
+$('#swingSlider').oninput=e=>{state.swing=+e.target.value;$('#swingVal').textContent=state.swing+'%';updateExportInfo();scheduleAutosave();if(isPlaying)restartPlaybackNow();};
+$('#keySelect').onchange=e=>{checkpoint();state.key=+e.target.value;clearImportedPitchMap();renderGrid();scheduleAutosave();if(isPlaying)restartPlaybackNow();};$('#scaleSelect').onchange=e=>{checkpoint();state.scale=e.target.value;clearImportedPitchMap();renderGrid();scheduleAutosave();if(isPlaying)restartPlaybackNow();};
+$('#octaveSlider').oninput=e=>{state.octave=+e.target.value;clearImportedPitchMap();$('#octaveVal').textContent=state.octave;renderGrid();scheduleAutosave();if(isPlaying)restartPlaybackNow();};$('#pulseWidthSelect').onchange=e=>{checkpoint();state.pulseWidth=+e.target.value;scheduleAutosave();if(isPlaying)restartPlaybackNow();};
 $('#btnSavePreset').onclick=savePreset;$('#presetName').onkeydown=e=>{if(e.key==='Enter')savePreset();};
 $('#btnExportProject').onclick=exportProject;$('#btnImportProject').onclick=()=>$('#projectFileInput').click();$('#projectFileInput').onchange=e=>{const f=e.target.files[0];if(f)importProject(f);e.target.value='';};
 $('#exportDurSlider').oninput=updateExportInfo;$('#btnExportWav').onclick=exportWav;$('#btnExportMidi').onclick=exportMidi;
 window.addEventListener('keydown',e=>{const tag=document.activeElement?.tagName;if(['INPUT','SELECT','TEXTAREA'].includes(tag))return;if(e.code==='Space'){e.preventDefault();isPlaying?stopPlay():startPlay();}else if(e.key==='Escape')stopPlay();else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();undo();}else if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();redo();}else if(/^[1-5]$/.test(e.key)){state.currentInst=INSTRUMENTS[+e.key-1].id;renderInstrumentSelection();renderGrid();scheduleAutosave();}else if(/^[a-dA-D]$/.test(e.key)){switchPattern(e.key.toUpperCase());}});
-window.addEventListener('beforeunload',()=>{try{localStorage.setItem(AUTOSAVE_KEY,JSON.stringify(state));}catch{}});
-document.addEventListener('visibilitychange',()=>{if(document.hidden&&isPlaying)$('#footerStatus').textContent='PLAYING · 백그라운드 스케줄러 유지';});
+window.addEventListener('beforeunload',()=>{try{localStorage.setItem(AUTOSAVE_KEY,JSON.stringify(compactProject(state)));}catch{}});
+document.addEventListener('visibilitychange',()=>{if(!isPlaying)return;if(document.hidden){scheduler();$('#footerStatus').textContent='PLAYING · BACKGROUND BUFFER';}else{scheduler();$('#footerStatus').textContent='PLAYING · SEAMLESS LOOP';}});
 
 // ---------- Init ----------
-loadAutosave();buildStaticUI();buildGenerateTemplateOptions();applyTheme(currentTheme(),false);syncAllUI();resizeVisualizer();drawIdleViz();scheduleAutosave();
+loadAutosave();buildStaticUI();buildGenerateTemplateOptions();applyTheme(currentTheme(),false);syncAllUI();resizeVisualizer();drawIdleViz();scheduleAutosave();refreshOstFavoriteButton();
 </script>
 </body>
 </html>

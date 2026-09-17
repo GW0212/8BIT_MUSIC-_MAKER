@@ -1,19 +1,33 @@
-8BIT MUSIC MAKER FINAL v3.8 VALIDATION
+8BIT MUSIC MAKER v4.0 VALIDATION REPORT
+==========================================
 
-PASS - app_version_3_8
-PASS - generate_forces_pattern
-PASS - empty_song_skip
-PASS - seamless_restart
-PASS - start_latency_20ms
-PASS - lookahead_20ms
-PASS - schedule_ahead_180ms
-PASS - export_uses_effective_chain
-PASS - duplicate_ids_zero
-PASS - missing_dom_refs_zero
-PASS - five_cycles_contiguous
-PASS - cycle_duration_120bpm_4sec
+Static / syntax checks
+- JavaScript syntax: PASS (Node --check)
+- HTML id count: 80
+- Duplicate id: 0
+- JavaScript DOM id references missing: 0
+- ZIP root packaging: PASS
+- ZIP CRC integrity: PASS
 
-Duplicate IDs: none
-Missing DOM refs: none
-120 BPM loop starts: [0.02, 4.02, 8.02, 12.02, 16.02]
-Expected starts: [0.02, 4.02, 8.02, 12.02, 16.02]
+Implemented stability checks
+- Scheduler lag recovery path present
+- Background schedule-ahead path present
+- Master limiter in live audio path present
+- Master limiter in Offline WAV path present
+- Playback restart path connected to Undo/Redo, Project Import, MIDI Import, Pattern edit and timing changes
+- MIDI Tempo / Time Signature parser present
+- MIDI A~D split path present
+- MIDI pitch-row mapping present
+- Compact Autosave / User Preset serialization present
+- QuotaExceeded handling present
+- OST search/category/recent/favorite controls present
+- Mobile Follow control present
+- Sequencer cell native button / aria-pressed structure present
+
+Compatibility
+- Legacy v3.x project/autosave migration retained
+- White mode default retained
+- PC / Compact Touch responsive split retained
+
+Note
+- Headless Chromium screenshot automation was not used as a release gate in this environment; layout code was preserved from the previously verified responsive v3.x base and the v4 additions were constrained to wrapping controls inside existing responsive containers.
