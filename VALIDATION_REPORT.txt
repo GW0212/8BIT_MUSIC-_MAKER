@@ -1,73 +1,39 @@
-8BIT MUSIC MAKER v4.0 VALIDATION REPORT
-==========================================
+8BIT MUSIC MAKER v4.6 FINAL VALIDATION REPORT
 
-Static / syntax checks
-- JavaScript syntax: PASS (Node --check)
-- HTML id count: 80
-- Duplicate id: 0
-- JavaScript DOM id references missing: 0
-- ZIP root packaging: PASS
-- ZIP CRC integrity: PASS
+[STATIC]
+- JavaScript syntax: PASS (node --check)
+- HTML IDs: 81 total / 0 duplicates
+- JS DOM references: 78 / missing 0
+- Inline <style>: 0 (styles.css single source)
+- CSS brace balance: 599 / 599
 
-Implemented stability checks
-- Scheduler lag recovery path present
-- Background schedule-ahead path present
-- Master limiter in live audio path present
-- Master limiter in Offline WAV path present
-- Playback restart path connected to Undo/Redo, Project Import, MIDI Import, Pattern edit and timing changes
-- MIDI Tempo / Time Signature parser present
-- MIDI A~D split path present
-- MIDI pitch-row mapping present
-- Compact Autosave / User Preset serialization present
-- QuotaExceeded handling present
-- OST search/category/recent/favorite controls present
-- Mobile Follow control present
-- Sequencer cell native button / aria-pressed structure present
+[RESPONSIVE CHROMIUM QA]
+- 320x720: overflow=0, cells=64, WAV-max=120s, stickyY=6, first-step=None, console=0, pageerror=0
+- 360x800: overflow=0, cells=64, WAV-max=120s, stickyY=6, first-step=None, console=0, pageerror=0
+- 390x844: overflow=0, cells=64, WAV-max=120s, stickyY=6, first-step=None, console=0, pageerror=0
+- 430x932: overflow=0, cells=64, WAV-max=120s, stickyY=6, first-step=None, console=0, pageerror=0
+- 768x1024: overflow=0, cells=64, WAV-max=120s, stickyY=6, first-step=None, console=0, pageerror=0
+- 844x390: overflow=0, cells=64, WAV-max=120s, stickyY=4, first-step=None, console=0, pageerror=0
+- 1023x768: overflow=0, cells=64, WAV-max=120s, stickyY=6, first-step=None, console=0, pageerror=0
+- 1024x768: overflow=0, cells=256, WAV-max=180s, stickyY=None, first-step=['false', 'true'], console=0, pageerror=0
+- 1120x800: overflow=0, cells=256, WAV-max=180s, stickyY=None, first-step=['false', 'true'], console=0, pageerror=0
+- 1160x820: overflow=0, cells=256, WAV-max=180s, stickyY=None, first-step=['false', 'true'], console=0, pageerror=0
+- 1180x820: overflow=0, cells=256, WAV-max=180s, stickyY=None, first-step=['false', 'true'], console=0, pageerror=0
+- 1200x850: overflow=0, cells=256, WAV-max=180s, stickyY=None, first-step=['false', 'true'], console=0, pageerror=0
+- 1366x900: overflow=0, cells=256, WAV-max=180s, stickyY=None, first-step=['false', 'true'], console=0, pageerror=0
 
-Compatibility
-- Legacy v3.x project/autosave migration retained
-- White mode default retained
-- PC / Compact Touch responsive split retained
+[MIDI QA]
+- Test MIDI contains tempo change 120→150 BPM and meter change 4/4→3/4.
+- Imported chain: ['A', 'B']
+- Timing map patterns: ['A', 'B', 'C', 'D']
+- Imported active cells: 8
+- Browser console/page errors: 0 / 0
 
-Note
-- Headless Chromium screenshot automation was not used as a release gate in this environment; layout code was preserved from the previously verified responsive v3.x base and the v4 additions were constrained to wrapping controls inside existing responsive containers.
+[BEHAVIOR QA]
+- Sequencer ArrowRight keyboard navigation: focused column 1 (PASS)
+- Slider restart debounce: immediate 0, delayed 1, post-change 1 (single restart, PASS)
+- MIDI export click after tempo/meter import: no page error (PASS)
 
-
-[v4.1 UI FIX]
-- Transport right section desktop grid realigned.
-- Added 1320px and 1200px responsive breakpoints to prevent overlap.
-- Buttons in generate section aligned without wrapping/overlap on PC and mobile layouts.
-
-
-[v4.2 CSS POLISH]
-- External styles.css loaded after base inline CSS.
-- No functional JavaScript changes.
-- Responsive overrides added for desktop/tablet/mobile.
-- Interactive states improved without changing DOM IDs.
-
-
-[v4.3 CLEAN LAYOUT]
-- Removed one-line transport crowding.
-- Desktop transport uses two-tier grid; medium desktop uses three-tier stack.
-- Mobile composer controls never share a row beyond available width.
-- 480px and below use search/favorite first row, category second row, actions below.
-
-[v4.4 UI ALIGNMENT]
-- Favorite button aligned with composer action buttons.
-- Responsive action grid: 4 columns desktop, 2x2 compact/mobile.
-- Search/category controls stack safely on <=480px.
-
-
-[v4.5 MOBILE AUDIO + STICKY BAR]
-- Modern iOS path: navigator.audioSession.type = playback (feature-detected).
-- Legacy iOS fallback: looping low-level HTMLAudio keep-alive, started only from PLAY user gesture.
-- Mobile command bar moved into app flow and uses position:sticky at viewport top.
-- Bottom fixed mobile dock removed; page content is no longer overlaid.
-
-[Runtime layout verification]
-- Chromium render sizes tested: 320x720, 390x844, 430x932, 768x1024, 844x390, 1024x768, 1366x900.
-- Horizontal overflow: 0 at every tested viewport (scrollWidth == clientWidth).
-- <=1023px: mobile command bar visible, original transport playback buttons hidden.
-- After window scrollY=1200: sticky bar top remained 4~6 CSS px from viewport top.
-- 1024px/1366px: mobile command bar hidden, desktop transport controls visible.
-- PLAY/STOP click smoke test completed without JavaScript page errors in Chromium.
+[FINAL]
+- Responsive QA errors: 0
+- ZIP is packaged with root files directly (no extra parent folder).
