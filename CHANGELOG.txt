@@ -1,49 +1,11 @@
-8BIT MUSIC MAKER · CHANGELOG
-============================
-
-v3.5 · EXPANDED GENERATE / MOBILE QA
-- GENERATE 멜로디 엔진 전면 확장
-  · 기존 악기별 단순 확률 Random Note 배치 제거
-  · 12종 Melody Style 추가
-    CHIP POP / ARPEGGIO / CALL & RESPONSE / STEPWISE / WIDE LEAPS / SYNCOPATED
-    OSTINATO / AMBIENT / BASS DRIVEN / COUNTERPOINT / SEQUENCE / MINIMAL
-  · 7계열 Rhythm Template + Bar 2 Rhythm Mutation
-  · Transpose / Invert / Answer / Sequence 기반 2마디 Variation
-  · SQUARE / PULSE / SAW Lead 분산
-  · TRIANGLE Bass Progression 8종
-  · DUO / ARP / COUNTER / FULL / ECHO Arrangement 랜덤화
-  · Arpeggio / Counter Melody / Echo Note / Bass Fill 추가
-  · 직전 멜로디와 유사도 비교 후 자동 재생성
-- v3.4 DRUM / NOISE Smart Generate 유지
-- 모바일 / 태블릿 Breakpoint 재설계
-  · Compact Touch Layout 범위를 1023px까지 확대
-  · 768px iPad 및 844px 가로 화면에서 PC 32 STEP Grid가 잘리던 경계 문제 수정
-  · 1024px부터 PC 32 STEP Layout 사용
-- 320px 초소형 화면용 추가 Compact Rule 적용
-- 긴 GENERATE 결과 Toast가 모바일 폭을 넘지 않도록 줄바꿈 보강
-- 낮은 높이의 모바일 Landscape에서는 Fixed Dock을 숨겨 SEQUENCER 가림 방지
-- 기존 White/Dark, Mixer, Pattern/Song, JSON, WAV, MIDI, Autosave 유지
-
-v3.4 · SMART GENERATE
-- DRUM / NOISE 전용 8종 Groove Generator
-- Bar Variation / Fill / Similarity Reroll
-
-v3.3 · MOBILE FIT / NO CLIP
-- 모바일 SEQUENCER 8 STEP Page 방식
-- 모바일 Instrument / Mixer Grid 재설계
-- 전체 가로 Overflow 제거
-
-v3.2 · PC / MOBILE RESPONSIVE
-- Touch Tap / Desktop Drag 분리
-- 모바일 Quick Transport Dock
-
-v3.1 · WHITE / DARK CLEAN UI
-- White Theme 기본값
-- Dark Theme Toggle
-
-v3.0
-- Accurate Web Audio Scheduler
-- Pattern A/B/C/D + Song Mode
-- Pulse / 8 Drum Synth
-- Mixer / Undo / Redo / Autosave
-- JSON / WAV / MIDI Export
+v3.7
+- GENERATE 선택기를 100개 고정형 OST 구성 프로필로 확장
+- 10개 카테고리별 optgroup 적용
+- 모든 프로필을 결정론적으로 구성해 같은 선택은 동일한 음악적 정체성을 유지
+- 프로필별 VAR 1~4 편곡 변형 유지
+- 상단 MIDI IMPORT 버튼 추가
+- Project 영역 MIDI 불러오기 추가
+- Standard MIDI File 파서 추가
+- 첫 2마디 32 STEP 양자화 및 채널/드럼 자동 배정
+- 모바일 480px 이하 GENERATE / MIDI IMPORT / CLEAR 3열 정렬
+- v3.6의 PC/모바일 UI 및 오디오 기능 유지

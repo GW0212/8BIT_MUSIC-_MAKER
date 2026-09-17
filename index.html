@@ -7,7 +7,7 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>8BIT MUSIC MAKER · Studio v3.5</title>
+  <title>8BIT MUSIC MAKER · Studio v3.6</title>
   <link rel="icon" href="favicon.png" type="image/png" />
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('8bit_music_maker_theme')||'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
   <style>
@@ -51,8 +51,9 @@
     .panel-head{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 17px;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--panel2) 40%,transparent)}
     .panel-title{display:flex;align-items:center;gap:9px;font:850 12px var(--mono);letter-spacing:.055em}.panel-title .dot{width:7px;height:7px;border-radius:2px;background:var(--cyan);box-shadow:0 0 11px color-mix(in srgb,var(--cyan) 40%,transparent)}
     .panel-sub{margin-top:3px;font-size:11.5px;color:var(--muted);line-height:1.45}.panel-body{padding:16px}
-    .transport{position:sticky;top:9px;z-index:30;display:grid;grid-template-columns:auto minmax(430px,1fr) auto;gap:12px;align-items:center;padding:10px;background:color-mix(in srgb,var(--panel) 94%,transparent);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px color-mix(in srgb,var(--text) 10%,transparent)}
+    .transport{position:sticky;top:9px;z-index:30;display:grid;grid-template-columns:auto minmax(420px,1fr) minmax(480px,auto);gap:12px;align-items:center;padding:10px;background:color-mix(in srgb,var(--panel) 94%,transparent);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:14px;box-shadow:0 12px 32px color-mix(in srgb,var(--text) 10%,transparent)}
     .transport-main,.transport-mid,.transport-right{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.transport-mid{justify-content:center;padding:5px 10px;border:1px solid var(--line);border-radius:11px;background:var(--surface-soft)}.transport-right{justify-content:flex-end}
+    .generate-picker{display:flex;align-items:center;gap:6px;min-width:0}.generate-picker .select{width:184px;min-width:0;font-size:11px}.generate-picker .mini-label{white-space:nowrap}
     .transport-mid .mini-label:not(:first-child){margin-left:7px}
     .btn{border:1px solid var(--line2);background:var(--surface);border-radius:9px;padding:9px 11px;cursor:pointer;transition:.14s ease;font-weight:800;font-size:11.5px;line-height:1;white-space:nowrap;box-shadow:0 1px 1px color-mix(in srgb,var(--text) 4%,transparent)}.btn:hover{transform:translateY(-1px);border-color:color-mix(in srgb,var(--cyan) 35%,var(--line2));background:var(--surface-strong)}
     .btn.primary{background:var(--green);border-color:var(--green);color:white;box-shadow:0 5px 16px color-mix(in srgb,var(--green) 20%,transparent)}.btn.stop{color:var(--pink);border-color:color-mix(in srgb,var(--pink) 38%,var(--line2))}.btn.danger{color:var(--danger)}.btn.cyan{color:var(--cyan);border-color:color-mix(in srgb,var(--cyan) 32%,var(--line2))}.btn.yellow{color:var(--yellow);border-color:color-mix(in srgb,var(--yellow) 32%,var(--line2))}.btn.icon{width:36px;padding:9px 0}.btn:disabled{opacity:.42;cursor:not-allowed;transform:none}
@@ -93,7 +94,7 @@
       .panel{border-radius:14px;min-width:0;max-width:100%;overflow:hidden}.panel-head{align-items:flex-start;flex-direction:column;padding:11px 12px;gap:5px}.panel-title{font-size:11.5px}.panel-sub{font-size:10.5px;line-height:1.5}.panel-body{padding:10px;min-width:0;max-width:100%;overflow:hidden}
       .transport{position:relative;top:auto;display:flex;flex-direction:column;align-items:stretch;gap:8px;padding:8px;border-radius:13px;backdrop-filter:none;min-width:0;max-width:100%}
       .transport-main{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px 44px;gap:6px;width:100%;min-width:0}.transport-main .btn{height:42px}.transport-main .btn.icon{width:44px}
-      .transport-mid{display:grid;grid-template-columns:52px minmax(0,1fr) 48px;gap:5px 8px;width:100%;min-width:0;padding:9px 10px;justify-content:stretch}.transport-mid .mini-label:not(:first-child){margin-left:0}.transport-mid .range{width:100%;min-width:0;height:28px}.transport-mid .value{text-align:right;min-width:0}.transport-right{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:100%;min-width:0}.transport-right .btn{height:40px}
+      .transport-mid{display:grid;grid-template-columns:52px minmax(0,1fr) 48px;gap:5px 8px;width:100%;min-width:0;padding:9px 10px;justify-content:stretch}.transport-mid .mini-label:not(:first-child){margin-left:0}.transport-mid .range{width:100%;min-width:0;height:28px}.transport-mid .value{text-align:right;min-width:0}.transport-right{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;width:100%;min-width:0}.transport-right .btn{height:42px;min-width:0;padding:8px 6px;font-size:9px}.generate-picker{grid-column:1/-1;min-width:0;width:100%}.generate-picker .mini-label{display:none}.generate-picker .select{width:100%;min-width:0;height:42px;font-size:16px}
       .btn{min-height:40px;padding:10px 11px;border-radius:9px}.select,.text-input,.number-input,.chain-input{height:42px;font-size:16px;max-width:100%}.range{min-height:28px}
       .workspace,.pattern-stack,.grid-shell,.studio-grid,.cards-2,.cards-3,.mixer{min-width:0;max-width:100%}
       .workspace{grid-template-columns:1fr;gap:9px}.instrument-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;overflow:visible;padding:0}.inst-btn{min-width:0;width:100%;grid-template-columns:10px minmax(0,1fr);padding:10px 11px}.inst-kind{display:block;font-size:8.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.inst-btn:last-child:nth-child(odd){grid-column:1/-1}
@@ -115,10 +116,12 @@
       .mixer{grid-template-columns:repeat(2,minmax(0,1fr))}
     }
     @media(max-width:480px){
+      .transport-right{grid-template-columns:repeat(3,minmax(0,1fr))}.generate-picker{grid-column:1/-1}.transport-right .btn{width:100%}
       .brand p{max-width:50vw}.panel-head{padding:10px 11px}.panel-body{padding:9px}.transport{padding:7px}.transport-main{grid-template-columns:1fr 1fr 42px 42px}.transport-main .btn.icon{width:42px}.transport-mid{grid-template-columns:48px minmax(0,1fr) 44px;padding:8px}.transport-mid .mini-label{font-size:8.5px}.pattern-row{grid-template-columns:50px minmax(0,1fr)}.song-chain{grid-template-columns:50px minmax(0,1fr)}.seq-grid,.step-ruler{grid-template-columns:44px repeat(8,minmax(0,1fr));gap:2px}.seq-grid{grid-template-rows:repeat(8,32px)}.note-label{font-size:9px;padding-right:4px}.step-ruler{font-size:8px}.grid-toolbar-right .btn{font-size:9px}.help-list{grid-template-columns:1fr}.play-meta{grid-template-columns:1fr 1fr}.preset-item{grid-template-columns:minmax(0,1fr) 58px 40px}.mobile-dock{grid-template-columns:52px 48px minmax(70px,1fr) 48px 48px;padding:6px;gap:4px}.mobile-dock-btn,.mobile-dock-state{height:46px}.mobile-dock-btn{font-size:15px}}
     @media(max-width:360px){.brand p{display:none}.brand h1{font-size:15px}.brand-mark{width:36px;height:36px}.theme-toggle{width:36px;height:36px}.transport-main{grid-template-columns:1fr 1fr 40px 40px}.mobile-dock{left:5px;right:5px;grid-template-columns:48px 45px minmax(62px,1fr) 45px 45px}.mobile-dock-btn small{font-size:7.5px}}
 
     @media(max-width:340px){
+      .generate-picker .select{font-size:15px}.transport-right .btn{font-size:9.5px}
       body{padding-left:max(7px,env(safe-area-inset-left));padding-right:max(7px,env(safe-area-inset-right))}.app{gap:9px}.topbar{padding:9px 10px}.header-actions{gap:4px}.theme-toggle{width:34px;height:34px}.panel-body{padding:7px}.transport{padding:6px}.transport-main{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 38px 38px;gap:4px}.transport-main .btn.icon{width:38px}.transport-main .btn{padding:7px 5px;font-size:9px}.transport-mid{grid-template-columns:44px minmax(0,1fr) 40px;padding:7px 8px;gap:4px 6px}.transport-right{gap:4px}.pattern-row,.song-chain{grid-template-columns:44px minmax(0,1fr);gap:5px}.pattern-btn,.seg-btn{font-size:9px}.grid-toolbar{padding:7px}.grid-toolbar-right{gap:4px}.mobile-step-nav{padding:7px 7px 0;gap:4px}.seq-wrapper{padding:8px 6px 10px}.seq-grid,.step-ruler{grid-template-columns:40px repeat(8,minmax(0,1fr));gap:2px}.seq-grid{grid-template-rows:repeat(8,30px)}.note-label{font-size:8.5px;padding-right:3px}.mobile-dock{left:4px;right:4px;grid-template-columns:44px 42px minmax(54px,1fr) 42px 42px;padding:5px;gap:3px}.mobile-dock-btn,.mobile-dock-state{height:44px}.mobile-dock-btn{font-size:14px}.mobile-dock-state b{font-size:11px}.mobile-dock-state span{font-size:7.5px}}
     @media(max-height:600px) and (orientation:landscape) and (max-width:1023px){body{padding-bottom:20px}.topbar{padding:8px 10px}.brand p{display:none}.mobile-dock{display:none}.toast{bottom:12px}.viz-wrap{height:72px}}
     @media(pointer:coarse){.btn:hover,.inst-btn:hover,.preset-btn:hover{transform:none}.seq-cell:active{transform:none}}
@@ -131,7 +134,7 @@
     <div class="brand-mark">♪</div>
     <div class="brand"><h1>8BIT MUSIC MAKER</h1><p>Chiptune step sequencer · 4-pattern song mode · local-first studio</p></div>
     <div class="header-actions">
-      <div class="top-badges"><span class="badge live">LOCAL · NO UPLOAD</span><span class="badge">v3.5 EXPANDED GENERATE</span><span class="badge">32 STEPS · 2 BARS</span></div>
+      <div class="top-badges"><span class="badge live">LOCAL · NO UPLOAD</span><span class="badge">v3.7 · 100 OST PROFILES + MIDI IMPORT</span><span class="badge">32 STEPS · 2 BARS</span></div>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="다크 모드로 전환" title="화이트/다크 모드 전환"><span class="theme-icon" id="themeIcon">☾</span><span class="theme-label" id="themeLabel">DARK</span></button>
     </div>
   </header>
@@ -148,7 +151,10 @@
       <span class="mini-label">MASTER</span><input class="range" id="masterSlider" type="range" min="0" max="100" value="70"><span class="value" id="masterVal">70%</span>
       <span class="mini-label">SWING</span><input class="range pink" id="swingSlider" type="range" min="50" max="75" value="50"><span class="value" id="swingVal">50%</span>
     </div>
-    <div class="transport-right"><button class="btn cyan" id="btnGenerate">✦ GENERATE</button><button class="btn danger" id="btnClear">CLEAR</button></div>
+    <div class="transport-right">
+      <label class="generate-picker"><span class="mini-label">OST TYPE</span><select class="select" id="generateTemplateSelect" aria-label="OST 작곡 템플릿"></select></label>
+      <button class="btn cyan" id="btnGenerate">✦ GENERATE</button><button class="btn" id="btnImportMidiTop">MIDI IMPORT</button><button class="btn danger" id="btnClear">CLEAR</button><input class="file-input" id="midiFileInput" type="file" accept=".mid,.midi,audio/midi,audio/x-midi">
+    </div>
   </section>
 
   <section class="panel">
@@ -215,7 +221,7 @@
     <div class="panel-body"><div class="cards-3">
       <div class="soft-card"><h3>BUILT-IN PRESETS</h3><div class="preset-grid" id="builtinPresets"></div></div>
       <div class="soft-card"><h3>MY PRESETS</h3><div style="display:flex;gap:7px;margin-bottom:10px"><input id="presetName" class="text-input" placeholder="프리셋 이름" maxlength="24" style="flex:1"><button class="btn yellow" id="btnSavePreset">SAVE</button></div><div class="user-presets" id="userPresets"></div></div>
-      <div class="soft-card"><h3>PROJECT FILE</h3><div class="project-actions"><button class="btn cyan" id="btnExportProject">JSON 저장</button><button class="btn" id="btnImportProject">JSON 불러오기</button><input class="file-input" id="projectFileInput" type="file" accept="application/json,.json"></div><p class="panel-sub" style="margin:12px 0 0;line-height:1.6">자동 복구가 활성화되어 있습니다. 새로고침해도 마지막 작업 상태를 복원하며, JSON 파일로 별도 백업할 수 있습니다.</p></div>
+      <div class="soft-card"><h3>PROJECT FILE</h3><div class="project-actions"><button class="btn cyan" id="btnExportProject">JSON 저장</button><button class="btn" id="btnImportProject">JSON 불러오기</button><button class="btn yellow" id="btnImportMidiProject">MIDI 불러오기</button><input class="file-input" id="projectFileInput" type="file" accept="application/json,.json"></div><p class="panel-sub" style="margin:12px 0 0;line-height:1.6">자동 복구가 활성화되어 있습니다. JSON으로 프로젝트를 백업할 수 있으며, 보유한 MIDI 파일을 불러오면 첫 2마디를 32 STEP 시퀀서에 자동 배치합니다.</p></div>
     </div></div>
   </section>
 
@@ -241,7 +247,7 @@
 <script>
 'use strict';
 
-const APP_VERSION = 3.5;
+const APP_VERSION = 3.7;
 const THEME_KEY = '8bit_music_maker_theme';
 const AUTOSAVE_KEY = '8bit_music_maker_autosave_v3';
 const USER_PRESETS_KEY = '8bit_music_maker_presets_v3';
@@ -439,136 +445,113 @@ function clearAllCurrentPattern(){checkpoint();state.patterns[state.currentPatte
 function clearCurrentInstrument(){checkpoint();state.patterns[state.currentPattern][state.currentInst]=Array.from({length:ROWS},()=>Array(COLS).fill(false));renderGrid();scheduleAutosave();toast('현재 악기를 비웠습니다.');}
 function copyHalf(fromStart,toStart){checkpoint();const g=currentGrid();INSTRUMENTS.forEach(inst=>{for(let r=0;r<ROWS;r++)for(let i=0;i<16;i++)g[inst.id][r][toStart+i]=g[inst.id][r][fromStart+i];});renderGrid();scheduleAutosave();toast('16스텝 구간을 복사했습니다.');}
 function swapHalves(){checkpoint();const g=currentGrid();INSTRUMENTS.forEach(inst=>{for(let r=0;r<ROWS;r++)for(let i=0;i<16;i++){const t=g[inst.id][r][i];g[inst.id][r][i]=g[inst.id][r][16+i];g[inst.id][r][16+i]=t;}});renderGrid();scheduleAutosave();toast('앞/뒤 16스텝을 교체했습니다.');}
-let lastGeneratedDrumSignature=null;
-let lastGeneratedMelodySignature=null;
-const DRUM_GROOVE_NAMES=['STRAIGHT','BREAKBEAT','FOUR ON FLOOR','HALF-TIME','SYNCOPATED','SPARSE','TOM DRIVE','DOUBLE-TIME'];
-const MELODY_STYLE_NAMES=['CHIP POP','ARPEGGIO','CALL & RESPONSE','STEPWISE','WIDE LEAPS','SYNCOPATED','OSTINATO','AMBIENT','BASS DRIVEN','COUNTERPOINT','SEQUENCE','MINIMAL'];
-function randPick(arr){return arr[Math.floor(Math.random()*arr.length)];}
-function randInt(a,b){return Math.floor(Math.random()*(b-a+1))+a;}
-function chance(p){return Math.random()<p;}
-function drumHit(rows,row,step,prob=1){if(step>=0&&step<COLS&&Math.random()<prob)rows[row][step]=true;}
-function drumSteps(rows,row,steps,offset=0,prob=1){steps.forEach(step=>drumHit(rows,row,offset+step,prob));}
-function drumSignature(rows){const out=new Set();for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(rows[r][c])out.add(`${r}:${c}`);return out;}
-function drumSimilarity(a,b){if(!a||!b)return 0;let inter=0;a.forEach(v=>{if(b.has(v))inter++;});const union=a.size+b.size-inter;return union?inter/union:1;}
-function ensureBarVariation(rows){let same=true;for(let r=0;r<ROWS&&same;r++)for(let c=0;c<16;c++)if(rows[r][c]!==rows[r][c+16]){same=false;break;}if(!same)return;const choices=[[7,22],[7,30],[6,28],[3,26],[4,29],[5,30]];const [row,step]=randPick(choices);rows[row][step]=!rows[row][step];}
-function addDrumFill(rows,style){if(Math.random()>.72)return;const variant=Math.floor(Math.random()*5);if(variant===0){drumSteps(rows,6,[28,30]);drumSteps(rows,4,[29,31]);}
-  else if(variant===1){drumSteps(rows,5,[28,29]);drumSteps(rows,4,[30,31]);}
-  else if(variant===2){drumSteps(rows,6,[27,29,31]);drumHit(rows,1,30,.65);}
-  else if(variant===3){drumSteps(rows,3,[26,28]);drumHit(rows,2,30);drumHit(rows,0,31,.45);}
-  else{drumSteps(rows,4,[27,29]);drumSteps(rows,5,[28,30]);drumHit(rows,6,31);}
-  if(style==='SPARSE'&&Math.random()<.55){for(let r=0;r<ROWS;r++)if(r!==6&&r!==7)rows[r][28]=false;}}
-function buildDrumCandidate(){const rows=Array.from({length:ROWS},()=>Array(COLS).fill(false));const style=randPick(DRUM_GROOVE_NAMES);
-  for(let bar=0;bar<2;bar++){const o=bar*16;const second=bar===1;
-    if(style==='STRAIGHT'){
-      drumSteps(rows,7,[0,8],o);drumHit(rows,7,o+(second?14:6),.58);drumSteps(rows,6,[4,12],o);drumSteps(rows,3,[0,2,4,6,8,10,12,14],o,.82);drumHit(rows,2,o+14,.38);
-    }else if(style==='BREAKBEAT'){
-      drumSteps(rows,7,second?[0,5,10,14]:[0,3,8,11],o);drumSteps(rows,6,[4,12],o);drumHit(rows,6,o+(second?15:10),.42);drumSteps(rows,3,second?[0,2,5,8,10,13]:[0,2,6,8,10,14],o,.88);drumHit(rows,2,o+(second?7:15),.55);
-    }else if(style==='FOUR ON FLOOR'){
-      drumSteps(rows,7,[0,4,8,12],o);drumSteps(rows,6,[4,12],o);drumSteps(rows,3,[2,6,10,14],o,.96);drumSteps(rows,1,[4,12],o,.36);drumHit(rows,2,o+(second?14:6),.58);
-    }else if(style==='HALF-TIME'){
-      drumSteps(rows,7,second?[0,7,12]:[0,6,10],o);drumHit(rows,6,o+8);drumSteps(rows,3,[0,2,4,6,8,10,12,14],o,.68);drumHit(rows,2,o+14,.42);drumHit(rows,1,o+8,.28);
-    }else if(style==='SYNCOPATED'){
-      drumSteps(rows,7,second?[0,3,7,11,15]:[0,5,7,11,14],o);drumSteps(rows,6,[4,12],o);drumSteps(rows,3,[1,3,5,7,9,11,13,15],o,.72);drumHit(rows,2,o+(second?11:7),.48);drumHit(rows,1,o+12,.28);
-    }else if(style==='SPARSE'){
-      drumHit(rows,7,o);drumHit(rows,7,o+(second?11:9),.72);drumHit(rows,6,o+(second?12:8));drumSteps(rows,3,second?[3,7,15]:[2,10,14],o,.48);drumHit(rows,2,o+14,.32);
-    }else if(style==='TOM DRIVE'){
-      drumSteps(rows,7,second?[0,8,13]:[0,8],o);drumSteps(rows,6,[4,12],o);drumSteps(rows,4,second?[2,6,10,14]:[2,10],o,.84);drumSteps(rows,5,second?[4,8,12,15]:[6,14],o,.8);drumSteps(rows,3,[0,4,8,12],o,.44);
-    }else{
-      drumSteps(rows,7,second?[0,3,6,8,11,14]:[0,3,6,8,10,13],o);drumSteps(rows,6,[4,12],o);drumSteps(rows,3,[0,2,4,6,8,10,12,14],o);drumSteps(rows,1,[4,12],o,.4);drumHit(rows,2,o+14,.5);
-    }
-    if(Math.random()<.22)drumHit(rows,1,o+12);
-    if(bar===0&&Math.random()<.22)drumHit(rows,0,o);
-  }
-  addDrumFill(rows,style);ensureBarVariation(rows);
-  for(let c=0;c<COLS;c++)if(rows[2][c])rows[3][c]=false;
-  return{rows,style,signature:drumSignature(rows)};
-}
-function generateDrumPattern(g){let candidate=null;for(let attempt=0;attempt<10;attempt++){const next=buildDrumCandidate();candidate=next;if(!lastGeneratedDrumSignature||drumSimilarity(lastGeneratedDrumSignature,next.signature)<.62)break;}lastGeneratedDrumSignature=candidate.signature;g.noise=candidate.rows;return candidate.style;}
-
-// ---------- Expanded melody generator ----------
-const RHYTHM_TEMPLATES={
-  steady8:[[0,2,4,6,8,10,12,14],[0,2,5,6,8,10,13,14],[0,3,4,7,8,11,12,15]],
-  sync:[[0,3,6,7,10,14],[0,2,5,9,11,14],[1,4,6,9,12,15],[0,5,7,10,13,15]],
-  sparse:[[0,6,10,14],[0,4,11],[0,7,12,15],[2,8,14]],
-  offbeat:[[2,6,10,14],[1,5,9,13],[2,5,10,13],[3,7,11,15]],
-  drive:[[0,2,3,6,8,10,11,14],[0,1,4,6,8,9,12,14],[0,3,5,8,10,13,15]],
-  dotted:[[0,3,6,9,12,15],[0,3,7,10,14],[1,4,7,11,14]],
-  minimal:[[0,8],[0,6,12],[0,10],[2,14]]
-};
-const BASS_PROGRESSIONS=[
-  [7,7,5,6],[7,5,4,5],[7,6,4,5],[7,4,5,3],[7,5,7,4],[7,6,5,4],[7,4,6,5],[7,5,3,4]
+// ---------- OST COMPOSER (deterministic, no random selection) ----------
+const OST_PROFILE_GROUPS = [
+  {name:'클래식 플랫폼',baseBpm:156,scale:'major',lead:'square',support:'pulse',drum:'arcade',bass:'drive',items:['오버월드 질주','지하 동굴','성채 돌파','수중 스테이지','애슬레틱 코스','비행선 전투','사막 월드','빙설 월드','유령 저택','최종 스테이지']},
+  {name:'판타지 어드벤처',baseBpm:126,scale:'pentatonic',lead:'pulse',support:'square',drum:'field',bass:'quarters',items:['광활한 필드','신비한 숲','평화로운 마을','고대 신전','깊은 동굴','퍼즐 성소','대해원 항해','설산 등반','왕성 테마','마왕 결전']},
+  {name:'JRPG',baseBpm:132,scale:'minor',lead:'sawtooth',support:'pulse',drum:'anthem',bass:'quarters',items:['월드맵','왕도 마을','일반 전투','중간 보스','승리 팡파르','여관의 밤','고대 던전','비극 장면','비공정 항해','최종 결전']},
+  {name:'몬스터 어드벤처',baseBpm:142,scale:'major',lead:'square',support:'pulse',drum:'pop',bass:'quarters',items:['초원 루트','시작 마을','야생 조우','라이벌 배틀','체육관 도전','동굴 탐사','진화 순간','챔피언전','전설 조우','엔딩 크레딧']},
+  {name:'액션 메트로배니아',baseBpm:150,scale:'minorPent',lead:'pulse',support:'sawtooth',drum:'rock',bass:'sync',items:['탐색 구역','잊힌 유적','보스 룸','추격전','비밀 방','침수 구역','용암 지대','시계탑','달빛 성채','엔딩 탈출']},
+  {name:'레이싱 / 아케이드',baseBpm:184,scale:'major',lead:'square',support:'pulse',drum:'arcade',bass:'drive',items:['메인 메뉴','그랑프리 서킷','고속도로','사막 랠리','설원 코스','야간 시티','파이널 랩','우승 테마','라이벌전','결과 화면']},
+  {name:'격투',baseBpm:166,scale:'minorPent',lead:'sawtooth',support:'pulse',drum:'mecha',bass:'drive',items:['캐릭터 선택','도심 스테이지','라이벌 대전','토너먼트','보스 등장','서든 데스','승리 테마','도장 스테이지','옥상 결전','최종 보스']},
+  {name:'SF / 메카',baseBpm:160,scale:'minor',lead:'pulse',support:'sawtooth',drum:'mecha',bass:'sync',items:['출격 시퀀스','우주 전투','콜로니','원자로','격납고','거대 병기전','사이버 시티','무중력 구역','긴급 탈출','별의 엔딩']},
+  {name:'호러 / 미스터리',baseBpm:94,scale:'minor',lead:'square',support:'pulse',drum:'mystery',bass:'pedal',items:['수사 시작','저택','세이프 룸','지하실','추격','퍼즐 룸','진실 공개','밤의 거리','불안한 엔딩','숨겨진 보스']},
+  {name:'애니 / 드라마',baseBpm:128,scale:'major',lead:'square',support:'pulse',drum:'pop',bass:'slow',items:['소년 배틀 OP','감성 ED','방과 후','여름 축제','고백 장면','이별','재회','스포츠 클라이맥스','마법 결전','엔딩 크레딧']}
 ];
-function weightedPick(items){const total=items.reduce((n,x)=>n+x[1],0);let r=Math.random()*total;for(const [v,w] of items){r-=w;if(r<=0)return v;}return items.at(-1)[0];}
-function mutateRhythm(steps,style){let out=[...steps];const drop=style==='AMBIENT'?.22:style==='MINIMAL'?.12:.08;if(out.length>3&&chance(drop))out.splice(randInt(1,out.length-1),1);if(chance(style==='SYNCOPATED'?.48:.24)){const candidates=[1,2,3,5,6,7,9,10,11,13,14,15].filter(x=>!out.includes(x));if(candidates.length)out.push(randPick(candidates));}if(chance(.28)&&out.length){const i=randInt(0,out.length-1);out[i]=clamp(out[i]+randPick([-1,1]),0,15);}return [...new Set(out)].sort((a,b)=>a-b);}
-function rhythmForStyle(style){let group='steady8';if(style==='SYNCOPATED'||style==='CALL & RESPONSE'||style==='COUNTERPOINT')group='sync';else if(style==='AMBIENT')group='sparse';else if(style==='ARPEGGIO'||style==='BASS DRIVEN')group=chance(.5)?'drive':'offbeat';else if(style==='WIDE LEAPS'||style==='SEQUENCE')group=chance(.5)?'dotted':'steady8';else if(style==='MINIMAL')group='minimal';else if(style==='OSTINATO')group=chance(.55)?'steady8':'offbeat';return [...randPick(RHYTHM_TEMPLATES[group])];}
-function walkRow(prev,style,index){
-  if(style==='WIDE LEAPS')return clamp(prev+weightedPick([[-4,1],[-3,2],[-2,1],[2,1],[3,2],[4,1]]),0,7);
-  if(style==='AMBIENT')return clamp(prev+weightedPick([[-3,1],[-2,2],[-1,2],[0,1],[1,2],[2,2],[3,1]]),0,7);
-  if(style==='MINIMAL')return prev;
-  if(style==='BASS DRIVEN')return clamp(prev+weightedPick([[-2,1],[-1,3],[0,3],[1,3],[2,1]]),2,7);
-  return clamp(prev+weightedPick([[-2,1],[-1,4],[0,2],[1,4],[2,1]]),0,7);
+function profileHash(str){let h=2166136261>>>0;for(let i=0;i<str.length;i++){h^=str.charCodeAt(i);h=Math.imul(h,16777619)>>>0;}return h>>>0;}
+function profileRng(seed){let x=seed>>>0||0x12345678;return()=>{x^=x<<13;x^=x>>>17;x^=x<<5;return(x>>>0)/4294967296;};}
+function makeProfile(group,groupIndex,item,itemIndex){
+  const label=`${group.name} · ${item}`,id=`profile_${groupIndex+1}_${itemIndex+1}`,rnd=profileRng(profileHash(label));
+  const bpm=clamp(group.baseBpm+Math.round((rnd()-.5)*28),72,208),swing=[50,52,54,56,58][Math.floor(rnd()*5)],octave=group.name.includes('호러')?3:(rnd()>.68?3:4);
+  const phrase=[];const used=new Set();const count=6+Math.floor(rnd()*5);for(let i=0;i<count;i++){let step=Math.round((i*(15/(count-1||1)))+(rnd()-.5)*2);step=clamp(step,0,15);while(used.has(step)&&step<15)step++;used.add(step);let row=clamp(Math.round(1+rnd()*5+(i%3===0?1:0)),0,7);phrase.push([step,row]);}phrase.sort((a,b)=>a[0]-b[0]);
+  const prog=Array.from({length:8},(_,i)=>clamp(4+Math.floor(rnd()*4)+(i%4===3?-1:0),3,7));
+  const drumChoices=group.name.includes('호러')?['mystery','dark']:(group.name.includes('레이싱')?['arcade','rock']:(group.name.includes('SF')||group.name.includes('격투')?['mecha','boss']:[group.drum,'field','pop','anthem']));
+  const bassChoices=[group.bass,'quarters','sync','drive','slow','pedal'];
+  const leads=['square','pulse','sawtooth'];const lead=rnd()<.62?group.lead:leads[Math.floor(rnd()*leads.length)];let support=group.support;if(support===lead)support=lead==='square'?'pulse':'square';
+  return{id,label,desc:`${group.name} 계열 고정 작곡 프로필 · ${item}`,bpm,swing,scale:group.scale,octave,lead,support,drum:drumChoices[Math.floor(rnd()*drumChoices.length)],bass:bassChoices[Math.floor(rnd()*bassChoices.length)],phrase,prog};
 }
-function buildLeadEvents(style){
-  const r1=rhythmForStyle(style),r2=mutateRhythm(r1,style);let start=randInt(style==='BASS DRIVEN'?3:1,6);const first=[];let row=start;
-  const arp=randPick([[7,5,3,1],[6,4,2,0],[7,4,2,5],[6,3,1,4],[7,5,2,4],[5,3,0,2]]);
-  const minimalPair=[randInt(2,6),randInt(1,6)];
-  r1.forEach((step,i)=>{
-    if(style==='ARPEGGIO')row=arp[i%arp.length];
-    else if(style==='OSTINATO')row=clamp([start,start-2,start+1,start-1][i%4],0,7);
-    else if(style==='SEQUENCE')row=clamp(start+[0,-1,-3,-2][i%4]+Math.floor(i/4)%2,0,7);
-    else if(style==='MINIMAL')row=minimalPair[i%minimalPair.length];
-    else row=walkRow(row,style,i);
-    first.push({step,row});
+const OST_COMPOSER_TEMPLATES = OST_PROFILE_GROUPS.flatMap((g,gi)=>g.items.map((item,ii)=>makeProfile(g,gi,item,ii)));
+const composeVariationCounter=Object.create(null);
+function buildGenerateTemplateOptions(){const sel=$('#generateTemplateSelect');if(!sel)return;sel.textContent='';OST_PROFILE_GROUPS.forEach((g,gi)=>{const og=document.createElement('optgroup');og.label=g.name;OST_COMPOSER_TEMPLATES.filter(t=>t.id.startsWith(`profile_${gi+1}_`)).forEach(t=>{const o=document.createElement('option');o.value=t.id;o.textContent=t.label.split(' · ')[1]||t.label;og.appendChild(o);});sel.appendChild(og);});}
+function composerTemplate(id){return OST_COMPOSER_TEMPLATES.find(t=>t.id===id)||OST_COMPOSER_TEMPLATES[0];}
+function applyHits(g,id,row,steps){steps.forEach(step=>{if(step>=0&&step<COLS)g[id][clamp(row,0,7)][step]=true;});}
+function transformedPhrase(base,variation){
+  const out=[];base.forEach(([step,row],i)=>{let r=row,s=step+16;
+    if(variation===0) r=clamp(row+(i%3===1?-1:0),0,7);
+    else if(variation===1) r=clamp(7-row+(i%2?1:0),0,7);
+    else if(variation===2){r=clamp(row-1+(i%4===3?2:0),0,7);s=clamp(step+(i%3===1?1:0),0,15)+16;}
+    else {r=clamp(row+(i<base.length/2?1:-1),0,7);s=clamp(step+(i%2?1:0),0,15)+16;}
+    out.push([s,r]);
   });
-  const second=[];const transform=randPick(['transpose','invert','answer','sequence']);
-  r2.forEach((step,i)=>{
-    const src=first[Math.min(i,first.length-1)]||{row:start};let rr=src.row;
-    if(style==='CALL & RESPONSE'||transform==='answer')rr=clamp(7-src.row+randPick([-1,0,0,1]),0,7);
-    else if(transform==='invert')rr=clamp(start-(src.row-start),0,7);
-    else if(transform==='sequence')rr=clamp(src.row+randPick([-2,-1,1,2]),0,7);
-    else rr=clamp(src.row+randPick([-1,0,1]),0,7);
-    if(style==='ARPEGGIO')rr=clamp(arp[(i+randPick([1,2,3]))%arp.length],0,7);
-    if(style==='MINIMAL')rr=minimalPair[(i+1)%minimalPair.length];
-    second.push({step:step+16,row:rr});
-  });
-  if(first.length&&second.length&&first.every((e,i)=>second[i]&&e.step+16===second[i].step&&e.row===second[i].row))second.at(-1).row=clamp(second.at(-1).row+(second.at(-1).row>3?-1:1),0,7);
-  return first.concat(second);
+  if(out.length){const last=out[out.length-1];last[0]=31;last[1]=variation%2===0?clamp(last[1]-1,0,7):clamp(last[1]+1,0,7);}
+  return out;
 }
-function putEvents(g,id,events,prob=1){events.forEach(e=>{if(e.step>=0&&e.step<COLS&&chance(prob))g[id][clamp(e.row,0,7)][e.step]=true;});}
-function progressionForBars(){const p=randPick(BASS_PROGRESSIONS);const delta=randPick([-1,0,0,0,1]);return p.concat(p.map((r,i)=>clamp(r+(i===0?0:delta),3,7)));}
-function addBassLine(g,style,progression){
-  const steps=style==='BASS DRIVEN'?[0,3,4,7,8,10,12,15,16,19,20,23,24,26,28,31]:[0,4,8,12,16,20,24,28];
-  steps.forEach((step,i)=>{const beat=Math.floor(step/4);let row=progression[beat]??7;if(style==='BASS DRIVEN'&&i%2)row=clamp(row-randPick([0,1,2]),3,7);g.triangle[row][step]=true;});
-  if(style!=='AMBIENT'&&chance(.42)){[14,30].forEach(step=>{const beat=Math.floor(step/4);g.triangle[clamp((progression[beat]??7)-1,3,7)][step]=true;});}
+function applyLeadPhrase(g,t,variation){const full=t.phrase.concat(transformedPhrase(t.phrase,variation));full.forEach(([step,row])=>g[t.lead][row][step]=true);return full;}
+function applyBassBlueprint(g,t,variation){const prog=t.prog;const roots=Array.from({length:8},(_,i)=>clamp((prog[i]??7)+(variation===2&&i>3?-1:0),3,7));
+  if(t.bass==='slow'){[0,8,16,24].forEach((s,i)=>g.triangle[roots[i*2]][s]=true);[12,28].forEach((s,i)=>g.triangle[clamp(roots[i*4+3]-1,3,7)][s]=true);}
+  else if(t.bass==='pedal'){[0,4,8,12,16,20,24,28].forEach((s,i)=>g.triangle[i%3===2?clamp(roots[i]-1,3,7):7][s]=true);}
+  else if(t.bass==='sync'){[0,3,6,8,11,14,16,19,22,24,27,30].forEach((s,i)=>g.triangle[roots[Math.floor(s/4)]][s]=true);}
+  else if(t.bass==='drive'){[0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30].forEach((s,i)=>{let r=roots[Math.floor(s/4)];if(i%4===3)r=clamp(r-1,3,7);g.triangle[r][s]=true;});}
+  else {[0,4,8,12,16,20,24,28].forEach((s,i)=>g.triangle[roots[i]][s]=true);}
+  return roots;
 }
-function addArpeggio(g,id,style,progression,leadEvents){
-  let steps;if(style==='ARPEGGIO')steps=[0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30];else if(style==='AMBIENT')steps=[3,11,19,27];else steps=randPick(RHYTHM_TEMPLATES.offbeat).concat(randPick(RHYTHM_TEMPLATES.offbeat).map(x=>x+16));
-  const degrees=randPick([[0,2,4,2],[0,3,5,3],[0,2,5,3],[0,4,2,5]]);
-  const leadAt=new Set(leadEvents.map(e=>e.step));steps.forEach((step,i)=>{if(style!=='ARPEGGIO'&&leadAt.has(step)&&chance(.55))return;const beat=Math.floor(step/4);const root=progression[beat]??7;const row=clamp(root-degrees[i%degrees.length],0,7);g[id][row][step]=true;});
+function applyHarmonyBlueprint(g,t,variation,roots,leadEvents){const leadSteps=new Set(leadEvents.map(e=>e[0]));const slowFeel=t.bpm<116;const arp=slowFeel?[2,6,10,14,18,22,26,30]:[1,3,5,7,9,11,13,15,17,19,21,23,25,27,29,31];
+  const shapes=variation===0?[0,2,4,2]:variation===1?[0,3,5,3]:variation===2?[0,4,2,5]:[0,2,5,3];
+  arp.forEach((s,i)=>{if(leadSteps.has(s)&&i%2===0)return;const root=roots[Math.floor(s/4)]??7;g[t.support][clamp(root-shapes[i%4],0,7)][s]=true;});
+  if(t.drum==='mystery'||t.drum==='dark'){[7,15,23,31].forEach((s,i)=>g[t.support][clamp((roots[Math.floor(s/4)]??7)-[2,1,3,2][i],0,7)][s]=true);}
 }
-function addCounterLine(g,id,style,leadEvents){
-  const leadMap=new Map(leadEvents.map(e=>[e.step,e.row]));let candidates=[];for(let c=1;c<COLS;c+=2)if(!leadMap.has(c))candidates.push(c);if(style==='COUNTERPOINT')candidates=candidates.filter((_,i)=>i%1===0);else candidates=candidates.filter((_,i)=>i%2===0);
-  candidates.forEach((step,i)=>{if(!chance(style==='COUNTERPOINT'?.78:.52))return;let nearest=leadEvents.reduce((best,e)=>Math.abs(e.step-step)<Math.abs(best.step-step)?e:best,leadEvents[0]||{step:0,row:4});let row=clamp(7-nearest.row+randPick([-1,0,1]),0,7);if(i&&chance(.35))row=clamp(row+randPick([-1,1]),0,7);g[id][row][step]=true;});
+function applyDrumBlueprint(g,type,v){const d=g.noise;const hit=(row,steps)=>steps.forEach(s=>{if(s>=0&&s<32)d[row][s]=true;});
+  const even=[0,2,4,6,8,10,12,14,16,18,20,22,24,26,28,30],off=[2,6,10,14,18,22,26,30];
+  if(type==='rock'){hit(7,v%2?[0,3,8,11,16,19,24,27]:[0,6,8,14,16,22,24,30]);hit(6,[4,12,20,28]);hit(3,even);hit(2,[14,30]);hit(0,[0,16]);}
+  else if(type==='ballad'){hit(7,[0,16,24]);hit(6,[8,24]);hit(3,[2,6,10,14,18,22,26,30]);hit(2,[14,30]);}
+  else if(type==='anthem'){hit(7,[0,8,11,16,24,27]);hit(6,[4,12,20,28]);hit(3,off);hit(2,[14,30]);hit(0,[0,16]);}
+  else if(type==='field'){hit(7,[0,8,16,24]);hit(6,[4,12,20,28]);hit(3,off);if(v>1)hit(1,[12,28]);}
+  else if(type==='town'){hit(7,[0,16]);hit(6,[8,24]);hit(3,[4,12,20,28]);hit(1,[12,28]);}
+  else if(type==='boss'){hit(7,[0,3,6,8,11,14,16,19,22,24,27,30]);hit(6,[4,12,20,28]);hit(3,even);hit(4,[26,28]);hit(5,[27,29]);hit(0,[0,16,31]);}
+  else if(type==='mecha'){hit(7,[0,4,7,10,16,20,23,26,30]);hit(6,[4,12,20,28]);hit(3,[0,2,6,8,10,14,16,18,22,24,26,30]);hit(2,[14,30]);hit(1,[12,28]);}
+  else if(type==='mystery'){hit(7,[0,11,16,27]);hit(6,[8,24]);hit(3,[3,7,15,19,23,31]);hit(2,[14,30]);}
+  else if(type==='pop'){hit(7,[0,6,8,14,16,22,24,30]);hit(6,[4,12,20,28]);hit(3,off);hit(1,[4,12,20,28]);}
+  else if(type==='dark'){hit(7,[0,8,16,24]);hit(6,[12,28]);hit(5,[6,14,22,30]);hit(4,[10,26]);hit(0,[0,16]);}
+  else if(type==='space'){hit(7,[0,16]);hit(6,[8,24]);hit(2,[14,30]);hit(3,[4,12,20,28]);hit(0,[0,16]);}
+  else {hit(7,[0,3,6,8,10,13,16,19,22,24,26,29]);hit(6,[4,12,20,28]);hit(3,even);hit(2,[14,30]);hit(0,[0,16]);}
+  if(v===1){hit(6,[30]);hit(4,[29,31]);}
+  else if(v===2){hit(5,[28,30]);hit(4,[29,31]);}
+  else if(v===3){hit(6,[27,29,31]);hit(2,[30]);}
+  for(let c=0;c<COLS;c++)if(d[2][c])d[3][c]=false;
 }
-function addEchoNotes(g,id,leadEvents){leadEvents.forEach((e,i)=>{if(i%3===1&&e.step+2<COLS&&chance(.48))g[id][clamp(e.row+randPick([-2,-1,1,2]),0,7)][e.step+2]=true;});}
-function melodySignature(g){const out=new Set();['square','triangle','sawtooth','pulse'].forEach(id=>{for(let r=0;r<ROWS;r++)for(let c=0;c<COLS;c++)if(g[id][r][c])out.add(`${id}:${r}:${c}`);});return out;}
-function melodySimilarity(a,b){return drumSimilarity(a,b);}
-function melodyNoteCount(g){let n=0;['square','triangle','sawtooth','pulse'].forEach(id=>g[id].forEach(row=>row.forEach(v=>{if(v)n++;})));return n;}
-function buildMelodyCandidate(){
-  const g=emptyGrid(),style=randPick(MELODY_STYLE_NAMES),leadId=randPick(['square','square','pulse','pulse','sawtooth']);const lead=buildLeadEvents(style);const progression=progressionForBars();putEvents(g,leadId,lead);
-  addBassLine(g,style,progression);
-  const melodicOthers=['square','sawtooth','pulse'].filter(id=>id!==leadId);const arpId=randPick(melodicOthers),counterId=melodicOthers.find(id=>id!==arpId)||arpId;
-  const arrangement=randPick(style==='MINIMAL'?['DUO','DUO','ECHO']:style==='AMBIENT'?['DUO','COUNTER','ECHO']:style==='ARPEGGIO'?['ARP','ARP','FULL']:['DUO','ARP','COUNTER','FULL','ECHO']);
-  if(arrangement==='ARP'||arrangement==='FULL')addArpeggio(g,arpId,style,progression,lead);
-  if(arrangement==='COUNTER'||arrangement==='FULL')addCounterLine(g,counterId,style,lead);
-  if(arrangement==='ECHO')addEchoNotes(g,arpId,lead);
-  if(style==='COUNTERPOINT'&&arrangement!=='COUNTER'&&arrangement!=='FULL')addCounterLine(g,counterId,style,lead);
-  if(style==='ARPEGGIO'&&arrangement!=='ARP'&&arrangement!=='FULL')addArpeggio(g,arpId,style,progression,lead);
-  if(melodyNoteCount(g)<16)addEchoNotes(g,arpId,lead);
-  return{grid:g,style,arrangement,leadId,signature:melodySignature(g)};
+function applyTemplateMixer(t){INSTRUMENTS.forEach(i=>{state.mixer[i.id].mute=false;state.mixer[i.id].solo=false;state.mixer[i.id].pan=0;state.mixer[i.id].volume=i.id==='noise'?.68:.58;});state.mixer.triangle.volume=.64;state.mixer.noise.volume=t.bpm<116?.54:.72;state.mixer[t.lead].volume=.78;state.mixer[t.support].volume=.56;state.mixer[t.lead].pan=-.08;state.mixer[t.support].pan=.10;}
+function composeFromSelectedTemplate(){
+  const t=composerTemplate($('#generateTemplateSelect')?.value);const v=composeVariationCounter[t.id]||0;composeVariationCounter[t.id]=(v+1)%4;checkpoint();const g=emptyGrid();
+  const leadEvents=applyLeadPhrase(g,t,v),roots=applyBassBlueprint(g,t,v);applyHarmonyBlueprint(g,t,v,roots,leadEvents);applyDrumBlueprint(g,t.drum,v);
+  state.patterns[state.currentPattern]=g;state.bpm=t.bpm;state.swing=t.swing;state.scale=t.scale;state.octave=t.octave;applyTemplateMixer(t);state.currentInst=t.lead;syncAllUI();scheduleAutosave();toast(`${t.label} · VAR ${v+1}`);
 }
-function generateMelodyPattern(g){let candidate=null;for(let attempt=0;attempt<14;attempt++){const next=buildMelodyCandidate();candidate=next;if(!lastGeneratedMelodySignature||melodySimilarity(lastGeneratedMelodySignature,next.signature)<.56)break;}lastGeneratedMelodySignature=candidate.signature;['square','triangle','sawtooth','pulse'].forEach(id=>g[id]=candidate.grid[id]);return candidate;}
-function randomGenerate(){checkpoint();const g=emptyGrid();const melody=generateMelodyPattern(g);const groove=generateDrumPattern(g);state.patterns[state.currentPattern]=g;renderGrid();scheduleAutosave();toast(`멜로디 ${melody.style} · 드럼 ${groove}`);}
+
+
+// ---------- MIDI import (user-provided files only) ----------
+function readVlq(view,pos){let value=0,b;do{b=view.getUint8(pos.i++);value=(value<<7)|(b&0x7f);}while(b&0x80);return value;}
+function parseMidiFile(buffer){
+  const v=new DataView(buffer);let p=0;const str=n=>{let s='';while(n--)s+=String.fromCharCode(v.getUint8(p++));return s;};const u32=()=>{const n=v.getUint32(p);p+=4;return n;},u16=()=>{const n=v.getUint16(p);p+=2;return n;};
+  if(str(4)!=='MThd')throw new Error('MIDI 헤더를 찾을 수 없습니다.');const hlen=u32();const format=u16(),tracks=u16(),division=u16();if(division&0x8000)throw new Error('SMPTE MIDI는 아직 지원하지 않습니다.');p=8+hlen;const notes=[];let bpm=null;
+  for(let ti=0;ti<tracks;ti++){
+    if(str(4)!=='MTrk')throw new Error('MIDI 트랙이 손상되었습니다.');const len=u32(),end=p+len;let tick=0,running=0;
+    while(p<end){const pos={i:p};tick+=readVlq(v,pos);p=pos.i;let status=v.getUint8(p++);if(status<0x80){p--;status=running;}else running=status;
+      if(status===0xff){const type=v.getUint8(p++),lp={i:p},mlen=readVlq(v,lp);p=lp.i;if(type===0x51&&mlen===3&&!bpm){const mpqn=(v.getUint8(p)<<16)|(v.getUint8(p+1)<<8)|v.getUint8(p+2);bpm=Math.round(60000000/mpqn);}p+=mlen;continue;}
+      if(status===0xf0||status===0xf7){const lp={i:p},n=readVlq(v,lp);p=lp.i+n;continue;}
+      const type=status&0xf0,ch=status&0x0f;if(type===0xc0||type===0xd0){p+=1;continue;}const a=v.getUint8(p++),b=v.getUint8(p++);if(type===0x90&&b>0)notes.push({tick,ch,note:a,vel:b});
+    }
+    p=end;
+  }
+  return{format,division,notes,bpm};
+}
+function midiDrumRow(note){if([35,36].includes(note))return 7;if([38,40].includes(note))return 6;if([41,43,45].includes(note))return 5;if([47,48,50].includes(note))return 4;if([42,44].includes(note))return 3;if([46].includes(note))return 2;if([39].includes(note))return 1;if([49,51,52,55,57].includes(note))return 0;return note<42?7:3;}
+function mapPitchRows(channelNotes){const unique=[...new Set(channelNotes.map(n=>n.note))].sort((a,b)=>a-b);const index=new Map();if(unique.length<=8)unique.forEach((n,i)=>index.set(n,7-Math.round(i*(7/Math.max(1,unique.length-1)))));return n=>{if(index.has(n))return index.get(n);const min=unique[0]??60,max=unique[unique.length-1]??67;return 7-clamp(Math.round((n-min)/Math.max(1,max-min)*7),0,7);};}
+async function importMidiFile(file){
+  try{const parsed=parseMidiFile(await file.arrayBuffer());if(!parsed.notes.length)throw new Error('노트 데이터가 없습니다.');checkpoint();const g=emptyGrid(),firstTick=Math.min(...parsed.notes.map(n=>n.tick)),ticksPerStep=parsed.division/4,maxTick=firstTick+ticksPerStep*32;const melodic=parsed.notes.filter(n=>n.ch!==9&&n.tick<maxTick),drums=parsed.notes.filter(n=>n.ch===9&&n.tick<maxTick);
+    const byCh={};melodic.forEach(n=>(byCh[n.ch]??=[]).push(n));const channels=Object.entries(byCh).map(([ch,arr])=>({ch:+ch,arr,median:[...arr].sort((a,b)=>a.note-b.note)[Math.floor(arr.length/2)]?.note||60})).sort((a,b)=>b.median-a.median);const instOrder=['square','pulse','sawtooth','triangle'];channels.slice(0,4).forEach((group,i)=>{const mapper=mapPitchRows(group.arr);group.arr.forEach(n=>{const step=clamp(Math.round((n.tick-firstTick)/ticksPerStep),0,31);g[instOrder[i]][mapper(n.note)][step]=true;});});drums.forEach(n=>{const step=clamp(Math.round((n.tick-firstTick)/ticksPerStep),0,31);g.noise[midiDrumRow(n.note)][step]=true;});
+    state.patterns[state.currentPattern]=g;if(parsed.bpm)state.bpm=clamp(parsed.bpm,60,220);state.scale='chromatic';state.currentInst=channels.length?instOrder[0]:'noise';syncAllUI();scheduleAutosave();toast(`${file.name} · MIDI 32 STEP 불러오기 완료`);
+  }catch(e){console.error(e);toast('MIDI 불러오기 실패: '+e.message,'error');}
+}
+function openMidiImport(){const input=$('#midiFileInput');input.value='';input.click();}
 
 // ---------- Presets ----------
 function put(g,id,row,steps){steps.forEach(s=>{if(s>=0&&s<COLS)g[id][row][s]=true;});}
@@ -676,7 +659,7 @@ $('#btnPlay').onclick=startPlay;$('#btnStop').onclick=stopPlay;$('#btnUndo').onc
 $$('.mobile-step-btn').forEach(b=>b.addEventListener('click',()=>setMobileStepPage(+b.dataset.stepPage)));
 $('#mobilePlay').onclick=startPlay;$('#mobileStop').onclick=stopPlay;$('#mobileUndo').onclick=undo;$('#mobileRedo').onclick=redo;
 const handleMobileLayoutChange=()=>{mobileStepPage=0;renderStepRuler();renderMobileStepNav();renderGrid();};if(MOBILE_LAYOUT_MQ.addEventListener)MOBILE_LAYOUT_MQ.addEventListener('change',handleMobileLayoutChange);else MOBILE_LAYOUT_MQ.addListener?.(handleMobileLayoutChange);
-$('#btnGenerate').onclick=randomGenerate;$('#btnClear').onclick=()=>confirmAction('패턴 전체 삭제',`현재 패턴 ${state.currentPattern}의 모든 악기를 지울까요?`,clearAllCurrentPattern);$('#btnClearInst').onclick=()=>confirmAction('악기 삭제',`${state.currentInst.toUpperCase()} 트랙만 지울까요?`,clearCurrentInstrument);
+$('#btnGenerate').onclick=composeFromSelectedTemplate;$('#btnImportMidiTop').onclick=openMidiImport;$('#btnImportMidiProject').onclick=openMidiImport;$('#midiFileInput').onchange=e=>{const f=e.target.files[0];if(f)importMidiFile(f);e.target.value='';};$('#btnClear').onclick=()=>confirmAction('패턴 전체 삭제',`현재 패턴 ${state.currentPattern}의 모든 악기를 지울까요?`,clearAllCurrentPattern);$('#btnClearInst').onclick=()=>confirmAction('악기 삭제',`${state.currentInst.toUpperCase()} 트랙만 지울까요?`,clearCurrentInstrument);
 $('#btnCopyLeft').onclick=()=>copyHalf(0,16);$('#btnCopyRight').onclick=()=>copyHalf(16,0);$('#btnSwapHalves').onclick=swapHalves;
 $$('.seg-btn').forEach(b=>b.onclick=()=>{state.playbackMode=b.dataset.playmode;renderPlayMode();scheduleAutosave();updateExportInfo();updateMobileDock();});
 $('#songChainInput').addEventListener('change',e=>{const arr=e.target.value.toUpperCase().split(/[^A-D]+/).filter(Boolean).filter(x=>PATTERN_IDS.includes(x)).slice(0,8);state.songChain=arr.length?arr:['A'];e.target.value=state.songChain.join(' ');$('#chainNote').textContent=state.songChain.join('→');scheduleAutosave();updateExportInfo();});
@@ -693,7 +676,7 @@ window.addEventListener('beforeunload',()=>{try{localStorage.setItem(AUTOSAVE_KE
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&isPlaying)$('#footerStatus').textContent='PLAYING · 백그라운드 스케줄러 유지';});
 
 // ---------- Init ----------
-loadAutosave();buildStaticUI();applyTheme(currentTheme(),false);syncAllUI();resizeVisualizer();drawIdleViz();scheduleAutosave();
+loadAutosave();buildStaticUI();buildGenerateTemplateOptions();applyTheme(currentTheme(),false);syncAllUI();resizeVisualizer();drawIdleViz();scheduleAutosave();
 </script>
 </body>
 </html>

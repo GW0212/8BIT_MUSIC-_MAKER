@@ -1,63 +1,35 @@
-8BIT MUSIC MAKER · v3.5 EXPANDED GENERATE - VALIDATION REPORT
-==============================================================
+8BIT MUSIC MAKER FINAL v3.7 VALIDATION
 
-[JavaScript]
-PASS - inline JavaScript syntax parsed with Node.js
-PASS - Playwright browser execution: no page errors / no console errors
-PASS - GENERATE button repeated execution without DOM/runtime failure
+[STATIC]
+PASS - JavaScript syntax (node --check)
+PASS - 100 GENERATE options
+PASS - 10 optgroup categories
+PASS - MIDI parser and import handlers present
 
-[MELODY GENERATE]
-PASS - 12 melody style families implemented
-PASS - 1,000 raw melody generations completed
-PASS - all 12 melody families appeared in the 1,000-run test
-PASS - all 5 arrangement families appeared: DUO / ARP / COUNTER / FULL / ECHO
-PASS - lead instrument distribution includes SQUARE / PULSE / SAW
-PASS - generated melody note count range observed: 12~47 notes
-PASS - average melody note count observed: ~26.7 notes
-PASS - average consecutive raw Jaccard similarity: ~0.09
-PASS - maximum consecutive raw similarity observed: ~0.44
-PASS - accepted generator 500-run average similarity: ~0.09
-PASS - accepted generator 500-run maximum similarity observed: ~0.35
-PASS - identical Bar 1 / Bar 2 occurrence: 0 / 1,000
-PASS - current Key / Scale / Octave settings are preserved by GENERATE
+[GENERATE]
+Profiles tested: 100
+Empty patterns: 0
+Unique pattern signatures: 100 / 100
+Minimum active notes/hits: 42
+Maximum active notes/hits: 85
 
-[DRUM / NOISE GENERATE]
-PASS - 8 groove families preserved
-PASS - previous-result similarity reroll preserved
-PASS - Bar 1 / Bar 2 Variation preserved
-PASS - Open HH suppresses Closed HH on the same step
+[MIDI IMPORT]
+Test SMF: PASS
+Tempo import: 120 BPM
+Melody notes imported: 4
+Drum hits imported: 2
 
-[RESPONSIVE / MOBILE LAYOUT]
-Playwright viewport verification:
-PASS - 320x720  : horizontal overflow 0, 64 visible seq cells, 4 step-page buttons
-PASS - 340x760  : horizontal overflow 0
-PASS - 360x800  : horizontal overflow 0
-PASS - 375x812  : horizontal overflow 0
-PASS - 390x844  : horizontal overflow 0
-PASS - 412x915  : horizontal overflow 0
-PASS - 430x932  : horizontal overflow 0
-PASS - 480x900  : horizontal overflow 0
-PASS - 560x900  : horizontal overflow 0
-PASS - 667x375  : horizontal overflow 0, landscape Dock hidden
-PASS - 760x900  : horizontal overflow 0
-PASS - 768x1024 : horizontal overflow 0, Compact Touch Layout active
-PASS - 820x1180 : horizontal overflow 0
-PASS - 844x390  : horizontal overflow 0, landscape Dock hidden
-PASS - 900x900  : horizontal overflow 0
-PASS - 1023x900 : horizontal overflow 0, Compact Touch Layout active
-PASS - 1024x768 : horizontal overflow 0, 256 visible seq cells, PC Layout active
-PASS - 1280x800 : horizontal overflow 0
-PASS - 1366x900 : horizontal overflow 0
-PASS - all visible element bounding boxes remained inside viewport in test matrix
+[RESPONSIVE]
+320x720  - document horizontal overflow 0
+390x844  - document horizontal overflow 0
+430x932  - document horizontal overflow 0
+768x1024 - document horizontal overflow 0
+1024x768 - document horizontal overflow 0
+1366x900 - document horizontal overflow 0
 
-[TOUCH / INTERACTION]
-PASS - mobile step pages map to exact columns 0~7 / 8~15 / 16~23 / 24~31
-PASS - each mobile step page renders exactly 64 cells (8 rows x 8 steps)
-PASS - touch Tap toggles Sequencer cells
-PASS - Mixer Mute control toggles normally
-PASS - Light -> Dark theme toggle works
-PASS - resizing back to PC restores 256-cell 32 STEP view
+SEQUENCER scrollWidth == clientWidth on tested mobile widths
+MIXER scrollWidth == clientWidth on tested mobile widths
+GENERATE / MIDI IMPORT / CLEAR fit without overlap on 320px+
 
-[Package]
-PASS - ZIP root contains files directly (no parent folder layer)
-PASS - ZIP CRC integrity verified
+[PACKAGE]
+Root-file ZIP structure requested
