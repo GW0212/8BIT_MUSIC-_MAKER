@@ -51,3 +51,8 @@ Note
 - Desktop transport uses two-tier grid; medium desktop uses three-tier stack.
 - Mobile composer controls never share a row beyond available width.
 - 480px and below use search/favorite first row, category second row, actions below.
+
+[v4.4 UI ALIGNMENT]
+- Favorite button aligned with composer action buttons.
+- Responsive action grid: 4 columns desktop, 2x2 compact/mobile.
+- Search/category controls stack safely on <=480px.

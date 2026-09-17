@@ -65,3 +65,9 @@
 - 1180px 이하 PC에서 3단 안전 배치
 - 모바일 480px 이하에서 검색/카테고리를 2행 구조로 재배치
 - GENERATE/MIDI/CLEAR 버튼 겹침 방지
+
+[v4.4]
+- FAVORITE 버튼을 검색 필터 영역에서 액션 버튼 그룹으로 이동
+- PC에서 FAVORITE/GENERATE/MIDI IMPORT/CLEAR 높이 및 정렬 통일
+- 1023px 이하에서 액션 버튼 2x2 그리드 배치
+- 480px 이하에서 검색/카테고리를 세로 배치해 겹침 방지

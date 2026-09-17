@@ -154,7 +154,7 @@
     <div class="brand-mark">♪</div>
     <div class="brand"><h1>8BIT MUSIC MAKER</h1><p>Chiptune step sequencer · 4-pattern song mode · local-first studio</p></div>
     <div class="header-actions">
-      <div class="top-badges"><span class="badge live">LOCAL · NO UPLOAD</span><span class="badge">v4.3 · CLEAN LAYOUT</span><span class="badge">32 STEPS · 2 BARS</span></div>
+      <div class="top-badges"><span class="badge live">LOCAL · NO UPLOAD</span><span class="badge">v4.4 · ALIGNED UI</span><span class="badge">32 STEPS · 2 BARS</span></div>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="다크 모드로 전환" title="화이트/다크 모드 전환"><span class="theme-icon" id="themeIcon">☾</span><span class="theme-label" id="themeLabel">DARK</span></button>
     </div>
   </header>
@@ -178,12 +178,12 @@
           <div class="ost-filter-row">
             <input class="text-input ost-search" id="ostSearch" type="search" placeholder="100개 OST 프로필 검색" aria-label="OST 프로필 검색">
             <select class="select ost-category" id="ostCategory" aria-label="OST 카테고리"><option value="all">전체 카테고리</option><option value="favorites">★ 즐겨찾기</option><option value="recent">최근 사용</option></select>
-            <button class="btn icon ost-favorite" id="ostFavorite" type="button" aria-label="현재 OST 즐겨찾기">☆</button>
           </div>
           <select class="select" id="generateTemplateSelect" aria-label="OST 작곡 템플릿"></select>
         </div>
       </div>
       <div class="transport-actions" aria-label="생성 및 불러오기 작업">
+        <button class="btn ost-favorite" id="ostFavorite" type="button" aria-label="현재 OST 즐겨찾기">☆ FAVORITE</button>
         <button class="btn cyan" id="btnGenerate">✦ GENERATE</button>
         <button class="btn" id="btnImportMidiTop">MIDI IMPORT</button>
         <button class="btn danger" id="btnClear">CLEAR</button>

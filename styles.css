@@ -1,4 +1,4 @@
-/* 8BIT MUSIC MAKER v4.2 — visual polish layer */
+/* 8BIT MUSIC MAKER v4.4 — visual polish + aligned responsive controls */
 
 /* Global rhythm and rendering */
 html{font-synthesis:none;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
@@ -269,4 +269,87 @@ body{letter-spacing:-.005em}
   position:absolute;
   opacity:0;
   pointer-events:none;
+}
+
+
+/* =========================================================
+   v4.4 ALIGNED UI — favorite/action alignment + mobile safety
+   ========================================================= */
+.ost-filter-row{
+  grid-template-columns:minmax(200px,1.35fr) minmax(160px,.85fr)!important;
+  align-items:center!important;
+}
+.ost-favorite{
+  width:auto!important;
+  min-width:112px!important;
+  height:40px!important;
+  padding:0 12px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:6px!important;
+  white-space:nowrap!important;
+  font-size:10.5px!important;
+}
+.transport-actions{
+  grid-template-columns:repeat(4,max-content)!important;
+  align-items:center!important;
+  align-self:end!important;
+  gap:7px!important;
+}
+.transport-actions .btn{
+  min-height:40px!important;
+  height:40px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  white-space:nowrap!important;
+}
+
+@media(max-width:1180px) and (min-width:1024px){
+  .transport-right{grid-template-columns:minmax(0,1fr)!important}
+  .transport-actions{
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    width:100%!important;
+    justify-content:stretch!important;
+  }
+  .transport-actions .btn{width:100%!important}
+  .ost-filter-row{grid-template-columns:minmax(0,1fr) minmax(180px,.65fr)!important}
+}
+
+@media(max-width:1023px){
+  .ost-filter-row{
+    grid-template-columns:minmax(0,1fr) minmax(120px,.72fr)!important;
+    gap:6px!important;
+  }
+  .transport-actions{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    width:100%!important;
+    gap:6px!important;
+  }
+  .transport-actions .btn,
+  .ost-favorite{
+    width:100%!important;
+    min-width:0!important;
+    height:42px!important;
+    min-height:42px!important;
+    font-size:10px!important;
+    padding-inline:6px!important;
+  }
+}
+
+@media(max-width:480px){
+  .ost-filter-row{
+    grid-template-columns:1fr!important;
+    grid-template-areas:none!important;
+  }
+  .ost-search,.ost-category{grid-area:auto!important;width:100%!important}
+  .transport-actions{grid-template-columns:1fr 1fr!important}
+  .transport-actions #btnGenerate{grid-column:auto!important}
+  .transport-actions .btn{font-size:9.5px!important;letter-spacing:-.01em}
+}
+
+@media(max-width:360px){
+  .transport-actions .btn{font-size:8.8px!important;padding-inline:3px!important}
+  .ost-favorite{font-size:8.8px!important}
 }
