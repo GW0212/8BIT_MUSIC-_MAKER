@@ -7,7 +7,7 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>8BIT MUSIC MAKER · Studio v3.6</title>
+  <title>8BIT MUSIC MAKER · Studio v3.8</title>
   <link rel="icon" href="favicon.png" type="image/png" />
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('8bit_music_maker_theme')||'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
   <style>
@@ -134,7 +134,7 @@
     <div class="brand-mark">♪</div>
     <div class="brand"><h1>8BIT MUSIC MAKER</h1><p>Chiptune step sequencer · 4-pattern song mode · local-first studio</p></div>
     <div class="header-actions">
-      <div class="top-badges"><span class="badge live">LOCAL · NO UPLOAD</span><span class="badge">v3.7 · 100 OST PROFILES + MIDI IMPORT</span><span class="badge">32 STEPS · 2 BARS</span></div>
+      <div class="top-badges"><span class="badge live">LOCAL · NO UPLOAD</span><span class="badge">v3.8 · SEAMLESS INFINITE LOOP</span><span class="badge">32 STEPS · 2 BARS</span></div>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="다크 모드로 전환" title="화이트/다크 모드 전환"><span class="theme-icon" id="themeIcon">☾</span><span class="theme-label" id="themeLabel">DARK</span></button>
     </div>
   </header>
@@ -247,7 +247,7 @@
 <script>
 'use strict';
 
-const APP_VERSION = 3.7;
+const APP_VERSION = 3.8;
 const THEME_KEY = '8bit_music_maker_theme';
 const AUTOSAVE_KEY = '8bit_music_maker_autosave_v3';
 const USER_PRESETS_KEY = '8bit_music_maker_presets_v3';
@@ -523,7 +523,13 @@ function applyTemplateMixer(t){INSTRUMENTS.forEach(i=>{state.mixer[i.id].mute=fa
 function composeFromSelectedTemplate(){
   const t=composerTemplate($('#generateTemplateSelect')?.value);const v=composeVariationCounter[t.id]||0;composeVariationCounter[t.id]=(v+1)%4;checkpoint();const g=emptyGrid();
   const leadEvents=applyLeadPhrase(g,t,v),roots=applyBassBlueprint(g,t,v);applyHarmonyBlueprint(g,t,v,roots,leadEvents);applyDrumBlueprint(g,t.drum,v);
-  state.patterns[state.currentPattern]=g;state.bpm=t.bpm;state.swing=t.swing;state.scale=t.scale;state.octave=t.octave;applyTemplateMixer(t);state.currentInst=t.lead;syncAllUI();scheduleAutosave();toast(`${t.label} · VAR ${v+1}`);
+  state.patterns[state.currentPattern]=g;state.bpm=t.bpm;state.swing=t.swing;state.scale=t.scale;state.octave=t.octave;applyTemplateMixer(t);state.currentInst=t.lead;
+  // GENERATE는 현재 패턴을 즉시 무한 반복하는 것이 기본 동작이다.
+  // 이전 세션에서 SONG 모드가 남아 있어 빈 B/C/D 때문에 긴 무음이 생기는 현상을 방지한다.
+  state.playbackMode='pattern';
+  syncAllUI();scheduleAutosave();
+  if(isPlaying) restartPlaybackNow();
+  toast(`${t.label} · VAR ${v+1} · LOOP ON`);
 }
 
 
@@ -603,14 +609,26 @@ $('#mixer').addEventListener('click',e=>{const ch=e.target.closest('.channel');i
 
 // ---------- Accurate scheduler ----------
 let isPlaying=false,schedulerTimer=null,nextNoteTime=0,schedulerStep=0,songIndex=0,visualQueue=[],vizRaf=0,lastVisualStep=-1,lastVisualPattern='A';
-const LOOKAHEAD_MS=25,SCHEDULE_AHEAD=.12;
+const LOOKAHEAD_MS=20,SCHEDULE_AHEAD=.18,START_LATENCY=.02;
 function stepDuration(step){const base=60/state.bpm/4,amount=(state.swing-50)/100;return base*(step%2===0?1+amount:1-amount);}
-function currentScheduledPattern(){return state.playbackMode==='song'?state.songChain[songIndex%state.songChain.length]:state.currentPattern;}
+function patternHasNotes(patternId){const g=state.patterns[patternId];return !!g&&INSTRUMENTS.some(inst=>g[inst.id]?.some(row=>row.some(Boolean)));}
+function effectiveSongChain(){const seq=state.songChain.filter(patternHasNotes);return seq.length?seq:[state.currentPattern];}
+function currentScheduledPattern(){const seq=state.playbackMode==='song'?effectiveSongChain():[state.currentPattern];return seq[songIndex%seq.length];}
 function scheduleStep(patternId,step,time,ctx=audioCtx,targetChannels=channels){const g=state.patterns[patternId];INSTRUMENTS.forEach(inst=>{const dest=targetChannels[inst.id].gain;for(let r=0;r<ROWS;r++){if(!g[inst.id][r][step])continue;if(inst.type==='noise')synthDrum(ctx,dest,r,time);else{const midi=scaleMidiRows()[r];synthTone(ctx,dest,inst.type,midiFreq(midi),time,state.pulseWidth);}}});if(ctx===audioCtx)visualQueue.push({time,step,pattern:patternId});}
-function advanceScheduler(){nextNoteTime+=stepDuration(schedulerStep);schedulerStep++;if(schedulerStep>=COLS){schedulerStep=0;if(state.playbackMode==='song')songIndex=(songIndex+1)%state.songChain.length;}}
+function advanceScheduler(){nextNoteTime+=stepDuration(schedulerStep);schedulerStep++;if(schedulerStep>=COLS){schedulerStep=0;if(state.playbackMode==='song'){const seq=effectiveSongChain();songIndex=(songIndex+1)%seq.length;}else songIndex=0;}}
 function scheduler(){if(!isPlaying||!audioCtx)return;while(nextNoteTime<audioCtx.currentTime+SCHEDULE_AHEAD){scheduleStep(currentScheduledPattern(),schedulerStep,nextNoteTime);advanceScheduler();}}
-async function startPlay(){if(!initAudio())return;if(audioCtx.state==='suspended')await audioCtx.resume();if(isPlaying)return;isPlaying=true;schedulerStep=0;songIndex=0;visualQueue=[];nextNoteTime=audioCtx.currentTime+.06;scheduler();schedulerTimer=setInterval(scheduler,LOOKAHEAD_MS);$('#btnPlay').textContent='▶ PLAYING';$('#footerStatus').textContent='PLAYING · Web Audio Scheduler';updateMobileDock();startViz();}
-function stopPlay(){if(schedulerTimer)clearInterval(schedulerTimer);schedulerTimer=null;isPlaying=false;visualQueue=[];liveSources.forEach(src=>{try{src.stop(0);}catch{}});liveSources.clear();schedulerStep=0;songIndex=0;$('#btnPlay').textContent='▶ PLAY';clearPlayhead();stopViz();drawIdleViz();$('#footerStatus').textContent='READY · 자동복구 ON';updateMobileDock();}
+function stopLiveSourcesNow(){liveSources.forEach(src=>{try{src.stop(0);}catch{}});liveSources.clear();}
+function restartPlaybackNow(){
+  if(!isPlaying||!audioCtx)return;
+  stopLiveSourcesNow();
+  schedulerStep=0;songIndex=0;visualQueue=[];clearPlayhead();
+  nextNoteTime=audioCtx.currentTime+START_LATENCY;
+  scheduler();
+  $('#footerStatus').textContent='PLAYING · SEAMLESS LOOP';
+  updateMobileDock();
+}
+async function startPlay(){if(!initAudio())return;if(audioCtx.state==='suspended')await audioCtx.resume();if(isPlaying)return;isPlaying=true;schedulerStep=0;songIndex=0;visualQueue=[];nextNoteTime=audioCtx.currentTime+START_LATENCY;scheduler();schedulerTimer=setInterval(scheduler,LOOKAHEAD_MS);$('#btnPlay').textContent='▶ PLAYING';$('#footerStatus').textContent='PLAYING · SEAMLESS LOOP';updateMobileDock();startViz();}
+function stopPlay(){if(schedulerTimer)clearInterval(schedulerTimer);schedulerTimer=null;isPlaying=false;visualQueue=[];stopLiveSourcesNow();schedulerStep=0;songIndex=0;$('#btnPlay').textContent='▶ PLAY';clearPlayhead();stopViz();drawIdleViz();$('#footerStatus').textContent='READY · 자동복구 ON';updateMobileDock();}
 function updatePlayhead(){if(!audioCtx)return;while(visualQueue.length&&visualQueue[0].time<=audioCtx.currentTime+.005){const e=visualQueue.shift();lastVisualStep=e.step;lastVisualPattern=e.pattern;$$('.seq-cell.playing').forEach(x=>x.classList.remove('playing'));if(e.pattern===state.currentPattern){$$(`.seq-cell[data-col="${e.step}"]`).forEach(x=>x.classList.add('playing'));}$('#metaStep').textContent=String(e.step+1).padStart(2,'0')+' / 32';$('#metaPattern').textContent=e.pattern;const mp=$('#mobilePattern');if(mp)mp.textContent=e.pattern;}}
 function clearPlayhead(){$$('.seq-cell.playing').forEach(x=>x.classList.remove('playing'));$('#metaStep').textContent='01 / 32';$('#metaPattern').textContent=state.currentPattern;}
 
@@ -631,7 +649,7 @@ function exportProject(){const payload={...snapshot(),exportedAt:new Date().toIS
 async function importProject(file){try{const text=await file.text(),raw=JSON.parse(text);if(raw.format&&raw.format!=='8bit-music-maker')throw new Error('지원하지 않는 프로젝트 형식입니다.');checkpoint();state=migrateProject(raw);syncAllUI();scheduleAutosave();toast('프로젝트를 불러왔습니다.');}catch(e){toast('불러오기 실패: '+e.message,'error');}}
 
 // ---------- Export helpers ----------
-function playbackSequence(){return state.playbackMode==='song'?state.songChain:[state.currentPattern];}
+function playbackSequence(){return state.playbackMode==='song'?effectiveSongChain():[state.currentPattern];}
 function patternDuration(){return (60/state.bpm/4)*COLS;}
 function cycleDuration(){return patternDuration()*playbackSequence().length;}
 function updateExportInfo(){const sec=+$('#exportDurSlider').value;$('#exportDurVal').textContent=formatTime(sec);const seq=playbackSequence();$('#exportInfo').textContent=`${state.playbackMode==='song'?'SONG '+seq.join('→'):'PATTERN '+state.currentPattern} · 1사이클 ${cycleDuration().toFixed(2)}초 · ${state.bpm} BPM · ${state.swing}% Swing`;updateMeta();}

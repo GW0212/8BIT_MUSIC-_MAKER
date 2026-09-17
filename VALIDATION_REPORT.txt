@@ -1,35 +1,19 @@
-8BIT MUSIC MAKER FINAL v3.7 VALIDATION
+8BIT MUSIC MAKER FINAL v3.8 VALIDATION
 
-[STATIC]
-PASS - JavaScript syntax (node --check)
-PASS - 100 GENERATE options
-PASS - 10 optgroup categories
-PASS - MIDI parser and import handlers present
+PASS - app_version_3_8
+PASS - generate_forces_pattern
+PASS - empty_song_skip
+PASS - seamless_restart
+PASS - start_latency_20ms
+PASS - lookahead_20ms
+PASS - schedule_ahead_180ms
+PASS - export_uses_effective_chain
+PASS - duplicate_ids_zero
+PASS - missing_dom_refs_zero
+PASS - five_cycles_contiguous
+PASS - cycle_duration_120bpm_4sec
 
-[GENERATE]
-Profiles tested: 100
-Empty patterns: 0
-Unique pattern signatures: 100 / 100
-Minimum active notes/hits: 42
-Maximum active notes/hits: 85
-
-[MIDI IMPORT]
-Test SMF: PASS
-Tempo import: 120 BPM
-Melody notes imported: 4
-Drum hits imported: 2
-
-[RESPONSIVE]
-320x720  - document horizontal overflow 0
-390x844  - document horizontal overflow 0
-430x932  - document horizontal overflow 0
-768x1024 - document horizontal overflow 0
-1024x768 - document horizontal overflow 0
-1366x900 - document horizontal overflow 0
-
-SEQUENCER scrollWidth == clientWidth on tested mobile widths
-MIXER scrollWidth == clientWidth on tested mobile widths
-GENERATE / MIDI IMPORT / CLEAR fit without overlap on 320px+
-
-[PACKAGE]
-Root-file ZIP structure requested
+Duplicate IDs: none
+Missing DOM refs: none
+120 BPM loop starts: [0.02, 4.02, 8.02, 12.02, 16.02]
+Expected starts: [0.02, 4.02, 8.02, 12.02, 16.02]

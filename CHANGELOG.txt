@@ -1,11 +1,11 @@
-v3.7
-- GENERATE 선택기를 100개 고정형 OST 구성 프로필로 확장
-- 10개 카테고리별 optgroup 적용
-- 모든 프로필을 결정론적으로 구성해 같은 선택은 동일한 음악적 정체성을 유지
-- 프로필별 VAR 1~4 편곡 변형 유지
-- 상단 MIDI IMPORT 버튼 추가
-- Project 영역 MIDI 불러오기 추가
-- Standard MIDI File 파서 추가
-- 첫 2마디 32 STEP 양자화 및 채널/드럼 자동 배정
-- 모바일 480px 이하 GENERATE / MIDI IMPORT / CLEAR 3열 정렬
-- v3.6의 PC/모바일 UI 및 오디오 기능 유지
+v3.8 · SEAMLESS INFINITE LOOP
+
+- GENERATE 실행 시 자동으로 PATTERN 재생 모드로 전환
+- 생성된 현재 패턴은 32 STEP 종료 즉시 1 STEP부터 무한 반복
+- 이전 세션에서 SONG A B C D가 남아 있어 빈 B/C/D 때문에 긴 무음이 생기던 문제 수정
+- SONG 모드에서도 노트가 하나도 없는 패턴은 자동으로 건너뜀
+- 재생 시작 지연 60ms -> 20ms
+- Web Audio look-ahead 25ms/120ms -> 20ms/180ms로 보강
+- 재생 중 GENERATE 시 예약된 이전 음을 즉시 중지하고 새 패턴의 1 STEP부터 재시작
+- WAV/MIDI SONG 내보내기에서도 빈 패턴 자동 제외
+- v3.7의 100 OST PROFILE, MIDI IMPORT, 모바일 UI, Mixer, WAV/MIDI Export 유지
