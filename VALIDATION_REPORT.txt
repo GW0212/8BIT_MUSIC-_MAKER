@@ -37,3 +37,17 @@ Note
 - Transport right section desktop grid realigned.
 - Added 1320px and 1200px responsive breakpoints to prevent overlap.
 - Buttons in generate section aligned without wrapping/overlap on PC and mobile layouts.
+
+
+[v4.2 CSS POLISH]
+- External styles.css loaded after base inline CSS.
+- No functional JavaScript changes.
+- Responsive overrides added for desktop/tablet/mobile.
+- Interactive states improved without changing DOM IDs.
+
+
+[v4.3 CLEAN LAYOUT]
+- Removed one-line transport crowding.
+- Desktop transport uses two-tier grid; medium desktop uses three-tier stack.
+- Mobile composer controls never share a row beyond available width.
+- 480px and below use search/favorite first row, category second row, actions below.
