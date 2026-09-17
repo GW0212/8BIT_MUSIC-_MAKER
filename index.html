@@ -7,7 +7,7 @@
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <title>8BIT MUSIC MAKER · Studio v4.3</title>
+  <title>8BIT MUSIC MAKER · Studio v4.5</title>
   <link rel="icon" href="favicon.png" type="image/png" />
   <script>try{document.documentElement.dataset.theme=localStorage.getItem('8bit_music_maker_theme')||'light'}catch(e){document.documentElement.dataset.theme='light'}</script>
   <style>
@@ -149,15 +149,24 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+<audio id="iosAudioKeepAlive" src="silent-keepalive.wav" preload="auto" loop playsinline webkit-playsinline aria-hidden="true"></audio>
 <div class="app">
   <header class="topbar">
     <div class="brand-mark">♪</div>
     <div class="brand"><h1>8BIT MUSIC MAKER</h1><p>Chiptune step sequencer · 4-pattern song mode · local-first studio</p></div>
     <div class="header-actions">
-      <div class="top-badges"><span class="badge live">LOCAL · NO UPLOAD</span><span class="badge">v4.4 · ALIGNED UI</span><span class="badge">32 STEPS · 2 BARS</span></div>
+      <div class="top-badges"><span class="badge live">LOCAL · NO UPLOAD</span><span class="badge">v4.5 · MOBILE AUDIO + STICKY BAR</span><span class="badge">32 STEPS · 2 BARS</span></div>
       <button class="theme-toggle" id="themeToggle" type="button" aria-label="다크 모드로 전환" title="화이트/다크 모드 전환"><span class="theme-icon" id="themeIcon">☾</span><span class="theme-label" id="themeLabel">DARK</span></button>
     </div>
   </header>
+
+  <nav class="mobile-dock" id="mobileDock" aria-label="모바일 빠른 재생 컨트롤">
+    <button class="mobile-dock-btn play" id="mobilePlay" type="button" aria-label="재생"><span>▶</span><small>재생</small></button>
+    <button class="mobile-dock-btn" id="mobileStop" type="button" aria-label="정지"><span>■</span><small>정지</small></button>
+    <button class="mobile-dock-btn" id="mobileUndo" type="button" aria-label="실행취소"><span>↶</span><small>뒤로</small></button>
+    <button class="mobile-dock-btn" id="mobileRedo" type="button" aria-label="다시실행"><span>↷</span><small>앞으로</small></button>
+    <span class="sr-only" id="mobilePattern">A</span><span class="sr-only" id="mobileState" aria-live="polite">120 BPM</span>
+  </nav>
 
   <section class="transport" aria-label="재생 컨트롤">
     <div class="transport-main">
@@ -273,19 +282,12 @@
 
   <div class="footer-status"><span class="status-led"></span><span id="footerStatus">READY</span><span class="save-status" id="saveStatus">자동복구 ON</span></div>
 </div>
-<nav class="mobile-dock" id="mobileDock" aria-label="모바일 빠른 재생 컨트롤">
-  <button class="mobile-dock-btn play" id="mobilePlay" type="button"><span>▶</span><small>재생</small></button>
-  <button class="mobile-dock-btn" id="mobileStop" type="button"><span>■</span><small>정지</small></button>
-  <div class="mobile-dock-state" aria-live="polite"><b id="mobilePattern">A</b><span id="mobileState">120 BPM</span></div>
-  <button class="mobile-dock-btn" id="mobileUndo" type="button"><span>↶</span><small>취소</small></button>
-  <button class="mobile-dock-btn" id="mobileRedo" type="button"><span>↷</span><small>복원</small></button>
-</nav>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="modal" id="modal"><div class="modal-card"><h2 id="modalTitle">CONFIRM</h2><p id="modalText"></p><div class="modal-actions"><button class="btn" id="modalCancel">취소</button><button class="btn danger" id="modalOk">확인</button></div></div></div>
 <script>
 'use strict';
 
-const APP_VERSION = 4.0;
+const APP_VERSION = 4.5;
 const THEME_KEY = '8bit_music_maker_theme';
 const AUTOSAVE_KEY = '8bit_music_maker_autosave_v4';
 const LEGACY_AUTOSAVE_KEYS = ['8bit_music_maker_autosave_v3'];
@@ -650,6 +652,29 @@ const AudioCtx=window.AudioContext||window.webkitAudioContext;
 const OfflineCtx=window.OfflineAudioContext||window.webkitOfflineAudioContext;
 let audioCtx=null,masterGain=null,masterLimiter=null,analyser=null,channels={},liveSources=new Set();
 const noiseCache=new WeakMap(),pulseCache=new WeakMap();
+function isIOSLike(){return /iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);}
+function primeMobilePlaybackSession(){
+  let sessionConfigured=false;
+  try{
+    if(navigator.audioSession&&'type' in navigator.audioSession){
+      navigator.audioSession.type='playback';
+      sessionConfigured=true;
+    }
+  }catch(err){console.warn('AudioSession playback mode unavailable',err);}
+  const keepAlive=$('#iosAudioKeepAlive');
+  if(!sessionConfigured&&isIOSLike()&&keepAlive){
+    try{
+      keepAlive.muted=false;
+      keepAlive.volume=.02;
+      if(keepAlive.paused)return keepAlive.play().catch(err=>{console.warn('iOS keep-alive audio could not start',err);});
+    }catch(err){console.warn('iOS keep-alive audio unavailable',err);}
+  }
+  return Promise.resolve();
+}
+function releaseMobilePlaybackFallback(){
+  const keepAlive=$('#iosAudioKeepAlive');
+  if(keepAlive&&!keepAlive.paused){try{keepAlive.pause();keepAlive.currentTime=0;}catch{}}
+}
 function initAudio(){
   if(audioCtx)return true;if(!AudioCtx){toast('이 브라우저는 Web Audio API를 지원하지 않습니다.','error');return false;}audioCtx=new AudioCtx();masterGain=audioCtx.createGain();masterLimiter=audioCtx.createDynamicsCompressor();masterLimiter.threshold.value=-5;masterLimiter.knee.value=8;masterLimiter.ratio.value=16;masterLimiter.attack.value=.003;masterLimiter.release.value=.12;analyser=audioCtx.createAnalyser();analyser.fftSize=256;analyser.smoothingTimeConstant=.68;masterGain.connect(masterLimiter);masterLimiter.connect(analyser);analyser.connect(audioCtx.destination);buildAudioChannels(audioCtx,masterGain,channels);updateAudioMixer();return true;
 }
@@ -697,8 +722,8 @@ function restartPlaybackNow(){
   $('#footerStatus').textContent='PLAYING · SEAMLESS LOOP';
   updateMobileDock();
 }
-async function startPlay(){if(!initAudio())return;if(audioCtx.state==='suspended')await audioCtx.resume();if(isPlaying)return;isPlaying=true;schedulerStep=0;songIndex=0;visualQueue=[];nextNoteTime=audioCtx.currentTime+START_LATENCY;scheduler();schedulerTimer=setInterval(scheduler,LOOKAHEAD_MS);$('#btnPlay').textContent='▶ PLAYING';$('#footerStatus').textContent='PLAYING · SEAMLESS LOOP';updateMobileDock();startViz();}
-function stopPlay(){if(schedulerTimer)clearInterval(schedulerTimer);schedulerTimer=null;isPlaying=false;visualQueue=[];stopLiveSourcesNow();schedulerStep=0;songIndex=0;$('#btnPlay').textContent='▶ PLAY';clearPlayhead();stopViz();drawIdleViz();$('#footerStatus').textContent='READY';updateMobileDock();}
+async function startPlay(){const mobileSessionPromise=primeMobilePlaybackSession();if(!initAudio())return;const resumePromise=audioCtx.state==='suspended'?audioCtx.resume():Promise.resolve();await Promise.allSettled([mobileSessionPromise,resumePromise]);if(isPlaying)return;isPlaying=true;schedulerStep=0;songIndex=0;visualQueue=[];nextNoteTime=audioCtx.currentTime+START_LATENCY;scheduler();schedulerTimer=setInterval(scheduler,LOOKAHEAD_MS);$('#btnPlay').textContent='▶ PLAYING';$('#footerStatus').textContent='PLAYING · SEAMLESS LOOP';updateMobileDock();startViz();}
+function stopPlay(){if(schedulerTimer)clearInterval(schedulerTimer);schedulerTimer=null;isPlaying=false;visualQueue=[];stopLiveSourcesNow();releaseMobilePlaybackFallback();schedulerStep=0;songIndex=0;$('#btnPlay').textContent='▶ PLAY';clearPlayhead();stopViz();drawIdleViz();$('#footerStatus').textContent='READY';updateMobileDock();}
 function updatePlayhead(){if(!audioCtx)return;while(visualQueue.length&&visualQueue[0].time<=audioCtx.currentTime+.005){const e=visualQueue.shift();lastVisualStep=e.step;lastVisualPattern=e.pattern;if(isMobileLayout()&&state.followPlayhead&&e.pattern===state.currentPattern){const page=Math.floor(e.step/8);if(page!==mobileStepPage)setMobileStepPage(page,false);}$$('.seq-cell.playing').forEach(x=>x.classList.remove('playing'));if(e.pattern===state.currentPattern)$$(`.seq-cell[data-col="${e.step}"]`).forEach(x=>x.classList.add('playing'));$('#metaStep').textContent=String(e.step+1).padStart(2,'0')+' / 32';$('#metaPattern').textContent=e.pattern;const mp=$('#mobilePattern');if(mp)mp.textContent=e.pattern;}}
 function clearPlayhead(){$$('.seq-cell.playing').forEach(x=>x.classList.remove('playing'));$('#metaStep').textContent='01 / 32';$('#metaPattern').textContent=state.currentPattern;}
 

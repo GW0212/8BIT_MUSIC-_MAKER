@@ -71,3 +71,11 @@
 - PC에서 FAVORITE/GENERATE/MIDI IMPORT/CLEAR 높이 및 정렬 통일
 - 1023px 이하에서 액션 버튼 2x2 그리드 배치
 - 480px 이하에서 검색/카테고리를 세로 배치해 겹침 방지
+
+
+[v4.5]
+- 모바일 PLAY 시 iOS Audio Session을 playback으로 설정해 Ring/Silent 모드 재생 대응
+- Audio Session API 미지원 구형 iOS용 초저음량 HTMLAudio keep-alive fallback 추가
+- 모바일 PLAY / STOP / UNDO / REDO를 하나의 상단 Sticky 바으로 통합
+- 기존 하단 Fixed Dock 제거: 콘텐츠 가림 및 Safe Area 충돌 제거
+- 320~1023px 및 모바일 가로모드에서 4버튼 동일 폭 정렬 보강

@@ -56,3 +56,18 @@ Note
 - Favorite button aligned with composer action buttons.
 - Responsive action grid: 4 columns desktop, 2x2 compact/mobile.
 - Search/category controls stack safely on <=480px.
+
+
+[v4.5 MOBILE AUDIO + STICKY BAR]
+- Modern iOS path: navigator.audioSession.type = playback (feature-detected).
+- Legacy iOS fallback: looping low-level HTMLAudio keep-alive, started only from PLAY user gesture.
+- Mobile command bar moved into app flow and uses position:sticky at viewport top.
+- Bottom fixed mobile dock removed; page content is no longer overlaid.
+
+[Runtime layout verification]
+- Chromium render sizes tested: 320x720, 390x844, 430x932, 768x1024, 844x390, 1024x768, 1366x900.
+- Horizontal overflow: 0 at every tested viewport (scrollWidth == clientWidth).
+- <=1023px: mobile command bar visible, original transport playback buttons hidden.
+- After window scrollY=1200: sticky bar top remained 4~6 CSS px from viewport top.
+- 1024px/1366px: mobile command bar hidden, desktop transport controls visible.
+- PLAY/STOP click smoke test completed without JavaScript page errors in Chromium.

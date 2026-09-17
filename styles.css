@@ -353,3 +353,83 @@ body{letter-spacing:-.005em}
   .transport-actions .btn{font-size:8.8px!important;padding-inline:3px!important}
   .ost-favorite{font-size:8.8px!important}
 }
+
+
+/* =========================================================
+   v4.5 MOBILE AUDIO / STICKY COMMAND BAR
+   ========================================================= */
+.mobile-dock{display:none!important}
+
+@media(max-width:1023px){
+  /* The playback bar lives in document flow and sticks to the viewport top.
+     No bottom-fixed overlay, so sequencer/export content is never covered. */
+  body{padding-bottom:26px!important}
+  .mobile-dock{
+    position:sticky!important;
+    top:max(6px,env(safe-area-inset-top))!important;
+    left:auto!important;right:auto!important;bottom:auto!important;
+    z-index:140!important;
+    display:grid!important;
+    grid-template-columns:repeat(4,minmax(0,1fr))!important;
+    align-items:center!important;
+    gap:6px!important;
+    width:100%!important;
+    max-width:100%!important;
+    margin:0 0 8px!important;
+    padding:6px!important;
+    border:1px solid var(--line2)!important;
+    border-radius:13px!important;
+    background:color-mix(in srgb,var(--panel) 96%,transparent)!important;
+    -webkit-backdrop-filter:blur(18px);
+    backdrop-filter:blur(18px)!important;
+    box-shadow:0 10px 30px color-mix(in srgb,var(--text) 14%,transparent)!important;
+  }
+  .mobile-dock-btn{
+    width:100%!important;
+    min-width:0!important;
+    height:44px!important;
+    min-height:44px!important;
+    border:1px solid var(--line)!important;
+    border-radius:9px!important;
+    background:var(--surface)!important;
+    color:var(--text)!important;
+    display:flex!important;
+    flex-direction:row!important;
+    align-items:center!important;
+    justify-content:center!important;
+    gap:6px!important;
+    padding:0 7px!important;
+    font:850 14px var(--mono)!important;
+    line-height:1!important;
+    box-shadow:none!important;
+  }
+  .mobile-dock-btn small{font:800 9px var(--mono)!important;color:var(--muted)!important;letter-spacing:.02em}
+  .mobile-dock-btn.play{background:var(--green)!important;border-color:var(--green)!important;color:#fff!important}
+  .mobile-dock-btn.play small{color:rgba(255,255,255,.9)!important}
+  .mobile-dock-btn.play.active{box-shadow:0 0 0 2px color-mix(in srgb,var(--green) 18%,transparent)!important}
+  .mobile-dock-btn:disabled{opacity:.4!important}
+  .mobile-dock-state{display:none!important}
+  .toast{bottom:max(12px,env(safe-area-inset-bottom))!important}
+}
+
+@media(max-width:480px){
+  .mobile-dock{gap:4px!important;padding:5px!important;border-radius:12px!important}
+  .mobile-dock-btn{height:42px!important;min-height:42px!important;gap:4px!important;padding:0 4px!important;font-size:13px!important}
+  .mobile-dock-btn small{font-size:8px!important}
+}
+
+@media(max-width:360px){
+  .mobile-dock-btn{height:40px!important;min-height:40px!important;font-size:12px!important;padding:0 2px!important}
+  .mobile-dock-btn small{font-size:7.5px!important;letter-spacing:0}
+}
+
+@media(max-height:600px) and (orientation:landscape) and (max-width:1023px){
+  .mobile-dock{display:grid!important;top:4px!important;margin-bottom:6px!important;padding:4px!important}
+  .mobile-dock-btn{height:38px!important;min-height:38px!important}
+}
+
+/* Sticky positioning fix: overflow-x:hidden creates a scroll container on some browsers. */
+@media(max-width:1023px){
+  html,body{overflow-x:clip!important}
+  .transport-main{display:none!important}
+}
