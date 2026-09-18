@@ -37,3 +37,9 @@
 [FINAL]
 - Responsive QA errors: 0
 - ZIP is packaged with root files directly (no extra parent folder).
+
+[v4.7 MOBILE ACTION ROW]
+- Favorite / Generate / MIDI Import / Clear are forced into one horizontal action row at <=1023px.
+- Favorite button uses a compact fixed-width star control; other actions flex without overlap.
+- 480px and 360px breakpoints keep the same one-row structure with reduced spacing/type.
+- silent-keepalive.wav is included and referenced by index.html.

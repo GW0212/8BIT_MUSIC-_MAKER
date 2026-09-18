@@ -13,3 +13,11 @@
 
 - Chromium 13 viewport 회귀 테스트 및 MIDI tempo/meter 테스트 통과
 - Sequencer 방향키 이동 및 Slider debounce 동작 검증
+
+
+[v4.7]
+- 모바일 OST 액션 영역을 4열 1행으로 고정
+- 즐겨찾기를 별 아이콘 전용 고정폭 버튼으로 정렬
+- GENERATE / MIDI IMPORT / CLEAR과 동일 가로선 배치
+- 320~1023px 구간에서 2x2 전환 제거 및 겹침 방지
+- 누락되어 있던 iOS 구형 무음모드 fallback용 silent-keepalive.wav 포함
